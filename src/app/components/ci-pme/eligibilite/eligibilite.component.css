@@ -1,0 +1,8 @@
+.parent {
+  padding-top: 120px;
+  padding-bottom: 50px;
+}
+
+.submit-btn:hover {
+  opacity: 0.8;
+}
