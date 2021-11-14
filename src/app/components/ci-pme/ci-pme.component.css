@@ -3,6 +3,7 @@ body {
   background-image: linear-gradient(to right, #cdcdcd , #e6e6e6);
   background-size: cover;
   background-attachment: fixed;
+  font-family: 'Bahnschrift';
 }
 .navbar-nav a{
   color: #f78300;
