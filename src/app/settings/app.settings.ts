@@ -1,7 +1,7 @@
 import {HttpHeaders} from "@angular/common/http";
 
 export class AppSettings {
-  public static CIPME_SCORING_API_URL    = 'http://localhost:3000/um';
+  public static CIPME_SCORING_API_URL    = 'http://localhost:4000/scoring';
 
   public static httpOptions = {
     headers: new HttpHeaders({

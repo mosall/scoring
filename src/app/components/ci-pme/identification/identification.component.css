@@ -33,7 +33,7 @@
   margin-right: 1rem;
 }
 
-input[type="text"], input[type="number"], input[type="date"], select {
+input[type="text"], input[type="number"], input[type="date"],  input[type="email"], select {
   height: 50px;
   padding: 0 20px;
 }
