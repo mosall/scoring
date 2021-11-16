@@ -23,7 +23,9 @@
               </div>
               <div class="col-md-6">
                 <label>Année création*</label>
-                <input type="number" class="form-control" [(ngModel)]="annee">
+                <select class="form-control custom-select" [(ngModel)]="annee">
+                  <option *ngFor="let year of listYear" value="{{year}}">{{year}}</option>
+                </select>
               </div>
             </div>
 
@@ -32,8 +34,9 @@
                 <div class="form-group">
                   <label>Forme juridique*</label>
                   <select class="form-control custom-select" [(ngModel)]="formeJur">
-                    <option value="SA">SA</option>
-                    <option value="SARL">SARL</option>
+                    <option *ngFor="let formJur of listFormJurique" value="{{formJur.id}}">
+                      {{formJur.libelle}} <span *ngIf="formJur.code.length !=0">({{formJur.code}})</span>
+                    </option>
                   </select>
                 </div>
               </div>
@@ -47,12 +50,9 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Secteurs d'activité*</label>
-                  <input type="text" class="form-control" [(ngModel)]="secteur">
-                  <!--<select class="form-control custom-select" [(ngModel)]="secteur">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                  </select>-->
+                  <select class="form-control custom-select" [(ngModel)]="secteur">
+                    <option *ngFor="let secteur of listSecteur" value="{{secteur.id}}">{{secteur.libelle}}</option>
+                  </select>
                 </div>
               </div>
               <div class="col-md-6">
@@ -159,6 +159,8 @@
                 <label>Type pièce d'identité*</label>
                 <select class="form-control custom-select" [(ngModel)]="typePiece">
                   <option value="CNI">CNI</option>
+                  <option value="Permis de conduire">Permis de conduire</option>
+                  <option value="Passport">Passport</option>
                 </select>
               </div>
 

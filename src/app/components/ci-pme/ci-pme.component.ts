@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ci-pme.component.css']
 })
 export class CiPmeComponent implements OnInit {
-
+  currentYear = new Date().getFullYear();
   constructor() { }
 
   ngOnInit(): void {

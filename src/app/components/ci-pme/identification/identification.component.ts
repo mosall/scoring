@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {IdentificationService} from "../../../services/identification.service";
 import Swal from "sweetalert2";
+import {ReferentielService} from "../../../services/referentiel.service";
 declare var $: any;
 @Component({
   selector: 'app-identification',
@@ -37,10 +38,17 @@ export class IdentificationComponent implements OnInit {
   submittedE = false;
   submittedD = false;
 
-  constructor(private identificationService: IdentificationService) { }
+  listSecteur: any = [];
+  listFormJurique: any = [];
+  listYear: any = [];
+
+  constructor(private identificationService: IdentificationService, private referentielService: ReferentielService) { }
 
   ngOnInit(): void {
     this.nextAndPreviousCtrl();
+    this.getListYear();
+    this.getListSecteur();
+    this.getListFormJuridique();
   }
 
   nextAndPreviousCtrl(){
@@ -132,4 +140,22 @@ export class IdentificationComponent implements OnInit {
     });
   }
 
+  getListSecteur(){
+    this.referentielService.getListSecteur().subscribe(
+      data => this.listSecteur = data
+    );
+  }
+
+  getListYear(){
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear; i >= 1950; i--){
+      this.listYear.push(i);
+    }
+  }
+
+  getListFormJuridique(){
+    this.referentielService.getListFormJuridique().subscribe(
+      data => this.listFormJurique = data
+    );
+  }
 }
