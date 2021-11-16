@@ -1,0 +1,124 @@
+<div class="mx-5 px-5 parent">
+  <div class="card animate__animated animate__backInUp" >
+    <div class="card-body">
+      <div class="row card-title alert m-n4" style="background-color: #006a25">
+        <div class="col-md-10">
+          <h5 class="font-weight-bold text-white">Pour renseigner vos indicateurs financiers, merci de préciser votre dernière année d'exercice comptable.</h5>
+        </div>
+        <div class="col-md-2">
+          <select class="form-control custom-select small" [(ngModel)]="financialYear">
+            <option *ngFor="let year of listYear" value="{{year}}">{{year}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="py-5">
+        <p class=" text-danger">Merci de saisir la valeur de chaque indicateur sur les 3 dernières années !</p>
+
+        <div class="border rounded">
+          <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><i class="fa fa-check-circle mr-2"></i> Dernière année - 2</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><i class="fa fa-check-circle mr-2"></i> Dernière année - 1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false"><i class="fa fa-check-circle mr-2"></i> Dernière année</a>
+            </li>
+          </ul>
+          <div class="tab-content p-3" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+              <div class="row">
+                <div class="col-md-8">
+                  <table class="table table-bordered" style="text-align: center">
+                    <thead>
+                    <tr style="background-color: #f78300">
+                      <th style="width: 10%">Code</th>
+                      <th style="width: 30%">Nom</th>
+                      <th style="width: 30%">Source</th>
+                      <th style="width: 30%">Valeur</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let indicateur of indicateurs.indicateurYear_2">
+                        <th>{{indicateur.code}}</th>
+                        <td>{{indicateur.nom}}</td>
+                        <td>{{indicateur.source}}</td>
+                        <td>
+                          <input type="number" class="form-control" style="height: 30px;" [(ngModel)]="indicateur.value">
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(2)">Valider</button>
+            </div>
+
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              <div class="row">
+                <div class="col-md-8">
+                  <table class="table table-bordered" style="text-align: center">
+                    <thead>
+                    <tr style="background-color: #f78300">
+                      <th style="width: 10%">Code</th>
+                      <th style="width: 30%">Nom</th>
+                      <th style="width: 30%">Source</th>
+                      <th style="width: 30%">Valeur</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let indicateur of indicateurs.indicateurYear_2">
+                      <th>{{indicateur.code}}</th>
+                      <td>{{indicateur.nom}}</td>
+                      <td>{{indicateur.source}}</td>
+                      <td>
+                        <input type="number" class="form-control" style="height: 30px;" [(ngModel)]="indicateur.value">
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(1)">Valider</button>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+              <div class="row">
+                <div class="col-md-8">
+                  <table class="table table-bordered" style="text-align: center">
+                    <thead>
+                    <tr style="background-color: #f78300">
+                      <th style="width: 10%">Code</th>
+                      <th style="width: 30%">Nom</th>
+                      <th style="width: 30%">Source</th>
+                      <th style="width: 30%">Valeur</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let indicateur of indicateurs.indicateurYear_2">
+                      <th>{{indicateur.code}}</th>
+                      <td>{{indicateur.nom}}</td>
+                      <td>{{indicateur.source}}</td>
+                      <td>
+                        <input type="number" class="form-control" style="height: 30px;" [(ngModel)]="indicateur.value">
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(0)">Valider</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

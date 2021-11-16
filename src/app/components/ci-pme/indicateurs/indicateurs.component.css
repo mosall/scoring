@@ -1,0 +1,17 @@
+.parent {
+  padding-top: 120px;
+  padding-bottom: 50px;
+}
+
+.nav-tabs a {
+  color: #000000;
+  text-align: left;
+}
+
+.nav-tabs {
+  background-color: #cdcdcd;
+}
+.nav-tabs a.active {
+  color: #ffffff;
+  background-color: #006a25;
+}

@@ -8,6 +8,7 @@ import {IdentificationComponent} from "./identification/identification.component
 import {EligibiliteComponent} from "./eligibilite/eligibilite.component";
 import {AccueilComponent} from "./accueil/accueil.component";
 import {QualitatifComponent} from "./qualitatif/qualitatif.component";
+import { IndicateursComponent } from './indicateurs/indicateurs.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import {QualitatifComponent} from "./qualitatif/qualitatif.component";
     IdentificationComponent,
     EligibiliteComponent,
     AccueilComponent,
-    QualitatifComponent
+    QualitatifComponent,
+    IndicateursComponent
   ],
   imports: [
     CommonModule,

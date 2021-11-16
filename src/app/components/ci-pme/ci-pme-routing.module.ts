@@ -5,6 +5,7 @@ import {EligibiliteComponent} from "./eligibilite/eligibilite.component";
 import {QualitatifComponent} from "./qualitatif/qualitatif.component";
 import {CiPmeComponent} from "./ci-pme.component";
 import {IdentificationComponent} from "./identification/identification.component";
+import {IndicateursComponent} from "./indicateurs/indicateurs.component";
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
       {
         path: 'identification',
         component: IdentificationComponent
+      },
+      {
+        path: 'indicateurs-financiers',
+        component: IndicateursComponent
       },
     ]
   }
