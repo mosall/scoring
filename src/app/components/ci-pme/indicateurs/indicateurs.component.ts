@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import Swal from "sweetalert2";
+declare var $: any;
 @Component({
   selector: 'app-indicateurs',
   templateUrl: './indicateurs.component.html',
@@ -7,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndicateursComponent implements OnInit {
   listYear: any = [];
-  financialYear: any = '';
-  indicateurs = {
-    indicateurYear_2: [
+  financialYear: any = null;
+  indicateurs = [
+    [
       {code: 'BK', nom: 'Actif circulant', source: 'Bilan actif', value: ''},
       {code: 'BT', nom: 'Trésorerie actif', source: 'Bilan actif', value: ''},
       {code: 'DP', nom: 'Passif circulant', source: 'Bilan passif', value: ''},
@@ -22,8 +23,10 @@ export class IndicateursComponent implements OnInit {
       {code: 'DF', nom: 'Total ressources', source: 'Bilan passif', value: ''},
       {code: 'DJ', nom: 'Dettes fournisseurs', source: 'Bilan passif', value: ''},
       {code: 'RA', nom: 'Achats', source: 'Compte de résultat', value: ''},
+      {code: 'XD', nom: 'Excédents brut d\'exploitation', source: 'Compte de résultat', value: ''},
+      {code: 'RM', nom: 'Charges financières', source: 'Compte de résultat', value: ''},
     ],
-    indicateurYear_1: [
+    [
       {code: 'BK', nom: 'Actif circulant', source: 'Bilan actif', value: ''},
       {code: 'BT', nom: 'Trésorerie actif', source: 'Bilan actif', value: ''},
       {code: 'DP', nom: 'Passif circulant', source: 'Bilan passif', value: ''},
@@ -36,8 +39,10 @@ export class IndicateursComponent implements OnInit {
       {code: 'DF', nom: 'Total ressources', source: 'Bilan passif', value: ''},
       {code: 'DJ', nom: 'Dettes fournisseurs', source: 'Bilan passif', value: ''},
       {code: 'RA', nom: 'Achats', source: 'Compte de résultat', value: ''},
+      {code: 'XD', nom: 'Excédents brut d\'exploitation', source: 'Compte de résultat', value: ''},
+      {code: 'RM', nom: 'Charges financières', source: 'Compte de résultat', value: ''},
     ],
-    indicateurYear_: [
+    [
       {code: 'BK', nom: 'Actif circulant', source: 'Bilan actif', value: ''},
       {code: 'BT', nom: 'Trésorerie actif', source: 'Bilan actif', value: ''},
       {code: 'DP', nom: 'Passif circulant', source: 'Bilan passif', value: ''},
@@ -50,22 +55,37 @@ export class IndicateursComponent implements OnInit {
       {code: 'DF', nom: 'Total ressources', source: 'Bilan passif', value: ''},
       {code: 'DJ', nom: 'Dettes fournisseurs', source: 'Bilan passif', value: ''},
       {code: 'RA', nom: 'Achats', source: 'Compte de résultat', value: ''},
+      {code: 'XD', nom: 'Excédents brut d\'exploitation', source: 'Compte de résultat', value: ''},
+      {code: 'RM', nom: 'Charges financières', source: 'Compte de résultat', value: ''},
     ],
-  };
+  ];
 
   constructor() { }
 
   ngOnInit(): void {
     this.getListYear();
+    this.nextAndPreviousCtrl();
   }
 
   getListYear(){
     const currentYear = new Date().getFullYear();
-    for (let i = currentYear; i >= 1950; i--){
+    for (let i = currentYear-1; i >= currentYear-5; i--){
       this.listYear.push(i);
     }
   }
 
-  saveIndicateur(year: any){}
+  saveIndicateur(year: any){
+    console.log(this.indicateurs[year])
+  }
+
+  nextAndPreviousCtrl(){
+    /*$('.next-btn').click(() => {
+      $('.nav-tabs > .active').next('a').trigger('click');
+    });*/
+
+    $('.previous-btn').click(() => {
+      $('.nav-tabs > .nav-item > .active').parent().prev('li').find('a').trigger('click');
+    });
+  }
 
 }

@@ -1,9 +1,9 @@
 body {
-  height: auto;
   background-image: linear-gradient(to right, #cdcdcd , #e6e6e6);
   background-size: cover;
   background-attachment: fixed;
   font-family: 'Bahnschrift';
+  min-height: 100vh;
 }
 .navbar-nav a{
   color: #f78300;

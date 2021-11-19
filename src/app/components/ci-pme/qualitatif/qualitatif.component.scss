@@ -1,0 +1,80 @@
+*{
+  font-weight: 400;
+}
+
+.parent {
+  padding-top: 120px;
+  padding-bottom: 50px;
+}
+
+.nav-link {
+  margin: .75rem 0;
+  font-size: .92rem;
+  font-weight: 600;
+  color: #999;
+}
+
+.nav-link span {
+  background-color: #ebebeb;
+  color: #6c757d;
+}
+
+.nav-link.active {
+  color: #006a25;
+  background: transparent;
+}
+
+.nav-link.active span {
+  color: #ffffff;
+  background: #006a25;
+}
+
+.badge {
+  padding: 1rem !important;
+  margin-right: 1rem;
+}
+
+input[type="text"], input[type="number"], input[type="date"],  input[type="email"], select {
+  height: 50px;
+  padding: 0 20px;
+}
+
+textarea {
+  padding: 20px;
+}
+
+a.next-btn{
+  background-color: #006a25;
+  color: #ffffff;
+  text-decoration: none;
+  width: 140px;
+  height: 45px;
+  line-height: 1.6;
+}
+
+a.previous-btn{
+  background-color: #f78300;
+  color: #ffffff;
+  text-decoration: none;
+  width: 140px;
+  height: 45px;
+  line-height: 1.6;
+}
+
+label {
+  font-size: 17px !important;
+}
+
+h3{
+  color: #222;
+  font-size: 30px;
+}
+
+h5 > button.btn-link {
+  text-decoration: none;
+  color: #222222;
+}
+
+.nav a {
+  font-size: 12px;
+}

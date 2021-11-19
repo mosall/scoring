@@ -12,19 +12,19 @@
         </div>
       </div>
 
-      <div class="py-5">
+      <div class="py-5" *ngIf="financialYear != null">
         <p class=" text-danger">Merci de saisir la valeur de chaque indicateur sur les 3 dernières années !</p>
 
         <div class="border rounded">
           <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><i class="fa fa-check-circle mr-2"></i> Dernière année - 2</a>
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><i class="fa fa-check-circle mr-2"></i> {{financialYear-2}}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><i class="fa fa-check-circle mr-2"></i> Dernière année - 1</a>
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><i class="fa fa-check-circle mr-2"></i>{{financialYear-1}}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false"><i class="fa fa-check-circle mr-2"></i> Dernière année</a>
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false"><i class="fa fa-check-circle mr-2"></i>{{financialYear}}</a>
             </li>
           </ul>
           <div class="tab-content p-3" id="myTabContent">
@@ -41,7 +41,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let indicateur of indicateurs.indicateurYear_2">
+                      <tr *ngFor="let indicateur of indicateurs[2]">
                         <th>{{indicateur.code}}</th>
                         <td>{{indicateur.nom}}</td>
                         <td>{{indicateur.source}}</td>
@@ -55,7 +55,10 @@
                 <div class="col-md-4"></div>
               </div>
 
-              <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(2)">Valider</button>
+              <div class="modal-footer border-0">
+                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(2)">Suivant</button>
+              </div>
+
             </div>
 
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -71,7 +74,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let indicateur of indicateurs.indicateurYear_2">
+                    <tr *ngFor="let indicateur of indicateurs[1]">
                       <th>{{indicateur.code}}</th>
                       <td>{{indicateur.nom}}</td>
                       <td>{{indicateur.source}}</td>
@@ -85,8 +88,13 @@
                 <div class="col-md-4"></div>
               </div>
 
-              <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(1)">Valider</button>
+              <div class="modal-footer border-0">
+                <button class="btn btn previous-btn" style="background-color: #f78300; color: #ffffff">Précédent</button>
+                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(1)">Suivant</button>
+              </div>
+
             </div>
+
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
               <div class="row">
                 <div class="col-md-8">
@@ -100,7 +108,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let indicateur of indicateurs.indicateurYear_2">
+                    <tr *ngFor="let indicateur of indicateurs[0]">
                       <th>{{indicateur.code}}</th>
                       <td>{{indicateur.nom}}</td>
                       <td>{{indicateur.source}}</td>
@@ -114,7 +122,11 @@
                 <div class="col-md-4"></div>
               </div>
 
-              <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(0)">Valider</button>
+              <div class="modal-footer border-0">
+                <button class="btn btn previous-btn" style="background-color: #f78300; color: #ffffff">Précédent</button>
+                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(0)">Valider</button>
+              </div>
+
             </div>
           </div>
         </div>
