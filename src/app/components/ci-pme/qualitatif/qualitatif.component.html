@@ -3,58 +3,39 @@
     <div class="row" style="height: auto">
       <div class="col-md-3 px-4 py-5">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-          <!--<a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
-            <span class="badge badge-light rounded-circle">1</span> Lorem ipsum dolor sit
-          </a>-->
-          <a *ngFor="let p of listParameters" [ngClass]="{'active': p.item.id == 1}" class="nav-link"
-             data-toggle="pill" href="#{{p.item.code}}" role="tab" aria-controls="v-pills-home" aria-selected="true">
-            <span class="badge badge-light rounded-circle">{{p.item.id}}</span> {{p.item.libelle}}
+          <a *ngFor="let p of listParameters" [ngClass]="{'active': p.id == 1}" class="nav-link"
+             data-toggle="pill" href="#{{p.code}}" role="tab" aria-controls="v-pills-home" aria-selected="true">
+            <span class="badge badge-light rounded-circle">{{p.id}}</span> {{p.libelle}}
           </a>
-
-         <!-- <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
-            <span class="badge badge-light rounded-circle">1</span> Lorem ipsum dolor sit
-          </a>
-          <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">
-            <span class="badge badge-light rounded-circle">2</span> Lorem ipsum dolor sit
-          </a> -->
-
         </div>
       </div>
       <div class="col-md-9 p-5" style="background-color: #f8f8f8">
         <div class="tab-content" id="v-pills-tabContent">
-          <div *ngFor="let p of listParameters" [ngClass]="{'active': p.item.id == 1}" class="tab-pane fade show active py-2" id="{{p.item.code}}">
-            <h3 class="card-title font-weight-bold">{{p.item.libelle}}</h3>
+          <div *ngFor="let p of listParameters" [ngClass]="{'active': p.id == 1}" class="tab-pane fade show active py-2" id="{{p.code}}">
+            <h3 class="card-title font-weight-bold">{{p.libelle}}</h3>
             <p class="small text-muted">Veuillez répondre à toutes les questions !</p>
 
             <div class="row pt-3">
               <div id="accordion">
-                <div class="card" *ngFor="let q of p.item.questions">
+                <div class="card" *ngFor="let q of p.questions">
                   <div class="card-header" id="{{q.id}}">
                     <h5 class="mb-0">
-                      <button class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#'+q.code" aria-expanded="false" [attr.aria-controls]="q.code">
-                        {{q.libelle}}
+                      <button class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#'+q.question.code" aria-expanded="false" [attr.aria-controls]="q.question.code">
+                        {{q.question.libelle}}
                       </button>
                     </h5>
                   </div>
 
-                  <div id="{{q.code}}" class="collapse" [attr.aria-labelledby]="q.id" data-parent="#accordion">
+                  <div id="{{q.question.code}}" class="collapse" [attr.aria-labelledby]="q.question.id" data-parent="#accordion">
                     <div class="card-body">
-                      <div class="custom-control custom-radio" *ngFor="let r of q.listReponsesDTO">
-                        <input type="radio" [attr.name]="r.code" class="custom-control-input" ngModel>
-                        <label class="custom-control-label">{{r.libelle}}</label>
-                      </div>
+                      <select class="form-control custom-select px-4 py-2" size="{{q.question.listReponsesDTO.length}}" [(ngModel)]="q.reponse">
+                        <option *ngFor="let r of q.question.listReponsesDTO; let index = index" [value]="r.libelle">{{index+1}}) {{r.libelle}}</option>
+                      </select>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-          </div>
-
-          <div class="tab-pane fade py-4" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-            <h3 class="card-title font-weight-bold">Lorem ipsum dolor sit</h3>
-            <p class="small text-muted">Veuillez répondre à toutes les questions !</p>
-
           </div>
         </div>
       </div>

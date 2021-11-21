@@ -78,3 +78,11 @@ h5 > button.btn-link {
 .nav a {
   font-size: 12px;
 }
+
+select{
+  scrollbar-width: none;
+}
+
+option:checked {
+  background: red linear-gradient(0deg, #006a25 0%, #006a25 100%);
+}
