@@ -26,9 +26,7 @@ export class QualitatifComponent implements OnInit {
         // @ts-ignore
         data.forEach(item => {
           item.questions = [];
-          this.listParameters.push({
-            item
-          })
+          this.listParameters.push(item)
         });
 
         this.getQuestion();
@@ -41,9 +39,9 @@ export class QualitatifComponent implements OnInit {
       data => {
         for (let p of this.listParameters){
           // @ts-ignore
-          data.forEach(item => {
-            if (p.item.id == item.parametreDTO.id){
-              p.item.questions.push(item);
+          data.forEach(question => {
+            if (p.id == question.parametreDTO.id){
+              p.questions.push({question, reponse: ''});
             }
           });
         }
