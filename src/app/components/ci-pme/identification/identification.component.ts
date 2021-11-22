@@ -69,13 +69,13 @@ export class IdentificationComponent implements OnInit {
       raisonSociale: this.raisonSociale,
       annee: this.annee,
       capital: this.capital,
-      secteur: this.secteur,
+      secteurs: [parseInt(this.secteur)],
       description: this.description,
       regime: this.regime,
       adresse: this.adresse,
       siteWeb: this.siteWeb,
       logo: this.logo,
-      formeJur: this.formeJur
+      formeJuridique: parseInt(this.formeJur)
     }
 
     this.identificationService.saveEntreprise(paylaod).subscribe(
@@ -87,6 +87,7 @@ export class IdentificationComponent implements OnInit {
       },
       error => {
         this.errorMsgBox(error.error);
+        console.log(error)
       }
     );
   }

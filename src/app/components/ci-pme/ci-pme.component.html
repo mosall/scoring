@@ -5,12 +5,28 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
+    <div class="navbar-nav mr-auto">
       <a class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/accueil">Accueil</a>
       <a class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/identification">Identification de la PME</a>
       <a class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-eligibilite">Questionnaire d'éligibilité</a>
       <a class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-qualitatif">Questionnaire qualitatif</a>
       <a class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/indicateurs-financiers">Indicateurs financiers</a>
+    </div>
+
+    <div class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-user"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="navbarDropdown">
+        <div class="user-infos">
+          <ul>
+            <li> <span> Identifiant</span> <br> <span>{{user?.username}} </span> </li>
+            <li> <span> Profil  </span> <br> <span> {{user?.profil?.libelle}}</span> </li>
+          </ul>
+        </div>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item small" (click)="logout()">Se déconnecter</a>
+      </div>
     </div>
   </div>
 </nav>

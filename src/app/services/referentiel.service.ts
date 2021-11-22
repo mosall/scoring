@@ -10,10 +10,10 @@ export class ReferentielService {
   constructor(private http: HttpClient) { }
 
   getListSecteur(){
-    return this.http.get(AppSettings.CIPME_ADMINISTRATION_API_URL + '/api/referentiel/SecteurActivite', AppSettings.httpOptions);
+    return this.http.get(AppSettings.CIPME_ADMINISTRATION_API_URL + '/api/referentiel/secteurs-activites', AppSettings.httpOptions);
   }
 
   getListFormJuridique(){
-    return this.http.get(AppSettings.CIPME_ADMINISTRATION_API_URL + '/api/referentiel/FormeJuridique', AppSettings.httpOptions);
+    return this.http.get(AppSettings.CIPME_ADMINISTRATION_API_URL + '/api/referentiel/formes-juridiques', AppSettings.httpOptions);
   }
 }

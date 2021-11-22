@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {QualitatifService} from "../../../services/qualitatif.service";
+import Swal from "sweetalert2";
 declare var $: any;
 @Component({
   selector: 'app-qualitatif',
@@ -7,6 +8,7 @@ declare var $: any;
   styleUrls: ['./qualitatif.component.scss']
 })
 export class QualitatifComponent implements OnInit {
+  connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
   listParameters: any = [];
   listQuestions: any = [];
 
@@ -48,6 +50,45 @@ export class QualitatifComponent implements OnInit {
         console.log(this.listParameters);
       },
     );
+  }
+
+  submitQuestionnaire(){
+    let payload = {
+      idEntreprise: this.connectedUser?.entrepriseId,
+      listReponse: []
+    };
+
+    for (let q of this.listQuestions){
+      payload.listReponse.push({
+        // @ts-ignore
+        idQuestion: q.id, reponse: q.reponse
+      });
+    }
+
+    this.qualitatifService.saveQualitatif(payload).subscribe(
+      data => this.successMsgBox('Réponses enregistrées avec succés !'),
+      err => this.errorMsgBox(err.error)
+    );
+  }
+
+  successMsgBox(msg: any){
+    Swal.fire({
+      icon: 'success',
+      text: msg,
+      showConfirmButton: false,
+      timer: 1500
+    }).then(
+      ()=> window.location.reload()
+    );
+  }
+
+  errorMsgBox(msg: any){
+    Swal.fire({
+      icon: 'warning',
+      text: msg,
+      showConfirmButton: false,
+      timer: 2500
+    });
   }
 
 }

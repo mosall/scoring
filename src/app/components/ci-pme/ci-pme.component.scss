@@ -1,3 +1,5 @@
+@import '../../../vars.scss';
+
 body {
   background-image: linear-gradient(to right, #cdcdcd , #e6e6e6);
   background-size: cover;
@@ -23,4 +25,32 @@ body {
 .footer {
   text-align: center;
   padding: 1.2rem 0;
+}
+
+.user-infos {
+ul{
+  padding: 0 2rem;
+}
+li {
+  list-style-type: none;
+  margin-top: 10px;
+  font-size: .8em;
+}
+}
+
+
+.user-infos li span:first-of-type {
+  font-weight: bold;
+  color: $secondary;
+}
+
+.user-infos li span:last-of-type {
+  color: gray;
+}
+
+.dropdown {
+  .nav-link {
+    text-decoration: none;
+    color: #222222;
+  }
 }

@@ -11,7 +11,7 @@ declare var $: any;
 export class EligibiliteComponent implements OnInit {
 
   listQuestions: any = [];
-  connectedUser:any = sessionStorage.getItem('connectedUserData');
+  connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
 
   constructor(private eligibilityService: EligibiliteService) { }
 
@@ -34,7 +34,7 @@ export class EligibiliteComponent implements OnInit {
 
   submitQuestionnaire(){
     let payload = {
-      idEntreprise: this.connectedUser.entrepriseId,
+      idEntreprise: 35,
       listReponse: []
     };
 

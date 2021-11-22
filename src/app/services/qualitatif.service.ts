@@ -20,4 +20,8 @@ export class QualitatifService {
   getQuestion(){
     return this.http.get(AppSettings.CIPME_ADMINISTRATION_API_URL + `/api/questions/qualitatif`, AppSettings.httpOptions);
   }
+
+  saveQualitatif(payload: any){
+    return this.http.post(AppSettings.CIPME_SCORING_API_URL + '', payload, AppSettings.httpOptions);
+  }
 }
