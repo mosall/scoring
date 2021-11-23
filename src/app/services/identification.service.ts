@@ -16,4 +16,8 @@ export class IdentificationService {
   saveDirigeant(payload: any){
     return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/dirigeants', payload, AppSettings.httpOptions);
   }
+
+  getEntreprise(id: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises', AppSettings.httpOptions);
+  }
 }

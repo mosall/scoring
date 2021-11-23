@@ -68,16 +68,16 @@
                     <thead>
                     <tr style="background-color: #f78300">
                       <th style="width: 10%">Code</th>
-                      <th style="width: 30%">Nom</th>
                       <th style="width: 30%">Source</th>
+                      <th style="width: 30%">Nom</th>
                       <th style="width: 30%">Valeur</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let indicateur of indicateurs[1]">
                       <th>{{indicateur.code}}</th>
-                      <td>{{indicateur.nom}}</td>
                       <td>{{indicateur.source}}</td>
+                      <td>{{indicateur.nom}}</td>
                       <td>
                         <input type="number" class="form-control" style="height: 30px;" [(ngModel)]="indicateur.value">
                       </td>
@@ -89,7 +89,7 @@
               </div>
 
               <div class="modal-footer border-0">
-                <button class="btn btn previous-btn" style="background-color: #f78300; color: #ffffff">Précédent</button>
+                <button class="btn previous-btn" (click)="nextAndPreviousCtrl()" style="background-color: #f78300; color: #ffffff">Précédent</button>
                 <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(1)">Suivant</button>
               </div>
 
@@ -123,7 +123,7 @@
               </div>
 
               <div class="modal-footer border-0">
-                <button class="btn btn previous-btn" style="background-color: #f78300; color: #ffffff">Précédent</button>
+                <button class="btn previous-btn" (click)="nextAndPreviousCtrl()" style="background-color: #f78300; color: #ffffff">Précédent</button>
                 <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(0)">Valider</button>
               </div>
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {EligibiliteService} from "../../../services/eligibilite.service";
 import Swal from "sweetalert2";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {IdentificationService} from "../../../services/identification.service";
 declare var $: any;
 @Component({
   selector: 'app-eligibilite',
@@ -11,11 +12,13 @@ declare var $: any;
 export class EligibiliteComponent implements OnInit {
 
   listQuestions: any = [];
+  entreprise: any = [];
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
 
-  constructor(private eligibilityService: EligibiliteService) { }
+  constructor(private eligibilityService: EligibiliteService, private identificationService: IdentificationService) { }
 
   ngOnInit(): void {
+    this.getEntreprise();
     this.getListQuestion();
   }
 
@@ -34,7 +37,7 @@ export class EligibiliteComponent implements OnInit {
 
   submitQuestionnaire(){
     let payload = {
-      idEntreprise: 35,
+      idEntreprise: this.connectedUser?.entrepriseId,
       listReponse: []
     };
 
@@ -50,6 +53,16 @@ export class EligibiliteComponent implements OnInit {
       err => this.errorMsgBox(err.error)
     );
   }
+
+  getEntreprise() {
+      this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
+        data => {
+          // @ts-ignore
+          this.entreprise = data[0];
+        }
+      );
+  }
+
 
   successMsgBox(msg: any){
     Swal.fire({

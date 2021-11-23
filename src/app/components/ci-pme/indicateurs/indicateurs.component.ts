@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from "sweetalert2";
+import {IndicateursService} from "../../../services/indicateurs.service";
 declare var $: any;
 @Component({
   selector: 'app-indicateurs',
@@ -7,6 +8,7 @@ declare var $: any;
   styleUrls: ['./indicateurs.component.css']
 })
 export class IndicateursComponent implements OnInit {
+  connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
   listYear: any = [];
   financialYear: any = null;
   indicateurs = [
@@ -60,11 +62,10 @@ export class IndicateursComponent implements OnInit {
     ],
   ];
 
-  constructor() { }
+  constructor(private indicateursService: IndicateursService) { }
 
   ngOnInit(): void {
     this.getListYear();
-    this.nextAndPreviousCtrl();
   }
 
   getListYear(){
@@ -75,16 +76,63 @@ export class IndicateursComponent implements OnInit {
   }
 
   saveIndicateur(year: any){
-    console.log(this.indicateurs[year])
+    console.log(this.indicateurs[year]);
+
+    let payload = {
+      annee: this.financialYear - year,
+      entreprise: this.connectedUser?.entrepriseId,
+      bkActifCirculant: this.indicateurs[year][0].value,
+      btTresorerieActif: this.indicateurs[year][1].value,
+      dpPassifCirculant: this.indicateurs[year][2].value,
+      dtTresoreriePassif: this.indicateurs[year][3].value,
+      xiResultatNet: this.indicateurs[year][4].value,
+      xbChiffresDaffaires: this.indicateurs[year][5].value,
+      biCreanceClient: this.indicateurs[year][6].value,
+      caf: this.indicateurs[year][7].value,
+      caCapitauxPropres: this.indicateurs[year][8].value,
+      dfTotalRessources: this.indicateurs[year][9].value,
+      djDettesFournisseurs: this.indicateurs[year][10].value,
+      raAchats: this.indicateurs[year][11].value,
+      xdExcedentBrutExploit: this.indicateurs[year][12].value,
+      rmChargesFinancieres: this.indicateurs[year][13].value,
+    }
+
+    this.indicateursService.saveIndicateurs(payload).subscribe(
+      data => {
+        this.successMsgBox('Indicateurs enregistrés avec succès !');
+        if(year != 0){
+          $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
+        }
+      },
+      error => {
+        this.errorMsgBox(error.error);
+      }
+    );
   }
 
   nextAndPreviousCtrl(){
-    /*$('.next-btn').click(() => {
-      $('.nav-tabs > .active').next('a').trigger('click');
-    });*/
-
     $('.previous-btn').click(() => {
       $('.nav-tabs > .nav-item > .active').parent().prev('li').find('a').trigger('click');
+    });
+  }
+
+  successMsgBox(msg: any){
+    Swal.fire({
+      icon: 'success',
+      text: msg,
+      showConfirmButton: false,
+      timer: 1500
+    }).then(
+      ()=> window.location.reload()
+    );
+  }
+
+  errorMsgBox(msg: any){
+    Swal.fire({
+      icon: 'warning',
+      text: msg,
+      showConfirmButton: false,
+      timer: 2500
     });
   }
 

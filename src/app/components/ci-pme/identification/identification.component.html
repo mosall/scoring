@@ -56,46 +56,41 @@
                 </div>
               </div>
               <div class="col-md-6">
-                <label>Activité principale*</label>
-                <input type="text" class="form-control">
-              </div>
-            </div>
-
-            <div class="row pt-2">
-              <div class="col-md-6">
                 <div class="form-group">
                   <label>Régime imposition*</label>
                   <input type="text" class="form-control" [(ngModel)]="regime">
                 </div>
               </div>
+            </div>
+
+            <div class="row pt-2">
               <div class="col-md-6">
                 <label>Adresse*</label>
                 <input type="text" class="form-control" [(ngModel)]="adresse">
               </div>
-            </div>
 
-            <div class="row pt-2">
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Site web</label>
                   <input type="text" class="form-control" [(ngModel)]="siteWeb">
                 </div>
               </div>
+            </div>
+
+            <div class="row pt-2">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Description*</label>
+                  <textarea class="form-control" rows="3" [(ngModel)]="description"></textarea>
+                </div>
+              </div>
+
               <div class="col-md-6">
                 <label>Logo</label><br>
                 <input type="text" class="form-control" [(ngModel)]="logo">
                 <!--<label class="btn" style="background-color: rgba(182,178,174,0.6);">
                   Sélectionner un fichier <input type="file" hidden>
                 </label>-->
-              </div>
-            </div>
-
-            <div class="row pt-2">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label>Description*</label>
-                  <textarea class="form-control" rows="3" [(ngModel)]="description"></textarea>
-                </div>
               </div>
             </div>
 

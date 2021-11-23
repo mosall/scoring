@@ -41,8 +41,10 @@ export class IdentificationComponent implements OnInit {
   listSecteur: any = [];
   listFormJurique: any = [];
   listYear: any = [];
+  connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
 
-  constructor(private identificationService: IdentificationService, private referentielService: ReferentielService) { }
+  constructor(private identificationService: IdentificationService,
+              private referentielService: ReferentielService,) { }
 
   ngOnInit(): void {
     this.nextAndPreviousCtrl();
@@ -52,13 +54,11 @@ export class IdentificationComponent implements OnInit {
   }
 
   nextAndPreviousCtrl(){
-    /*$('.next-btn').click(() => {
-      $('.nav-pills > .active').next('a').trigger('click');
-    });*/
-
     $('.previous-btn').click(() => {
       $('.nav-pills > .active').prev('a').trigger('click');
     });
+
+    this.getEntreprise();
   }
 
   saveEntreprise(){
@@ -90,6 +90,37 @@ export class IdentificationComponent implements OnInit {
         console.log(error)
       }
     );
+  }
+
+  getEntreprise(){
+    if (this.connectedUser?.entrepriseId != null){
+      this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
+        data => {
+          // @ts-ignore
+          this.idEntreprise = data[0].id;
+          // @ts-ignore
+          this.raisonSociale = data[0].raisonSociale;
+          // @ts-ignore
+          this.annee = data[0].annee;
+          // @ts-ignore
+          this.formeJur = data[0].formeJur.id
+          // @ts-ignore
+          this.capital = data[0].capital;
+          // @ts-ignore
+          this.secteur = data[0].secteurs[0].id;
+          // @ts-ignore
+          this.regime = data[0].regime;
+          // @ts-ignore
+          this.siteWeb = data[0].siteWeb;
+          // @ts-ignore
+          this.logo = data[0].logo;
+          // @ts-ignore
+          this.description = data[0].description;
+          // @ts-ignore
+          this.adresse = data[0].adresse;
+        }
+      )
+    }
   }
 
   saveDirigeant(){
