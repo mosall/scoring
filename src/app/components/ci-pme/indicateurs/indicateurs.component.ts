@@ -124,7 +124,6 @@ export class IndicateursComponent implements OnInit {
   getIndicateurs(){
     this.indicateursService.getIndicateurs(this.entreprise?.id).subscribe(
       data => {
-        console.log(data)
         // @ts-ignore
         data.sort((a: any, b: any) => a.annee < b.annee);
         this.reponsesIndicateur = data;
