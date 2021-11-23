@@ -12,10 +12,12 @@ declare var $: any;
 export class EligibiliteComponent implements OnInit {
 
   listQuestions: any = [];
+  reponseQuestionnaire: any = [];
   entreprise: any = [];
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
 
-  constructor(private eligibilityService: EligibiliteService, private identificationService: IdentificationService) { }
+  constructor(private eligibilityService: EligibiliteService,
+              private identificationService: IdentificationService) { }
 
   ngOnInit(): void {
     this.getEntreprise();
@@ -30,6 +32,7 @@ export class EligibiliteComponent implements OnInit {
         for (let q of data){
           this.listQuestions.push({id: q.id, code: q.code, libelle: q.libelle, reponse: ''});
         }
+        console.log(data);
       }
 
     )
@@ -55,14 +58,33 @@ export class EligibiliteComponent implements OnInit {
   }
 
   getEntreprise() {
-      this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
-        data => {
-          // @ts-ignore
-          this.entreprise = data[0];
-        }
-      );
+    this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
+      data => {
+        // @ts-ignore
+        this.entreprise = data[0];
+        this.getReponse();
+      }
+    );
   }
 
+  getReponse(){
+    if(this.entreprise?.repEli){
+      this.eligibilityService.getReponseEntreprise(this.entreprise?.id).subscribe(
+        data => {
+          this.reponseQuestionnaire = data
+          console.log(data);
+
+
+
+          for (let q of this.listQuestions){
+            // @ts-ignore
+            const question = data.find(_question => _question.idQuestion == q.id);
+            q.reponse = question.reponse_eligibilite;
+          }
+        }
+      )
+    }
+  }
 
   successMsgBox(msg: any){
     Swal.fire({

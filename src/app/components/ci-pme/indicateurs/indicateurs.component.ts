@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from "sweetalert2";
 import {IndicateursService} from "../../../services/indicateurs.service";
+import {IdentificationService} from "../../../services/identification.service";
 declare var $: any;
 @Component({
   selector: 'app-indicateurs',
@@ -9,6 +10,7 @@ declare var $: any;
 })
 export class IndicateursComponent implements OnInit {
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
+  entreprise: any = [];
   listYear: any = [];
   financialYear: any = null;
   indicateurs = [
@@ -61,11 +63,13 @@ export class IndicateursComponent implements OnInit {
       {code: 'RM', nom: 'Charges financières', source: 'Compte de résultat', value: ''},
     ],
   ];
+  reponsesIndicateur: any = [];
 
-  constructor(private indicateursService: IndicateursService) { }
+  constructor(private indicateursService: IndicateursService, private identificationService: IdentificationService) { }
 
   ngOnInit(): void {
     this.getListYear();
+    this.getEntreprise();
   }
 
   getListYear(){
@@ -97,17 +101,73 @@ export class IndicateursComponent implements OnInit {
       rmChargesFinancieres: this.indicateurs[year][13].value,
     }
 
+    /*if(this.entreprise.indicateurAjoute){
+      // @ts-ignore
+      payload.id = this.reponsesIndicateur[year].id;
+    }*/
+
+    console.log(payload)
+
     this.indicateursService.saveIndicateurs(payload).subscribe(
       data => {
-        this.successMsgBox('Indicateurs enregistrés avec succès !');
         if(year != 0){
           $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
+        }
+        else {
+          this.successMsgBox('Indicateurs enregistrés avec succès !');
         }
       },
       error => {
         this.errorMsgBox(error.error);
       }
     );
+  }
+
+  getIndicateurs(){
+    this.indicateursService.getIndicateurs(this.entreprise?.id).subscribe(
+      data => {
+        console.log(data)
+        // @ts-ignore
+        data.reverse();
+        this.reponsesIndicateur = data;
+        // @ts-ignore
+        this.financialYear = data[0]?.annee;
+        [0,1,2].forEach(i => this.setIndicateur(i, data));
+      }
+    )
+  }
+
+  setIndicateur(index: any, data: any){
+    this.indicateurs[index] = [
+      {code: 'BK', nom: 'Actif circulant', source: 'Bilan actif', value: data[index]?.bkActifCirculant},
+      {code: 'BT', nom: 'Trésorerie actif', source: 'Bilan actif', value: data[index]?.btTresorerieActif},
+      {code: 'DP', nom: 'Passif circulant', source: 'Bilan passif', value: data[index]?.dpPassifCirculant},
+      {code: 'DT', nom: 'Trésorerie passif', source: 'Bilan passif', value: data[index]?.dtTresoreriePassif},
+      {code: 'XI', nom: 'Résultat net', source: 'Compte de résultat', value: data[index]?.xiResultatNet},
+      {code: 'XB', nom: 'Chiffres d\'affaires', source: 'Compte de résultat', value: data[index]?.xbChiffresDaffaires},
+      {code: 'BI', nom: 'Créances clients', source: 'Bilan actif', value: data[index]?.biCreanceClient},
+      {code: '', nom: 'CAF', source: 'Compte de résultat', value: data[index]?.caf},
+      {code: 'CA', nom: 'Capitaux propres', source: 'Bilan passif', value: data[index]?.caCapitauxPropres},
+      {code: 'DF', nom: 'Total ressources', source: 'Bilan passif', value: data[index]?.dfTotalResources},
+      {code: 'DJ', nom: 'Dettes fournisseurs', source: 'Bilan passif', value: data[index]?.djDettesFournisseurs},
+      {code: 'RA', nom: 'Achats', source: 'Compte de résultat', value: data[index]?.raAchats},
+      {code: 'XD', nom: 'Excédents brut d\'exploitation', source: 'Compte de résultat', value: data[index]?.xdExcedentBrutExploit},
+      {code: 'RM', nom: 'Charges financières', source: 'Compte de résultat', value: data[index]?.xbChiffresDaffaires},
+    ];
+  }
+
+  getEntreprise(){
+    if (this.connectedUser?.entrepriseId != null){
+      this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
+        data => {
+          // @ts-ignore
+          this.entreprise = data[0];
+          if(this.entreprise.indicateurAjoute){
+            this.getIndicateurs();
+          }
+        }
+      )
+    }
   }
 
   nextAndPreviousCtrl(){

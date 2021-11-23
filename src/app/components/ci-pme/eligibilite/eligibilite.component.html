@@ -17,23 +17,23 @@
       </div>
 
       <div class="my-4" *ngFor="let q of listQuestions; let index = index">
-          <h6 class="card-title text-uppercase"></h6>
-          <div class="row">
-            <div class="col-sm-8">
-              <h6>{{q.libelle}}</h6>
+        <!--<h6 class="card-title text-uppercase">{{q.code}}- {{q.theme}}</h6>-->
+        <div class="row">
+          <div class="col-sm-8">
+            <h6>{{q.libelle}}</h6>
+          </div>
+          <div class="col-sm-4">
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="{{index+'1'}}" name="radio_{{index}}" [value]="true" [(ngModel)]="q.reponse" class="custom-control-input">
+              <label class="custom-control-label" for="{{index+'1'}}">Oui</label>
             </div>
-            <div class="col-sm-4">
-              <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="{{index+'1'}}" name="radio_{{index}}" [value]="true" [(ngModel)]="q.reponse" class="custom-control-input">
-                <label class="custom-control-label" for="{{index+'1'}}">Oui</label>
-              </div>
-              <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="{{index+'2'}}" name="radio_{{index}}" [value]="false" [(ngModel)]="q.reponse" class="custom-control-input">
-                <label class="custom-control-label" for="{{index+'2'}}">Non</label>
-              </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="{{index+'2'}}" name="radio_{{index}}" [value]="false" [(ngModel)]="q.reponse" class="custom-control-input">
+              <label class="custom-control-label" for="{{index+'2'}}">Non</label>
             </div>
           </div>
         </div>
+      </div>
 
       <div class="alert alert-success" role="alert">
         <div class="row">

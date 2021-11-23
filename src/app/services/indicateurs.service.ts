@@ -12,4 +12,8 @@ export class IndicateursService {
   saveIndicateurs(payload: any){
     return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/indicateurs', payload, AppSettings.httpOptions);
   }
+
+  getIndicateurs(id: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL + `/api/entreprises/${id}/indicateurs`, AppSettings.httpOptions);
+  }
 }

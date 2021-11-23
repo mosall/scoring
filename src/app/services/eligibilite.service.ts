@@ -16,4 +16,8 @@ export class EligibiliteService {
   saveEligibility(payload: any){
     return this.http.put(AppSettings.CIPME_SCORING_API_URL + '/api/traitement/questionnaire/eligibilite', payload, AppSettings.httpOptions);
   }
+
+  getReponseEntreprise(id: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/traitement/questionnaire/liste-reponses/' + id, AppSettings.httpOptions);
+  }
 }

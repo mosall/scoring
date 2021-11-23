@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {IdentificationService} from "../../../services/identification.service";
 import Swal from "sweetalert2";
 import {ReferentielService} from "../../../services/referentiel.service";
+import {Router} from "@angular/router";
 declare var $: any;
 @Component({
   selector: 'app-identification',
@@ -9,7 +10,6 @@ declare var $: any;
   styleUrls: ['./identification.component.css']
 })
 export class IdentificationComponent implements OnInit {
-
   raisonSociale: any = '';
   annee: any = '';
   capital: any = '';
@@ -21,6 +21,7 @@ export class IdentificationComponent implements OnInit {
   logo: any = '';
   formeJur: any = '';
 
+  idDirigeant: any = null;
   nom: any = '';
   prenom: any = '';
   mobile: any = '';
@@ -44,7 +45,8 @@ export class IdentificationComponent implements OnInit {
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
 
   constructor(private identificationService: IdentificationService,
-              private referentielService: ReferentielService,) { }
+              private referentielService: ReferentielService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.nextAndPreviousCtrl();
@@ -118,15 +120,51 @@ export class IdentificationComponent implements OnInit {
           this.description = data[0].description;
           // @ts-ignore
           this.adresse = data[0].adresse;
+
+          this.getDirigeant();
         }
       )
     }
+  }
+
+  getDirigeant(){
+    this.identificationService.getDirigeant(this.idEntreprise).subscribe(
+      data => {
+        // @ts-ignore
+        this.idDirigeant = data.id;
+        // @ts-ignore
+        this.nom = data.nom;
+        // @ts-ignore
+        this.prenom = data.prenom;
+        // @ts-ignore
+        this.mobile = data.mobile;
+        // @ts-ignore
+        this.email = data.email;
+        // @ts-ignore
+        this.niveau = data.niveau;
+        // @ts-ignore
+        this.adresseDirigeant = data.adresse;
+        // @ts-ignore
+        this.nationalite = data.nationalite;
+        // @ts-ignore
+        this.typePiece = data.typePiece;
+        // @ts-ignore
+        this.numeroCI = data.numeroCI;
+        // @ts-ignore
+        this.sexe = data.sexe;
+        // @ts-ignore
+        this.date = data.date;
+        // @ts-ignore
+        this.lieu = data.lieu;
+      }
+    )
   }
 
   saveDirigeant(){
     this.submittedD = true;
 
     const payload = {
+      id: this.idDirigeant,
       nom: this.nom,
       prenom: this.prenom,
       mobile: this.mobile,
@@ -159,7 +197,9 @@ export class IdentificationComponent implements OnInit {
       showConfirmButton: false,
       timer: 1500
     }).then(
-      ()=> window.location.reload()
+      () => {
+        this.idDirigeant == null ? this.router.navigateByUrl('/ci-pme/questionnaire-eligibilite') : window.location.reload();
+      }
     );
   }
 

@@ -29,7 +29,7 @@
                   <div id="{{q.question?.code}}" class="collapse" [attr.aria-labelledby]="q.question?.id" data-parent="#accordion">
                     <div class="card-body">
                       <select class="form-control custom-select px-4 py-2" size="{{q.question?.listReponsesDTO?.length}}" [(ngModel)]="q.reponse">
-                        <option *ngFor="let r of q.question?.listReponsesDTO; let index = index" [value]="r.libelle">{{index+1}}) {{r.libelle}}</option>
+                        <option *ngFor="let r of q.question?.listReponsesDTO; let index = index" [value]="r.id">{{index+1}}) {{r.libelle}}</option>
                       </select>
                     </div>
                   </div>
