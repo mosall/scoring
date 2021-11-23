@@ -25,7 +25,8 @@ export class CiPmeComponent implements OnInit {
     const token = sessionStorage.getItem('connectedUser');
     if (token != null){
       sessionStorage.removeItem("connectedUser");
-      this.router.navigate(['/'])
+      // this.router.navigate(['/'])
+      window.location.href = 'http://217.182.185.176/administration';
     }
   }
 
