@@ -80,8 +80,6 @@ export class IndicateursComponent implements OnInit {
   }
 
   saveIndicateur(year: any){
-    console.log(this.indicateurs[year]);
-
     let payload = {
       annee: this.financialYear - year,
       entreprise: this.connectedUser?.entrepriseId,
@@ -101,10 +99,10 @@ export class IndicateursComponent implements OnInit {
       rmChargesFinancieres: this.indicateurs[year][13].value,
     }
 
-    /*if(this.entreprise.indicateurAjoute){
+    if(this.entreprise.indicateurAjoute){
       // @ts-ignore
       payload.id = this.reponsesIndicateur[year].id;
-    }*/
+    }
 
     console.log(payload)
 
@@ -128,7 +126,7 @@ export class IndicateursComponent implements OnInit {
       data => {
         console.log(data)
         // @ts-ignore
-        data.reverse();
+        data.sort((a: any, b: any) => a.annee < b.annee);
         this.reponsesIndicateur = data;
         // @ts-ignore
         this.financialYear = data[0]?.annee;
@@ -152,7 +150,7 @@ export class IndicateursComponent implements OnInit {
       {code: 'DJ', nom: 'Dettes fournisseurs', source: 'Bilan passif', value: data[index]?.djDettesFournisseurs},
       {code: 'RA', nom: 'Achats', source: 'Compte de résultat', value: data[index]?.raAchats},
       {code: 'XD', nom: 'Excédents brut d\'exploitation', source: 'Compte de résultat', value: data[index]?.xdExcedentBrutExploit},
-      {code: 'RM', nom: 'Charges financières', source: 'Compte de résultat', value: data[index]?.xbChiffresDaffaires},
+      {code: 'RM', nom: 'Charges financières', source: 'Compte de résultat', value: data[index]?.rmChargesFinancieres},
     ];
   }
 
