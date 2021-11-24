@@ -1,0 +1,20 @@
+*{
+  font-weight: 400;
+}
+
+.parent {
+  padding-top: 120px;
+  padding-bottom: 50px;
+}
+
+.card-title {
+  background-color: #006a25;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 5px
+}
+
+.bloc-title {
+  color: #f78300;
+  text-align: center
+}

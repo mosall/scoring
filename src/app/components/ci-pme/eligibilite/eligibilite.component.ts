@@ -3,6 +3,7 @@ import {EligibiliteService} from "../../../services/eligibilite.service";
 import Swal from "sweetalert2";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {IdentificationService} from "../../../services/identification.service";
+import {AuthService} from "../../../services/auth.service";
 declare var $: any;
 @Component({
   selector: 'app-eligibilite',
@@ -16,12 +17,18 @@ export class EligibiliteComponent implements OnInit {
   entreprise: any = [];
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
 
-  constructor(private eligibilityService: EligibiliteService,
+  constructor(private eligibilityService: EligibiliteService, private authService: AuthService,
               private identificationService: IdentificationService) { }
 
   ngOnInit(): void {
     this.getEntreprise();
     this.getListQuestion();
+
+    this.authService.getUserInfos().subscribe(
+      data => {
+        sessionStorage.setItem('connectedUserData', JSON.stringify(data));
+      }
+    );
   }
 
   getListQuestion(){
@@ -51,12 +58,15 @@ export class EligibiliteComponent implements OnInit {
 
     if(this.connectedUser?.entrepriseId){
       this.eligibilityService.saveEligibility(payload).subscribe(
-        data => this.successMsgBox('Réponses enregistrées avec succés !'),
+        data => {
+          this.successMsgBox('Réponses enregistrées avec succés !');
+          this.getEntreprise();
+        },
         err => this.errorMsgBox(err.error)
       );
     }
     else {
-      this.errorMsgBox('Veuillez identifier l\'entreprise avant de répondre au questionnaire')
+      this.errorMsgBox('Veuillez identifier l\'entreprise avant de répondre au questionnaire.')
     }
   }
 
@@ -65,7 +75,7 @@ export class EligibiliteComponent implements OnInit {
       this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
         data => {
           // @ts-ignore
-          this.entreprise = data[0];
+          this.entreprise = data;
           if(this.entreprise?.repEli){
             this.getReponse();
           }

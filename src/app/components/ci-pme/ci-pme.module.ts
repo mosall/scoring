@@ -9,6 +9,7 @@ import {EligibiliteComponent} from "./eligibilite/eligibilite.component";
 import {QualitatifComponent} from "./qualitatif/qualitatif.component";
 import { IndicateursComponent } from './indicateurs/indicateurs.component';
 import {HttpClientModule} from "@angular/common/http";
+import { AccueilComponent } from './accueil/accueil.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {HttpClientModule} from "@angular/common/http";
     IdentificationComponent,
     EligibiliteComponent,
     QualitatifComponent,
-    IndicateursComponent
+    IndicateursComponent,
+    AccueilComponent
   ],
   imports: [
     CommonModule,

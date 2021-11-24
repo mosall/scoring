@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import Swal from "sweetalert2";
 import {IndicateursService} from "../../../services/indicateurs.service";
 import {IdentificationService} from "../../../services/identification.service";
+import {AuthService} from "../../../services/auth.service";
 declare var $: any;
 @Component({
   selector: 'app-indicateurs',
@@ -64,12 +65,20 @@ export class IndicateursComponent implements OnInit {
     ],
   ];
   reponsesIndicateur: any = [];
+  listRatio: any = [];
 
-  constructor(private indicateursService: IndicateursService, private identificationService: IdentificationService) { }
+  constructor(private indicateursService: IndicateursService, private authService: AuthService,
+              private identificationService: IdentificationService) { }
 
   ngOnInit(): void {
     this.getListYear();
     this.getEntreprise();
+
+    this.authService.getUserInfos().subscribe(
+      data => {
+        sessionStorage.setItem('connectedUserData', JSON.stringify(data));
+      }
+    );
   }
 
   getListYear(){
@@ -104,21 +113,26 @@ export class IndicateursComponent implements OnInit {
       payload.id = this.reponsesIndicateur[year].id;
     }
 
-    console.log(payload)
+    if(this.connectedUser?.entrepriseId){
+      this.indicateursService.saveIndicateurs(payload).subscribe(
+        data => {
+          if(year != 0){
+            $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
+          }
+          else {
+            this.successMsgBox('Indicateurs enregistrés avec succès !');
+          }
+        },
+        error => {
+          this.errorMsgBox(error.error);
+        }
+      );
+    }
+    else {
+      this.errorMsgBox('Veuillez identifier l\'entreprise avant d\'enregistrer les indicateurs.')
+    }
 
-    this.indicateursService.saveIndicateurs(payload).subscribe(
-      data => {
-        if(year != 0){
-          $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
-        }
-        else {
-          this.successMsgBox('Indicateurs enregistrés avec succès !');
-        }
-      },
-      error => {
-        this.errorMsgBox(error.error);
-      }
-    );
+
   }
 
   getIndicateurs(){
@@ -158,14 +172,25 @@ export class IndicateursComponent implements OnInit {
       this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
         data => {
           // @ts-ignore
-          this.entreprise = data[0];
-          console.log(this.entreprise)
+          this.entreprise = data;
           if(this.entreprise?.indicateurAjoute){
             this.getIndicateurs();
+            this.getRatio();
           }
         }
       )
     }
+  }
+
+  getRatio(){
+    this.indicateursService.getRatio(this.entreprise?.id).subscribe(
+      data => {
+        console.log(data)
+        // @ts-ignore
+        data.listValeurRatioDTO.sort((a: any, b: any) => a.idRatio > b.idRatio);
+        this.listRatio = data;
+      }
+    )
   }
 
   nextAndPreviousCtrl(){

@@ -1,0 +1,90 @@
+<div class="mx-5 px-5 parent">
+  <div class="card p-4 animate__animated animate__backInUp" style="border-radius: 10px">
+    <div class="card-body">
+      <div class="card-title py-1">
+        <h3>Informations de la PME</h3>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="bloc-title">-- Information sur l'entreprise --</h5>
+          <hr>
+
+          <div class="mt-2">
+            <label class="mr-2">Raison sociale: </label>{{entreprise?.raisonSociale}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Année de création: </label>{{entreprise?.annee}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Forme Juridique: </label>{{entreprise?.formeJur?.libelle}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Capital sociale: </label>{{entreprise?.capital}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Secteur d'activités: </label>{{secteur}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Régime imposition: </label>{{entreprise?.regime}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Adresse: </label>{{entreprise?.adresse}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Site web: </label>{{entreprise?.siteWeb}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Description: </label>{{entreprise?.description}}
+            <hr class="mt-n2">
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-body">
+          <h5 class="bloc-title">-- Information sur le dirigeant --</h5>
+          <hr>
+
+          <div class="mt-2">
+            <label class="mr-2">Nom: </label>{{dirigeant.nom}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Prénom: </label>{{dirigeant.prenom}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Téléphone: </label>{{dirigeant.mobile}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Emal: </label>{{dirigeant.email}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Niveau d'éducation: </label>{{dirigeant.niveau}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Adresse: </label>{{dirigeant.adresse}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Nationalité: </label>{{dirigeant.nationalite}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Type pièce: </label>{{dirigeant.typePiece}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Numéro CI: </label>{{dirigeant.numeroCI}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Sexe: </label>{{dirigeant.sexe}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Date de naissance: </label>{{dirigeant.date}}
+            <hr class="mt-n2">
+
+            <label class="mr-2">Lieu de naissance: </label>{{dirigeant.lieu}}
+            <hr class="mt-n2">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
