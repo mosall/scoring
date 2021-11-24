@@ -159,7 +159,8 @@ export class IndicateursComponent implements OnInit {
         data => {
           // @ts-ignore
           this.entreprise = data[0];
-          if(this.entreprise.indicateurAjoute){
+          console.log(this.entreprise)
+          if(this.entreprise?.indicateurAjoute){
             this.getIndicateurs();
           }
         }
