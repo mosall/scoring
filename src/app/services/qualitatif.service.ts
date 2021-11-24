@@ -28,4 +28,8 @@ export class QualitatifService {
   getReponseParPME(idEntreprise: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL+'/api/traitement/questionnaire/liste-reponses/'+idEntreprise+'/qualitatif', AppSettings.httpOptions);
   }
+  
+  getScoreQualitatif(idEntreprise: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL+'/api/score/qualitatif/'+idEntreprise, AppSettings.httpOptions);
+  }
 }

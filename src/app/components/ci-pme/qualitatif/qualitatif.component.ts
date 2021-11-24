@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {QualitatifService} from "../../../services/qualitatif.service";
 import Swal from "sweetalert2";
-import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
 import { IdentificationService } from 'src/app/services/identification.service';
+import { ChartDataSets, ChartType, RadialChartOptions } from 'chart.js';
+import { Color } from 'ng2-charts';
+
+
 declare var $: any;
 @Component({
   selector: 'app-qualitatif',
@@ -13,8 +16,29 @@ export class QualitatifComponent implements OnInit {
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
   listParameters: any = [];
   listQuestions: any = [];
+
   tabIndex: number = 0;
+
   entreprise: any;
+
+  
+  scores: any = [];
+  total: number = 0;
+  
+  chartLibelles: any =  [];
+  chartValues: ChartDataSets[] = [];
+  radarChartType: ChartType = 'radar';
+  radarChartOptions: RadialChartOptions = {
+    responsive: true,
+  };
+  lineChartColors: Color[] = [
+    { 
+      backgroundColor: 'rgb(247 131 0 / 50%)',
+      borderColor: 'rgb(247 131 0 )',
+    },
+
+  ];
+  edit: boolean = false;
 
   constructor(
     private qualitatifService: QualitatifService,
@@ -23,35 +47,52 @@ export class QualitatifComponent implements OnInit {
 
   ngOnInit(): void {
     this.getParameter();
-    console.log(this.connectedUser.entrepriseId);
-    
+        
     if(this.connectedUser?.entrepriseId){
       this.idService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
         (data: any) =>{ 
           this.entreprise = data;         
           if(data.repQuali){
-            this.qualitatifService.getReponseParPME(data.id).subscribe(
-              (rep: any) => {                
-                for(let p of this.listParameters){
-                  for(let q of p.questions){
-                    rep.forEach((r: any) => {
-                      if( q.question.id === r.idQuestion){
-                        q.reponse = r.id_reponse_quali;
-                      } 
-                    });
-                  }
-                }
-                console.log('Edit',this.listParameters);
+            // this.edit = true;
+            this.qualitatifService.getScoreQualitatif(data.id).subscribe(
+              (data: any) => {
+                this.scores = data;
+                this.total = data.map((d: any) => d.score).reduce((p:any, c: any) => p + c) / data.length;
+                let tab = data.map ((d: any) => d.score);
+                this.chartValues = [{
+                  data: tab,
+                  label: 'Score Financier'
+                }];
+                console.log('data', this.chartValues);
                 
               },
-              err => console.log(err)              
+              err => console.log(err)
             );
-            
           }
         },
         err => console.log(err)
-      );
+        );
+      }
     }
+    
+    editScore(idEntreprise: any){
+      this.edit = true;
+      this.qualitatifService.getReponseParPME(idEntreprise).subscribe(
+        (rep: any) => {                
+          for(let p of this.listParameters){
+            for(let q of p.questions){
+              rep.forEach((r: any) => {
+                if( q.question.id === r.idQuestion){
+                  q.reponse = r.id_reponse_quali;
+                } 
+              });
+            }
+          }
+          console.log('Edit',this.listParameters);
+          
+        },
+        err => console.log(err)              
+      );
   }
 
   getParameter(){
@@ -65,6 +106,7 @@ export class QualitatifComponent implements OnInit {
         data.forEach(item => {
           item.questions = [];
           this.listParameters.push(item)
+          this.chartLibelles.push(item.libelle)
         });
 
         this.getQuestion();
@@ -103,7 +145,7 @@ export class QualitatifComponent implements OnInit {
         idQuestion: q.question.id, reponse: parseInt(q.reponse)
       });
     }
-  
+      
     this.qualitatifService.saveQualitatif(payload).subscribe(
       data => this.successMsgBox('Réponses enregistrées avec succés !'),
       err => this.errorMsgBox(err.error)

@@ -5,6 +5,8 @@ import {RouterModule} from "@angular/router";
 import {AppRoutes} from "./app.routing";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
+import { ChartsModule } from 'ng2-charts';
+
 
 @NgModule({
   declarations: [
@@ -12,7 +14,8 @@ import {AuthInterceptor} from "./interceptors/auth.interceptor";
   ],
   imports: [
     BrowserModule, HttpClientModule,
-    RouterModule.forRoot(AppRoutes)
+    RouterModule.forRoot(AppRoutes),
+    ChartsModule
   ],
   providers: [
     {

@@ -9,6 +9,7 @@ import {EligibiliteComponent} from "./eligibilite/eligibilite.component";
 import {QualitatifComponent} from "./qualitatif/qualitatif.component";
 import { IndicateursComponent } from './indicateurs/indicateurs.component';
 import {HttpClientModule} from "@angular/common/http";
+import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -24,6 +25,8 @@ import {HttpClientModule} from "@angular/common/http";
     CiPmeRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    ChartsModule,
+  
   ]
 })
 export class CiPmeModule { }
