@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {QualitatifService} from "../../../services/qualitatif.service";
 import Swal from "sweetalert2";
+import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
+import { IdentificationService } from 'src/app/services/identification.service';
 declare var $: any;
 @Component({
   selector: 'app-qualitatif',
@@ -11,12 +13,45 @@ export class QualitatifComponent implements OnInit {
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
   listParameters: any = [];
   listQuestions: any = [];
-  tab: any;
+  tabIndex: number = 0;
+  entreprise: any;
 
-  constructor(private qualitatifService: QualitatifService) { }
+  constructor(
+    private qualitatifService: QualitatifService,
+    private idService: IdentificationService
+  ) { }
 
   ngOnInit(): void {
     this.getParameter();
+    console.log(this.connectedUser.entrepriseId);
+    
+    if(this.connectedUser?.entrepriseId){
+      this.idService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
+        (data: any) =>{ 
+          this.entreprise = data;         
+          if(data.repQuali){
+            this.qualitatifService.getReponseParPME(data.id).subscribe(
+              (rep: any) => {                
+                for(let p of this.listParameters){
+                  for(let q of p.questions){
+                    rep.forEach((r: any) => {
+                      if( q.question.id === r.idQuestion){
+                        q.reponse = r.id_reponse_quali;
+                      } 
+                    });
+                  }
+                }
+                console.log('Edit',this.listParameters);
+                
+              },
+              err => console.log(err)              
+            );
+            
+          }
+        },
+        err => console.log(err)
+      );
+    }
   }
 
   getParameter(){
@@ -45,7 +80,7 @@ export class QualitatifComponent implements OnInit {
           data.forEach(question => {
             if (p.id == question.parametreDTO.id){
               p.questions.push({question, reponse: ''});
-              this.listQuestions.push({question, reponse: ''});
+              // this.listQuestions.push({question, reponse: ''});
             }
           });
         }
@@ -61,15 +96,44 @@ export class QualitatifComponent implements OnInit {
     };
     
     for (let q of this.listQuestions){
+      console.log(q);
+      
       payload.listReponse.push({
         // @ts-ignore
         idQuestion: q.question.id, reponse: parseInt(q.reponse)
       });
     }
+  
     this.qualitatifService.saveQualitatif(payload).subscribe(
       data => this.successMsgBox('Réponses enregistrées avec succés !'),
       err => this.errorMsgBox(err.error)
     );
+  }
+
+  onSelectReponse(event: any, question: any){    
+    this.listQuestions.push({...question, reponse: event.target.value});
+  }
+
+  activeTab(direction: any){
+    let elt = $('a[class="nav-link active"][role="tab"][data-toggle="pill"] > span[class*="badge"]');
+    elt.parent().removeClass('active');
+    let i = parseInt(elt[0].innerText)
+    $("#P"+i).removeClass('active');
+    if(direction === 'next'){
+      let next = $('a[href*="#P'+(i + 1)+'"] > span[class*="badge"]').parent()
+      next.click()
+      this.tabIndex++;
+      console.log('next', next);
+    }
+    if(direction === 'previous'){
+      let next = $('a[href*="#P'+(i - 1)+'"] > span[class*="badge"]').parent()
+      next.click()
+      this.tabIndex--;
+      console.log('previous', next);
+    } 
+    else{
+      this.tabIndex = (direction[1] - 1)
+    }   
   }
 
   successMsgBox(msg: any){
@@ -92,17 +156,5 @@ export class QualitatifComponent implements OnInit {
     });
   }
   
-  onSelectReponse(event: any, question: any){
-    // question.reponse = event.target.value;
-    for(let q of this.listQuestions){
-      if(q.question.id === question.question.id){
-        q.reponse = event.target.value;
-      }
-    }
-  }
-
-  activeTab(tab: any){
-
-  }
 
 }
