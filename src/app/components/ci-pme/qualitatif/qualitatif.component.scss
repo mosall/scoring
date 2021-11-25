@@ -86,3 +86,20 @@ select{
 option:checked {
   background: red linear-gradient(0deg, #006a25 0%, #006a25 100%);
 }
+
+.d-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  color: #fff;
+  background: #006a25;
+  border-radius: .3125rem;
+  h4{
+    padding: .3125rem ;
+  }
+}
+
+th{
+  font-weight: bold;
+}

@@ -23,7 +23,7 @@ export class QualitatifComponent implements OnInit {
 
   
   scores: any = [];
-  total: number = 0;
+  total: string = '';
   
   chartLibelles: any =  [];
   chartValues: ChartDataSets[] = [];
@@ -57,7 +57,7 @@ export class QualitatifComponent implements OnInit {
             this.qualitatifService.getScoreQualitatif(data.id).subscribe(
               (data: any) => {
                 this.scores = data;
-                this.total = data.map((d: any) => d.score).reduce((p:any, c: any) => p + c) / data.length;
+                this.total = (data.map((d: any) => d.score).reduce((p:any, c: any) => p + c) / data.length).toFixed(1);
                 let tab = data.map ((d: any) => d.score);
                 this.chartValues = [{
                   data: tab,
