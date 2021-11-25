@@ -61,7 +61,7 @@ export class QualitatifComponent implements OnInit {
                 let tab = data.map ((d: any) => d.score);
                 this.chartValues = [{
                   data: tab,
-                  label: 'Score Financier'
+                  label: 'Score qualitatif '
                 }];
                 console.log('data', this.chartValues);
                 
