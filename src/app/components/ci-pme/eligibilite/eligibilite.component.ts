@@ -23,12 +23,6 @@ export class EligibiliteComponent implements OnInit {
   ngOnInit(): void {
     this.getEntreprise();
     this.getListQuestion();
-
-    this.authService.getUserInfos().subscribe(
-      data => {
-        sessionStorage.setItem('connectedUserData', JSON.stringify(data));
-      }
-    );
   }
 
   getListQuestion(){
@@ -59,8 +53,13 @@ export class EligibiliteComponent implements OnInit {
     if(this.connectedUser?.entrepriseId){
       this.eligibilityService.saveEligibility(payload).subscribe(
         data => {
-          this.successMsgBox('Réponses enregistrées avec succés !');
           this.getEntreprise();
+          if (this.entreprise?.eligibilite){
+            this.successMsgBox('Votre PME est éligible !');
+          }
+          else {
+            this.errorMsgBox('Votre PME n\'est pas éligible !');
+          }
         },
         err => this.errorMsgBox(err.error)
       );
