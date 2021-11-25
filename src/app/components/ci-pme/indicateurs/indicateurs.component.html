@@ -25,17 +25,17 @@
         <div class="border rounded">
           <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><i class="fa fa-check-circle mr-2"></i> {{financialYear-2}}</a>
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><i class="fa fa-check-circle mr-2"></i> {{financialYear-2}}</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><i class="fa fa-check-circle mr-2"></i>{{financialYear-1}}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false"><i class="fa fa-check-circle mr-2"></i>{{financialYear}}</a>
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false"><i class="fa fa-check-circle mr-2"></i>{{financialYear}}</a>
             </li>
           </ul>
           <div class="tab-content p-3" id="myTabContent">
-            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
               <div class="row">
                 <div class="col-md-8">
                   <table class="table table-bordered" style="text-align: center">
@@ -59,7 +59,7 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="col-md-4">
+                <!--<div class="col-md-4">
                   <div class="card">
                     <div class="card-header" style="background-color: #f78300"><h6><i class="fa fa-file"></i> Etats financiers</h6></div>
                     <div class="card-body">
@@ -67,7 +67,7 @@
 
                     </div>
                   </div>
-                </div>
+                </div>-->
               </div>
 
               <div class="modal-footer border-0">
@@ -110,7 +110,7 @@
 
             </div>
 
-            <div class="tab-pane fade show active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
               <div class="row">
                 <div class="col-md-8">
                   <table class="table table-bordered" style="text-align: center">

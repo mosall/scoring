@@ -7,6 +7,12 @@
   padding-bottom: 50px;
 }
 
+@media (min-width: 1000px) {
+  .parent {
+    margin: 0 20rem !important;
+  }
+}
+
 .card-title {
   background-color: #006a25;
   color: #ffffff;
@@ -21,5 +27,5 @@
 
 label {
   font-weight: 800;
-  width: 12rem;
+  width: 11rem;
 }
