@@ -5,6 +5,7 @@ import {QualitatifComponent} from "./qualitatif/qualitatif.component";
 import {CiPmeComponent} from "./ci-pme.component";
 import {IdentificationComponent} from "./identification/identification.component";
 import {IndicateursComponent} from "./indicateurs/indicateurs.component";
+import {AccueilComponent} from "./accueil/accueil.component";
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
     component: CiPmeComponent,
     // canActivate: [AuthGuardService],
     children: [
+      {
+        path: 'accueil',
+        component: AccueilComponent,
+      },
       {
         path: 'questionnaire-eligibilite',
         component: EligibiliteComponent,

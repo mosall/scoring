@@ -10,6 +10,7 @@ import {QualitatifComponent} from "./qualitatif/qualitatif.component";
 import { IndicateursComponent } from './indicateurs/indicateurs.component';
 import {HttpClientModule} from "@angular/common/http";
 import { ChartsModule } from 'ng2-charts';
+import { AccueilComponent } from './accueil/accueil.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ChartsModule } from 'ng2-charts';
     IdentificationComponent,
     EligibiliteComponent,
     QualitatifComponent,
-    IndicateursComponent
+    IndicateursComponent,
+    AccueilComponent
   ],
   imports: [
     CommonModule,

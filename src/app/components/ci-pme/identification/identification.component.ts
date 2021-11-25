@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {IdentificationService} from "../../../services/identification.service";
 import Swal from "sweetalert2";
 import {ReferentielService} from "../../../services/referentiel.service";
+import {Router} from "@angular/router";
+import {AuthService} from "../../../services/auth.service";
 declare var $: any;
 @Component({
   selector: 'app-identification',
@@ -9,7 +11,6 @@ declare var $: any;
   styleUrls: ['./identification.component.css']
 })
 export class IdentificationComponent implements OnInit {
-
   raisonSociale: any = '';
   annee: any = '';
   capital: any = '';
@@ -21,6 +22,7 @@ export class IdentificationComponent implements OnInit {
   logo: any = '';
   formeJur: any = '';
 
+  idDirigeant: any = null;
   nom: any = '';
   prenom: any = '';
   mobile: any = '';
@@ -44,13 +46,20 @@ export class IdentificationComponent implements OnInit {
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
 
   constructor(private identificationService: IdentificationService,
-              private referentielService: ReferentielService,) { }
+              private referentielService: ReferentielService, private authService: AuthService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.nextAndPreviousCtrl();
     this.getListYear();
     this.getListSecteur();
     this.getListFormJuridique();
+
+    this.authService.getUserInfos().subscribe(
+      data => {
+        sessionStorage.setItem('connectedUserData', JSON.stringify(data));
+      }
+    );
   }
 
   nextAndPreviousCtrl(){
@@ -97,36 +106,72 @@ export class IdentificationComponent implements OnInit {
       this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
         data => {
           // @ts-ignore
-          this.idEntreprise = data[0].id;
+          this.idEntreprise = data?.id;
           // @ts-ignore
-          this.raisonSociale = data[0].raisonSociale;
+          this.raisonSociale = data?.raisonSociale;
           // @ts-ignore
-          this.annee = data[0].annee;
+          this.annee = data?.annee;
           // @ts-ignore
-          this.formeJur = data[0].formeJur.id
+          this.formeJur = data?.formeJur.id
           // @ts-ignore
-          this.capital = data[0].capital;
+          this.capital = data?.capital;
           // @ts-ignore
-          this.secteur = data[0].secteurs[0].id;
+          this.secteur = data?.secteurs[0].id;
           // @ts-ignore
-          this.regime = data[0].regime;
+          this.regime = data?.regime;
           // @ts-ignore
-          this.siteWeb = data[0].siteWeb;
+          this.siteWeb = data?.siteWeb;
           // @ts-ignore
-          this.logo = data[0].logo;
+          this.logo = data?.logo;
           // @ts-ignore
-          this.description = data[0].description;
+          this.description = data?.description;
           // @ts-ignore
-          this.adresse = data[0].adresse;
+          this.adresse = data?.adresse;
+
+          this.getDirigeant();
         }
       )
     }
+  }
+
+  getDirigeant(){
+    this.identificationService.getDirigeant(this.idEntreprise).subscribe(
+      data => {
+        // @ts-ignore
+        this.idDirigeant = data.id;
+        // @ts-ignore
+        this.nom = data.nom;
+        // @ts-ignore
+        this.prenom = data.prenom;
+        // @ts-ignore
+        this.mobile = data.mobile;
+        // @ts-ignore
+        this.email = data.email;
+        // @ts-ignore
+        this.niveau = data.niveau;
+        // @ts-ignore
+        this.adresseDirigeant = data.adresse;
+        // @ts-ignore
+        this.nationalite = data.nationalite;
+        // @ts-ignore
+        this.typePiece = data.typePiece;
+        // @ts-ignore
+        this.numeroCI = data.numeroCI;
+        // @ts-ignore
+        this.sexe = data.sexe;
+        // @ts-ignore
+        this.date = data.date;
+        // @ts-ignore
+        this.lieu = data.lieu;
+      }
+    )
   }
 
   saveDirigeant(){
     this.submittedD = true;
 
     const payload = {
+      id: this.idDirigeant,
       nom: this.nom,
       prenom: this.prenom,
       mobile: this.mobile,
@@ -159,7 +204,9 @@ export class IdentificationComponent implements OnInit {
       showConfirmButton: false,
       timer: 1500
     }).then(
-      ()=> window.location.reload()
+      () => {
+        this.idDirigeant == null ? this.router.navigateByUrl('/ci-pme/questionnaire-eligibilite') : window.location.reload();
+      }
     );
   }
 

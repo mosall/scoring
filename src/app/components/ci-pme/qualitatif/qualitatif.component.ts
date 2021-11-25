@@ -126,7 +126,6 @@ export class QualitatifComponent implements OnInit {
             }
           });
         }
-        console.log(this.listParameters);
       },
     );
   }

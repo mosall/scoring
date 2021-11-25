@@ -21,6 +21,10 @@ export class IdentificationService {
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises', AppSettings.httpOptions);
   }
   
+  getDirigeant(id: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/dirigeants/entreprise/' + id, AppSettings.httpOptions);
+  }
+  
   getEntreprise(id: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises/'+id, AppSettings.httpOptions);
   }

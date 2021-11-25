@@ -13,7 +13,14 @@
       </div>
 
       <div class="py-5" *ngIf="financialYear != null">
-        <p class=" text-danger">Merci de saisir la valeur de chaque indicateur sur les 3 dernières années !</p>
+        <div class="row">
+          <div class="col-md-10">
+            <p class=" text-danger">Merci de saisir la valeur de chaque indicateur sur les 3 dernières années !</p>
+          </div>
+          <div class="col-md-2">
+            <button *ngIf="entreprise?.indicateurAjoute" class="btn btn-sm" style="color: #ffffff; background-color: #006a25" data-toggle="modal" data-target="#ratioModal">Calculer le ratio</button>
+          </div>
+        </div>
 
         <div class="border rounded">
           <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
@@ -52,7 +59,15 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <div class="card">
+                    <div class="card-header" style="background-color: #f78300"><h6><i class="fa fa-file"></i> Etats financiers</h6></div>
+                    <div class="card-body">
+                      <p class="small font-italic text-success">Les formats acceptés sont: docx, xslx, pdf</p>
+
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div class="modal-footer border-0">
@@ -130,6 +145,31 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ratioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #006a25; color: #ebeef2">
+        <h5 class="modal-title">Calcul des ratios du score financier</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <caption>Score financier : {{listRatio?.scoreDTO?.score_financier}}</caption>
+          <tr *ngFor="let r of listRatio?.listValeurRatioDTO">
+            <th>Ratio {{r.idRatio}}</th>
+            <td>{{r.valeur}}</td>
+          </tr>
+        </table>
+
+      </div>
+      <div class="modal-footer border-0">
       </div>
     </div>
   </div>
