@@ -54,7 +54,7 @@ export class EligibiliteComponent implements OnInit {
       this.eligibilityService.saveEligibility(payload).subscribe(
         data => {
           this.getEntreprise();
-          if (this.entreprise?.eligibilite){
+          if (this.entreprise?.eligible){
             this.successMsgBox('Votre PME est éligible !');
           }
           else {
