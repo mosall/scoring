@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 import {IdentificationService} from "../../../services/identification.service";
 
 @Component({
@@ -18,12 +19,18 @@ export class AccueilComponent implements OnInit {
   }
 
   getEntreprise(){
+    Swal.fire({title: 'Veuillez patienter ...', allowEscapeKey: false, allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
       data => {
         this.entreprise = data;
         // @ts-ignore
         this.secteur = data.secteurs[0].libelle;
         this.getDirigeant();
+        Swal.close();
       }
     )
   }
@@ -32,6 +39,7 @@ export class AccueilComponent implements OnInit {
     this.identificationService.getDirigeant(this.entreprise?.id).subscribe(
       data => {
         this.dirigeant = data;
+        Swal.close();
         console.log(data)
       }
     )
