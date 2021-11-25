@@ -202,7 +202,7 @@ export class IdentificationComponent implements OnInit {
       icon: 'success',
       text: msg,
       showConfirmButton: false,
-      timer: 1500
+      timer: 5000
     }).then(
       () => {
         this.idDirigeant == null ? this.router.navigateByUrl('/ci-pme/questionnaire-eligibilite') : window.location.reload();
@@ -215,7 +215,7 @@ export class IdentificationComponent implements OnInit {
       icon: 'warning',
       text: msg,
       showConfirmButton: false,
-      timer: 2500
+      timer: 5000
     });
   }
 
