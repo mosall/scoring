@@ -18,3 +18,8 @@
   color: #f78300;
   text-align: center
 }
+
+label {
+  font-weight: 800;
+  width: 12rem;
+}

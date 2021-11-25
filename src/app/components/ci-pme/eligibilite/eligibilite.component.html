@@ -24,11 +24,11 @@
           </div>
           <div class="col-sm-4">
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="{{index+'1'}}" name="radio_{{index}}" [value]="true" [(ngModel)]="q.reponse" class="custom-control-input">
+              <input [disabled]="entreprise?.repEli" type="radio" id="{{index+'1'}}" name="radio_{{index}}" [value]="true" [(ngModel)]="q.reponse" class="custom-control-input">
               <label class="custom-control-label" for="{{index+'1'}}">Oui</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="{{index+'2'}}" name="radio_{{index}}" [value]="false" [(ngModel)]="q.reponse" class="custom-control-input">
+              <input [disabled]="entreprise?.repEli" type="radio" id="{{index+'2'}}" name="radio_{{index}}" [value]="false" [(ngModel)]="q.reponse" class="custom-control-input">
               <label class="custom-control-label" for="{{index+'2'}}">Non</label>
             </div>
           </div>

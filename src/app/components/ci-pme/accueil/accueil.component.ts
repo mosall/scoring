@@ -40,7 +40,6 @@ export class AccueilComponent implements OnInit {
       data => {
         this.dirigeant = data;
         Swal.close();
-        console.log(data)
       }
     )
   }
