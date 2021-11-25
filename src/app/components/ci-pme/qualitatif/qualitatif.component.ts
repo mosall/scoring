@@ -18,6 +18,9 @@ export class QualitatifComponent implements OnInit {
   listQuestions: any = [];
 
   tabIndex: number = 0;
+  activeValidateBtn: boolean = false;
+  activePrevBtn: boolean = false;
+  activeNextBtn: boolean = true;
 
   entreprise: any;
 
@@ -31,13 +34,13 @@ export class QualitatifComponent implements OnInit {
   radarChartOptions: RadialChartOptions = {
     responsive: true,
   };
-  lineChartColors: Color[] = [
-    { 
-      backgroundColor: 'rgb(247 131 0 / 50%)',
-      borderColor: 'rgb(247 131 0 )',
-    },
+  // lineChartColors: Color[] = [
+  //   { 
+  //     backgroundColor: 'rgb(247 131 0 / 50%)',
+  //     borderColor: 'rgb(247 131 0 )',
+  //   },
 
-  ];
+  // ];
   edit: boolean = false;
 
   constructor(
@@ -57,12 +60,14 @@ export class QualitatifComponent implements OnInit {
             this.qualitatifService.getScoreQualitatif(data.id).subscribe(
               (data: any) => {
                 this.scores = data;
+                
                 this.total = (data.map((d: any) => d.score).reduce((p:any, c: any) => p + c) / data.length).toFixed(1);
-                let tab = data.map ((d: any) => d.score);
+                let tab = data.sort((a:any, b:any) => a.parametre.id - b.parametre.id).map((d: any) => d.score);
                 this.chartValues = [{
                   data: tab,
                   label: 'Score qualitatif '
                 }];
+                console.log('score', data);
                 console.log('data', this.chartValues);
                 
               },
@@ -88,8 +93,8 @@ export class QualitatifComponent implements OnInit {
               });
             }
           }
-          console.log('Edit',this.listParameters);
-          
+          this.listParameters.sort((a: any, b: any) => a.id - b.id);
+          console.log('Edit',this.listParameters);          
         },
         err => console.log(err)              
       );
@@ -109,6 +114,8 @@ export class QualitatifComponent implements OnInit {
           this.chartLibelles.push(item.libelle)
         });
 
+        console.log('para', this.listParameters);
+        
         this.getQuestion();
       }
     );
@@ -129,6 +136,8 @@ export class QualitatifComponent implements OnInit {
       },
     );
   }
+
+
 
   submitQuestionnaire(){
     let payload = {
@@ -156,25 +165,27 @@ export class QualitatifComponent implements OnInit {
   }
 
   activeTab(direction: any){
-    let elt = $('a[class="nav-link active"][role="tab"][data-toggle="pill"] > span[class*="badge"]');
+    const elt = $('a[class="nav-link active"][role="tab"][data-toggle="pill"] > span[class*="badge"]');
     elt.parent().removeClass('active');
-    let i = parseInt(elt[0].innerText)
+    const i = parseInt(elt[0].innerText)
     $("#P"+i).removeClass('active');
     if(direction === 'next'){
-      let next = $('a[href*="#P'+(i + 1)+'"] > span[class*="badge"]').parent()
-      next.click()
-      this.tabIndex++;
-      console.log('next', next);
+      const index = i + 1;
+      const next = $('a[href*="#P'+index+'"] > span[class*="badge"]').parent();
+      next.trigger('click');
+      this.tabIndex += 1;
+      console.log('next', this.tabIndex);
     }
-    if(direction === 'previous'){
-      let next = $('a[href*="#P'+(i - 1)+'"] > span[class*="badge"]').parent()
-      next.click()
-      this.tabIndex--;
-      console.log('previous', next);
+    else if(direction === 'previous'){
+      const index = i - 1;
+      const next = $('a[href*="#P'+index+'"] > span[class*="badge"]').parent();
+      this.tabIndex -= 1;
+      next.trigger('click');
+      console.log('prev', this.tabIndex);
     } 
     else{
       this.tabIndex = (direction[1] - 1)
-    }   
+    }     
   }
 
   successMsgBox(msg: any){
