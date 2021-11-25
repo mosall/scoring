@@ -54,12 +54,6 @@ export class IdentificationComponent implements OnInit {
     this.getListYear();
     this.getListSecteur();
     this.getListFormJuridique();
-
-    this.authService.getUserInfos().subscribe(
-      data => {
-        sessionStorage.setItem('connectedUserData', JSON.stringify(data));
-      }
-    );
   }
 
   nextAndPreviousCtrl(){
@@ -89,9 +83,15 @@ export class IdentificationComponent implements OnInit {
 
     this.identificationService.saveEntreprise(paylaod).subscribe(
       data => {
-        console.log(data);
         // @ts-ignore
         this.idEntreprise = data.id;
+
+        this.authService.getUserInfos().subscribe(
+          data => {
+            sessionStorage.setItem('connectedUserData', JSON.stringify(data));
+          }
+        );
+
         $('.nav-pills > .active').next('a').trigger('click');
       },
       error => {
