@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { IdentificationService } from 'src/app/services/identification.service';
 import { ChartDataSets, ChartType, RadialChartOptions } from 'chart.js';
 import { Color } from 'ng2-charts';
+import { ReferentielService } from 'src/app/services/referentiel.service';
 
 
 declare var $: any;
@@ -45,7 +46,8 @@ export class QualitatifComponent implements OnInit {
 
   constructor(
     private qualitatifService: QualitatifService,
-    private idService: IdentificationService
+    private idService: IdentificationService,
+    private ref: ReferentielService
   ) { }
 
   ngOnInit(): void {
@@ -67,8 +69,27 @@ export class QualitatifComponent implements OnInit {
                   data: tab,
                   label: 'Score qualitatif '
                 }];
-                console.log('score', data);
-                console.log('data', this.chartValues);
+                // get ponderation
+                this.ref.getPonderations().subscribe(
+                  (data:any) => {                    
+                    for(let s of this.scores){
+                      for(let p of data){
+                        if(s.parametre.id == p.parametreDTO?.id){
+                            s.ponderation = p.ponderation;
+                            s.value = ((s.score * p.ponderation) / 100).toFixed(1);
+                        }
+                      }
+                    }
+                  },
+                  err => console.log(err)
+                );
+                // score final
+                this.qualitatifService.getScoreFinal(data?.id).subscribe(
+                  (data:any) => {
+                    this.total = data.score_finale;
+                  },
+                  err => console.log(err)                  
+                );
                 
               },
               err => console.log(err)

@@ -57,20 +57,35 @@
               <tr>
                 <th scope="col">Parametre Qualitatif</th>
                 <th scope="col">Class</th>
+                <th scope="col">Ponderation</th>
+                <th scope="col"></th>
               </tr>
               </thead>
               <tbody>
               <tr *ngFor="let s of scores">
                   <td>{{s.parametre?.libelle}}</td>
                   <td>{{s.score }}</td>
+                  <td>{{s.ponderation}}%</td>
+                  <td>{{s.value}}</td>
               </tr>
               </tbody>
               <tfoot>
                 <tr>
-                  <th>Total</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr class="total">
+                  <th>Score de la PME</th>
+                  <th></th>
+                  <th></th>
                   <th>{{ total }} </th>
                 </tr>
+                
                 <tr>
+                  <td></td>
+                  <td></td>
                   <td></td>
                   <td>
                     <button class="btn" style="background-color: #006a25; color: #ffffff" *ngIf="entreprise?.repQuali" (click)="editScore(entreprise?.id)">Modifier</button>
