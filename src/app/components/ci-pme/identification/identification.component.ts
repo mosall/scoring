@@ -205,7 +205,7 @@ export class IdentificationComponent implements OnInit {
       timer: 5000
     }).then(
       () => {
-        this.idDirigeant == null ? this.router.navigateByUrl('/ci-pme/questionnaire-eligibilite') : window.location.reload();
+        this.idDirigeant == null ? this.router.navigateByUrl('/ci-pme/questionnaire-eligibilite') : this.router.navigateByUrl('/ci-pme/accueil');
       }
     );
   }
