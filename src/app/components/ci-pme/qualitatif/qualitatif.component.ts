@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { IdentificationService } from 'src/app/services/identification.service';
 import { ChartDataSets, ChartType, RadialChartOptions } from 'chart.js';
 import { Color } from 'ng2-charts';
+import { ReferentielService } from 'src/app/services/referentiel.service';
 
 
 declare var $: any;
@@ -23,29 +24,36 @@ export class QualitatifComponent implements OnInit {
   activeNextBtn: boolean = true;
 
   entreprise: any;
-
+  scoreFinancier: any = {};
   
   scores: any = [];
   total: string = '';
   
-  chartLibelles: any =  [];
+  chartLibelles: any =  ['Score Financier/Sovabilité'];
   chartValues: ChartDataSets[] = [];
   radarChartType: ChartType = 'radar';
   radarChartOptions: RadialChartOptions = {
     responsive: true,
+    scale: {
+      ticks:{
+        min: 1,
+        max: 5,
+        stepSize: 1
+      }
+    }
   };
-  // lineChartColors: Color[] = [
-  //   { 
-  //     backgroundColor: 'rgb(247 131 0 / 50%)',
-  //     borderColor: 'rgb(247 131 0 )',
-  //   },
-
-  // ];
+  lineChartColors: Color[] = [
+    { 
+      backgroundColor: 'rgb(247 131 0 / 50%)',
+      borderColor: 'rgb(247 131 0 )',
+    },
+  ];
   edit: boolean = false;
 
   constructor(
     private qualitatifService: QualitatifService,
-    private idService: IdentificationService
+    private idService: IdentificationService,
+    private ref: ReferentielService
   ) { }
 
   ngOnInit(): void {
@@ -67,8 +75,37 @@ export class QualitatifComponent implements OnInit {
                   data: tab,
                   label: 'Score qualitatif '
                 }];
-                console.log('score', data);
-                console.log('data', this.chartValues);
+                // get ponderation
+                this.ref.getPonderations().subscribe(
+                  (data:any) => {                    
+                    for(let s of this.scores){
+                      for(let p of data){
+                        if(s.parametre.id == p.parametreDTO?.id){
+                            s.ponderation = p.ponderation;
+                            s.value = ((s.score * p.ponderation) / 100).toFixed(1);
+                        }
+                        if(p.parametreDTO == null){
+                          this.scoreFinancier.ponderation = p.ponderation;
+                        }
+                      }
+                    }
+                  },
+                  err => console.log(err)
+                );
+                // score final
+                this.qualitatifService.getScoreFinal(this.entreprise?.id).subscribe(
+                  (data:any) => {
+                    
+                    this.total = data?.score_final;
+                    this.scoreFinancier.score_financier = data?.score_financier;
+                    this.scoreFinancier.value = ((this.scoreFinancier.score_financier * this.scoreFinancier.ponderation) / 100).toFixed(1);
+                    console.log('final', data);
+                    
+                    const values: any = this.chartValues[0];
+                    values.data.unshift(data?.score_financier??0);
+                  },
+                  err => console.log(err)                  
+                );
                 
               },
               err => console.log(err)
@@ -186,6 +223,10 @@ export class QualitatifComponent implements OnInit {
     else{
       this.tabIndex = (direction[1] - 1)
     }     
+  }
+
+  open(content: any){
+
   }
 
   successMsgBox(msg: any){

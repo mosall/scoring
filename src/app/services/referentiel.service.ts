@@ -16,4 +16,8 @@ export class ReferentielService {
   getListFormJuridique(){
     return this.http.get(AppSettings.CIPME_ADMINISTRATION_API_URL + '/api/referentiel/formes-juridiques', AppSettings.httpOptions);
   }
+  
+  getPonderations(){
+    return this.http.get(AppSettings.CIPME_ADMINISTRATION_API_URL + '/api/ponderations', AppSettings.httpOptions);    
+  }
 }
