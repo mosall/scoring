@@ -58,7 +58,12 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Régime imposition*</label>
-                  <input type="text" class="form-control" [(ngModel)]="regime">
+                  <select class="form-control custom-select" [(ngModel)]="regime">
+                    <option value="Le régime de l’entreprenant">Le régime de l’entreprenant</option>
+                    <option value="Le régime des microentreprises">Le régime des microentreprises</option>
+                    <option value="Le régime réel simplifié d’imposition">Le régime réel simplifié d’imposition</option>
+                    <option value="Le régime réel normal d’imposition">Le régime réel normal d’imposition</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -147,7 +152,9 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Nationalité*</label>
-                  <input type="text" class="form-control" [(ngModel)]="nationalite">
+                  <select class="form-control custom-select" [(ngModel)]="nationalite">
+                    <option *ngFor="let nationalite of listNationalite" [value]="nationalite">{{nationalite}}</option>
+                  </select>
                 </div>
               </div>
               <div class="col-md-3">

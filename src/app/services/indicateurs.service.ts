@@ -20,4 +20,12 @@ export class IndicateursService {
   getRatio(id: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/score/financier/' + id, AppSettings.httpOptions);
   }
+
+  getIndicateurFiles(id: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL + `/api/indicateurs/${id}/attachments`, AppSettings.httpOptions);
+  }
+
+  saveIndicateurFile(idIndicateur: any, file: any){
+    return this.http.post(AppSettings.CIPME_SCORING_API_URL + `/api/indicateurs/${idIndicateur}/attachments`, file, AppSettings.httpOptions);
+  }
 }

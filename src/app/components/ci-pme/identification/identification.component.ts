@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import {ReferentielService} from "../../../services/referentiel.service";
 import {Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
+import {Nationalities} from "../../../utils/nationalities";
 declare var $: any;
 @Component({
   selector: 'app-identification',
@@ -43,6 +44,7 @@ export class IdentificationComponent implements OnInit {
   listSecteur: any = [];
   listFormJurique: any = [];
   listYear: any = [];
+  listNationalite = Nationalities.nationalities;
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
 
   constructor(private identificationService: IdentificationService,

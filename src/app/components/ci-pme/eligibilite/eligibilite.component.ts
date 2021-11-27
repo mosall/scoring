@@ -88,11 +88,13 @@ export class EligibiliteComponent implements OnInit {
       this.eligibilityService.getReponseEntreprise(this.entreprise?.id).subscribe(
         data => {
           this.reponseQuestionnaire = data;
+          console.log(data)
 
           for (let q of this.listQuestions){
             // @ts-ignore
             const question = data.find(_question => _question.idQuestion == q.id);
             q.reponse = question.reponse_eligibilite;
+
           }
         }
       )

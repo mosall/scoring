@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
+import {IdentificationService} from "../../services/identification.service";
 
 @Component({
   selector: 'app-ci-pme',
@@ -9,14 +10,19 @@ import {Router} from "@angular/router";
 })
 export class CiPmeComponent implements OnInit {
   user: any = null;
+  entreprise: any = null;
   currentYear = new Date().getFullYear();
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router,
+              private identificationService: IdentificationService,) { }
 
   ngOnInit(): void {
     this.authService.getUserInfos().subscribe(
       data => {
         sessionStorage.setItem('connectedUserData', JSON.stringify(data));
         this.user = data;
+        if (this.user.entrepriseId != null){
+          this.getEntreprise();
+        }
       }
     );
   }
@@ -28,6 +34,12 @@ export class CiPmeComponent implements OnInit {
       // this.router.navigate(['/'])
       window.location.href = 'http://217.182.185.176/administration';
     }
+  }
+
+  getEntreprise(){
+    this.identificationService.getEntreprise(this.user?.entrepriseId).subscribe(
+      data => this.entreprise = data
+    )
   }
 
 }
