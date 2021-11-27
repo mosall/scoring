@@ -20,7 +20,7 @@ export class EligibiliteComponent implements OnInit {
   constructor(private eligibilityService: EligibiliteService, private authService: AuthService,
               private identificationService: IdentificationService) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.getEntreprise();
     this.getListQuestion();
   }
@@ -76,7 +76,7 @@ export class EligibiliteComponent implements OnInit {
   getEntreprise() {
     if(this.connectedUser?.entrepriseId){
       this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
-        data => {          
+        data => {
           // @ts-ignore
           this.entreprise = data;
           if(this.entreprise?.repEli){
@@ -110,9 +110,7 @@ export class EligibiliteComponent implements OnInit {
       text: msg,
       showConfirmButton: false,
       timer: 5000
-    }).then(
-      ()=> window.location.reload()
-    );
+    }).then(()=> window.location.reload());
   }
 
   errorMsgBox(msg: any){
