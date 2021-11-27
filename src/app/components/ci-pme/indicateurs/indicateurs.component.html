@@ -60,7 +60,7 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="col-md-4">
+                <!--<div class="col-md-4">
                   <div class="card">
                     <div class="card-header" style="background-color: #f78300"><h6><i class="fa fa-file"></i> Etats financiers</h6></div>
 
@@ -69,7 +69,7 @@
                       <p class="small text-muted" *ngIf="indicateurs[2].file?.nomPiece == ''">Aucun fichier disponible !</p>
                       <div class="row" *ngIf="indicateurs[2].file?.nomPiece != ''">
                         <div class="col-md-8">
-                          <!--{{indicateurs[2].file?.nomPiece}}-->
+                          &lt;!&ndash;{{indicateurs[2].file?.nomPiece}}&ndash;&gt;
                           {{indicateurs[2].file.nomPiece.length > 20 ? indicateurs[2].file.nomPiece.slice(0,20) + "..." : indicateurs[2].file.nomPiece}}
                         </div>
                         <div class="col-md-4">
@@ -79,7 +79,7 @@
                         </div>
                       </div>
 
-                      <!--<div *ngIf="indicateurs[2].file.nomPiece != ''">
+                      &lt;!&ndash;<div *ngIf="indicateurs[2].file.nomPiece != ''">
 
                         &lt;!&ndash;<div class="row mb-2" *ngIf="fileList[2] != null">
                           <div class="col-md-10 small">
@@ -89,7 +89,7 @@
                             <button class="btn btn-sm ml-lg-n2" style="cursor: pointer; color: #dc3545;" (click)="deleteFileToFileList(fileList[2].id, 2)"><i class="fas fa-trash"></i></button>
                           </div>
                         </div>&ndash;&gt;
-                      </div>-->
+                      </div>&ndash;&gt;
                     </div>
 
                     <div class="card-footer">
@@ -107,7 +107,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div>-->
               </div>
 
               <div class="modal-footer border-0">
