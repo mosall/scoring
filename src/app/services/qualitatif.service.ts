@@ -34,6 +34,6 @@ export class QualitatifService {
   }
 
   getScoreFinal(idEntreprise: any){
-    return this.http.get(AppSettings.CIPME_SCORING_API_URL+"/api/score/final", AppSettings.httpOptions);
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL+"/api/score/final/"+idEntreprise, AppSettings.httpOptions);
   }
 }
