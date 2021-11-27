@@ -36,7 +36,7 @@ export class QualitatifComponent implements OnInit {
     responsive: true,
     scale: {
       ticks:{
-        min: 1,
+        min: 0,
         max: 5,
         stepSize: 1
       }
@@ -97,7 +97,7 @@ export class QualitatifComponent implements OnInit {
                   (data:any) => {
                     
                     this.total = data?.score_final;
-                    this.scoreFinancier.score_financier = data?.score_financier;
+                    this.scoreFinancier.score_financier = Math.round(data?.score_financier);
                     this.scoreFinancier.value = ((this.scoreFinancier.score_financier * this.scoreFinancier.ponderation) / 100).toFixed(1);
                     console.log('final', data);
                     
