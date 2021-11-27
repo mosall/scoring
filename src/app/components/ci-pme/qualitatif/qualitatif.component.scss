@@ -112,3 +112,31 @@ table th, .table td {
     padding: 0.5rem;
     // text-align: right;
 }
+
+.w-100{
+  width: 100% !important;
+}
+
+.bgc-primary{
+  background: #f78300;
+  color: #fff;
+}
+.bgc-secondary{
+  background: #006a25;
+  color: #fff;
+}
+
+button{
+  span{
+    margin-left: 0.5rem;
+  }
+}
+
+.btn-report{
+  width: 100%;
+  display: flex;
+  .btn{
+    margin-top: 8rem;
+    margin-left: auto;
+  }
+}

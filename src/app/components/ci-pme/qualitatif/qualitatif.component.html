@@ -16,7 +16,7 @@
             <p class="small text-muted">Veuillez répondre à toutes les questions !</p>
 
             <div class="row pt-3">
-              <div id="accordion">
+              <div [id]="'accordion'+p.id" class="w-100">
                 <div class="card" *ngFor="let q of p.questions">
                   <div class="card-header" id="{{q.id}}">
                     <h5 class="mb-0">
@@ -26,7 +26,7 @@
                     </h5>
                   </div>
 
-                  <div id="{{q.question?.code}}" class="collapse" [attr.aria-labelledby]="q.question?.id" data-parent="#accordion">
+                  <div id="{{q.question?.code}}" class="collapse" [attr.aria-labelledby]="q.question?.id" [attr.data-parent]="'#accordion'+p.id">
                     <div class="card-body">
                       <select class="form-control custom-select px-4 py-2" size="{{q.question?.listReponsesDTO?.length}}" [(ngModel)]="q.reponse" (change)="onSelectReponse($event, q)">
                         <option *ngFor="let r of q.question?.listReponsesDTO; let index = index" [value]="r.id">{{index+1}}) {{r.libelle}}</option>
@@ -62,6 +62,12 @@
               </tr>
               </thead>
               <tbody>
+                <tr>
+                  <td>Score Financier/Sovabilité</td>
+                  <td>{{ scoreFinancier?.score_financier }}</td>
+                  <td>{{ scoreFinancier?.ponderation }}</td>
+                  <td>{{ scoreFinancier?.value }}</td>
+                </tr>
               <tr *ngFor="let s of scores">
                   <td>{{s.parametre?.libelle}}</td>
                   <td>{{s.score }}</td>
@@ -101,10 +107,46 @@
                 [chartType]="radarChartType"
                 [legend]="true"
                 [options]="radarChartOptions"
+                [colors]="lineChartColors"
                 ></canvas>
-                <!-- [colors]="lineChartColors" -->
+                <div class="btn-report">
+                  <button type="button" class="btn bgc-secondary" data-toggle="modal" data-target="#exampleModal" >
+                    <i class="far fa-file-pdf"></i>
+                    <span>Generer le rapport</span>            
+                   </button>
+                </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
       </div>
     </div>
   </div>
