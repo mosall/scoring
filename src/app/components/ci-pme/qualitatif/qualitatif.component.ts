@@ -29,7 +29,7 @@ export class QualitatifComponent implements OnInit {
   scores: any = [];
   total: string = '';
   
-  chartLibelles: any =  ['Score Financier/Sovabilité'];
+  chartLibelles: any =  ['Score Financier/Solvabilité'];
   chartValues: ChartDataSets[] = [];
   radarChartType: ChartType = 'radar';
   radarChartOptions: RadialChartOptions = {
@@ -142,7 +142,7 @@ export class QualitatifComponent implements OnInit {
       data => {
         // this.listParameters = data;
         // @ts-ignore
-        data.sort((a: any, b: any) => a.id > b.id);
+        data.sort((a: any, b: any) => a.id - b.id);
 
         // @ts-ignore
         data.forEach(item => {
