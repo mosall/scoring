@@ -382,6 +382,10 @@ export class IndicateursComponent implements OnInit {
     }) ();
   }
 
+  roundValue(numb: any){
+    return Math.round((numb + Number.EPSILON) * 1000) / 1000;
+  }
+
 
   successMsgBox(msg: any){
     Swal.fire({
