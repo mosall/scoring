@@ -56,36 +56,36 @@
               <thead>
               <tr>
                 <th scope="col">Paramétre Qualitatif</th>
-                <th scope="col">Classe</th>
-                <th scope="col">Pondération</th>
-                <th scope="col"></th>
+                <th scope="col">Score</th>
+                <!-- <th scope="col">Pondération</th>
+                <th scope="col"></th> -->
               </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>Score Financier/Solvabilité</td>
                   <td>{{ scoreFinancier?.score_financier }}</td>
-                  <td>{{ scoreFinancier?.ponderation }}</td>
-                  <td>{{ scoreFinancier?.value }}</td>
+                  <!-- <td>{{ scoreFinancier?.ponderation }}</td>
+                  <td>{{ scoreFinancier?.value }}</td> -->
                 </tr>
               <tr *ngFor="let s of scores">
                   <td>{{s.parametre?.libelle}}</td>
                   <td>{{s.score }}</td>
-                  <td>{{s.ponderation}}%</td>
-                  <td>{{s.value}}</td>
+                  <!-- <td>{{s.ponderation}}%</td>
+                  <td>{{s.value}}</td> -->
               </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <td></td>
                   <td></td>
-                  <td></td>
-                  <td></td>
+                  <!-- <td></td>
+                  <td></td> -->
                 </tr>
                 <tr class="total">
                   <th>Score de la PME</th>
-                  <th></th>
-                  <th></th>
+                  <!-- <th></th>
+                  <th></th> -->
                   <th>{{ total }} </th>
                 </tr>
                 
