@@ -140,6 +140,13 @@ export class IndicateursComponent implements OnInit {
       raAchats: this.indicateurs[year].indicateurs[11].value,
       xdExcedentBrutExploit: this.indicateurs[year].indicateurs[12].value,
       rmChargesFinancieres: this.indicateurs[year].indicateurs[13].value,
+      daEmpruntsDettes: this.indicateurs[year].indicateurs[14].value,
+      dbDettesAcquisitions: this.indicateurs[year].indicateurs[15].value,
+      tkRevenusFinanciers: this.indicateurs[year].indicateurs[16].value,
+      tlReprisesDepreciations: this.indicateurs[year].indicateurs[17].value,
+      tmTransfertCharges: this.indicateurs[year].indicateurs[18].value,
+      rqParticipations: this.indicateurs[year].indicateurs[19].value,
+      rsImpot: this.indicateurs[year].indicateurs[20].value,
     }
 
     if(this.entreprise.indicateurAjoute){

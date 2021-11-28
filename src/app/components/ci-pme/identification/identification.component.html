@@ -41,7 +41,7 @@
                 </div>
               </div>
               <div class="col-md-6">
-                <label>Capitale sociale*</label>
+                <label>Capital Social*</label>
                 <input type="number" class="form-control" [(ngModel)]="capital">
               </div>
             </div>
@@ -49,7 +49,7 @@
             <div class="row pt-2">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Secteurs d'activité*</label>
+                  <label>Secteurs d'activités*</label>
                   <select class="form-control custom-select" [(ngModel)]="secteur">
                     <option *ngFor="let secteur of listSecteur" value="{{secteur.id}}">{{secteur.libelle}}</option>
                   </select>
@@ -57,7 +57,7 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>Régime imposition*</label>
+                  <label>Régime d'imposition*</label>
                   <select class="form-control custom-select" [(ngModel)]="regime">
                     <option value="Le régime de l’entreprenant">Le régime de l’entreprenant</option>
                     <option value="Le régime des microentreprises">Le régime des microentreprises</option>
