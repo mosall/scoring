@@ -218,7 +218,7 @@ export class IdentificationComponent implements OnInit {
       text: msg,
       showConfirmButton: false,
       timer: 5000
-    });
+    }).then(() => window.location.reload());
   }
 
   getListSecteur(){

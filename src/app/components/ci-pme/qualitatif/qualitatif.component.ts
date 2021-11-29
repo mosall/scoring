@@ -29,14 +29,14 @@ export class QualitatifComponent implements OnInit {
   scores: any = [];
   total: string = '';
   
-  chartLibelles: any =  ['Score Financier/Sovabilité'];
+  chartLibelles: any =  ['Score Financier/Solvabilité'];
   chartValues: ChartDataSets[] = [];
   radarChartType: ChartType = 'radar';
   radarChartOptions: RadialChartOptions = {
     responsive: true,
     scale: {
       ticks:{
-        min: 1,
+        min: 0,
         max: 5,
         stepSize: 1
       }
@@ -49,6 +49,9 @@ export class QualitatifComponent implements OnInit {
     },
   ];
   edit: boolean = false;
+
+  commentaire: string = '';
+  recommendation: string = '';
 
   constructor(
     private qualitatifService: QualitatifService,
@@ -81,12 +84,12 @@ export class QualitatifComponent implements OnInit {
                     for(let s of this.scores){
                       for(let p of data){
                         if(s.parametre.id == p.parametreDTO?.id){
-                            s.ponderation = p.ponderation;
-                            s.value = ((s.score * p.ponderation) / 100).toFixed(1);
+                            // s.ponderation = p.ponderation;
+                            // s.value = ((s.score * p.ponderation) / 100).toFixed(1);
                         }
-                        if(p.parametreDTO == null){
-                          this.scoreFinancier.ponderation = p.ponderation;
-                        }
+                        // if(p.parametreDTO == null){
+                        //   this.scoreFinancier.ponderation = p.ponderation;
+                        // }
                       }
                     }
                   },
@@ -96,13 +99,13 @@ export class QualitatifComponent implements OnInit {
                 this.qualitatifService.getScoreFinal(this.entreprise?.id).subscribe(
                   (data:any) => {
                     
-                    this.total = data?.score_final;
-                    this.scoreFinancier.score_financier = data?.score_financier;
+                    this.total = (data?.score_final).toFixed(1);
+                    this.scoreFinancier.score_financier = (data?.score_financier).toFixed(1);
                     this.scoreFinancier.value = ((this.scoreFinancier.score_financier * this.scoreFinancier.ponderation) / 100).toFixed(1);
                     console.log('final', data);
                     
                     const values: any = this.chartValues[0];
-                    values.data.unshift(data?.score_financier??0);
+                    values.data.unshift(data?.score_financier? data?.score_financier : 0);
                   },
                   err => console.log(err)                  
                 );
@@ -142,7 +145,7 @@ export class QualitatifComponent implements OnInit {
       data => {
         // this.listParameters = data;
         // @ts-ignore
-        data.sort((a: any, b: any) => a.id > b.id);
+        data.sort((a: any, b: any) => a.id - b.id);
 
         // @ts-ignore
         data.forEach(item => {
@@ -225,13 +228,25 @@ export class QualitatifComponent implements OnInit {
     }     
   }
 
-  open(content: any){
-
+  generateReport(){
+    const id = this.connectedUser?.entrepriseId;
+    const payload: any = {
+      commentaire: this.commentaire,
+      recommendation: this.recommendation
+    }
+    this.idService.generateReport(id, payload).subscribe(
+      (data: any) => {
+        this.idService.createDownloadPdfFileLink(data.name, data.content, (data.name.split('.'))[1]);
+        this.commentaire = '';
+        this.recommendation = '';
+      },
+      err => console.log(err)      
+    );
   }
 
   successMsgBox(msg: any){
     Swal.fire({
-      icon: 'success',
+      icon: 'success',  
       text: msg,
       showConfirmButton: false,
       timer: 5000

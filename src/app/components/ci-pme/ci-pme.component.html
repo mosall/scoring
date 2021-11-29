@@ -10,7 +10,7 @@
       <a class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/identification">Identification de la PME</a>
       <a class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-eligibilite">Questionnaire d'éligibilité</a>
       <a *ngIf="entreprise?.eligible" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/indicateurs-financiers">Indicateurs financiers</a>
-      <a class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-qualitatif">Questionnaire qualitatif</a>
+      <a *ngIf="entreprise?.eligible" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-qualitatif">Questionnaire qualitatif</a>
     </div>
 
     <div class="nav-item dropdown">
