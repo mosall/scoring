@@ -150,7 +150,7 @@ export class IndicateursComponent implements OnInit {
     if(this.connectedUser?.entrepriseId){
       this.indicateursService.saveIndicateurs(payload).subscribe(
         data => {
-          if(year != 0){
+          if(year != 2){
             $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
           }
           else {
@@ -383,7 +383,7 @@ export class IndicateursComponent implements OnInit {
   }
 
   roundValue(numb: any){
-    return Math.round((numb + Number.EPSILON) * 1000) / 1000;
+    return Math.round((numb + Number.EPSILON) * 10) / 10;
   }
 
 

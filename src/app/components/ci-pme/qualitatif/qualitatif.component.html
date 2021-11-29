@@ -1,11 +1,11 @@
-<div class="mx-5 px-5 parent">
+<div class="px-5 parent">
   <div class="card animate__animated animate__backInUp" style="border-radius: 10px">
     <div class="row" style="height: auto" *ngIf="!entreprise?.repQuali || edit">
-      <div class="col-md-3 px-4 py-5">
+      <div class="col-md-3 px-3 py-5">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a *ngFor="let p of listParameters" [ngClass]="{'active': p.id == 1}" class="nav-link"
              data-toggle="pill" href="#{{p.code}}"  role="tab" aria-controls="v-pills-home" aria-selected="true" (click)="activeTab(p.code)">
-            <span class="badge badge-light rounded-circle">{{p.id}}</span> {{p.libelle}}
+            <span class="badge badge-light rounded-circle mt-n2 font-weight-bolder">{{p.id}}</span> {{p.libelle}}
           </a>
         </div>
       </div>
@@ -20,7 +20,7 @@
                 <div class="card" *ngFor="let q of p.questions">
                   <div class="card-header" id="{{q.id}}">
                     <h5 class="mb-0">
-                      <button class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#'+q.question?.code" aria-expanded="false" [attr.aria-controls]="q.question?.code">
+                      <button class="btn btn-link" style="text-align: left !important" data-toggle="collapse" [attr.data-target]="'#'+q.question?.code" aria-expanded="false" [attr.aria-controls]="q.question?.code">
                         {{q.question?.libelle}}
                       </button>
                     </h5>
@@ -29,7 +29,11 @@
                   <div id="{{q.question?.code}}" class="collapse" [attr.aria-labelledby]="q.question?.id" [attr.data-parent]="'#accordion'+p.id">
                     <div class="card-body">
                       <select class="form-control custom-select px-4 py-2" size="{{q.question?.listReponsesDTO?.length}}" [(ngModel)]="q.reponse" (change)="onSelectReponse($event, q)">
-                        <option *ngFor="let r of q.question?.listReponsesDTO; let index = index" [value]="r.id">{{index+1}}) {{r.libelle}}</option>
+                        <option *ngFor="let r of q.question?.listReponsesDTO; let index = index" [value]="r.id">{{index+1}})
+                          <!--<span *ngIf="r.libelle.length <= 100">{{r.libelle}}</span>
+                          <span *ngIf="r.libelle.length > 100">{{r.libelle.slice(0,110)}} <br> {{r.libelle.slice(110, r.libelle.length-1)}}</span>-->
+                          {{r.libelle}}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -48,7 +52,7 @@
     <div class="row" style="height: auto" *ngIf="entreprise?.repQuali && !edit">
       <div class="col-md-12 p-5" style="background-color: #f8f8f8">
         <div class="col-md-12 d-center">
-          <h4>Score Qualitatif</h4> 
+          <h4>Score Qualitatif</h4>
         </div>
         <div class="row" >
           <div class="col-md-6">
@@ -88,7 +92,7 @@
                   <th></th>
                   <th>{{ total }} </th>
                 </tr>
-                
+
                 <tr>
                   <td></td>
                   <td></td>
@@ -101,7 +105,7 @@
             </table>
           </div>
           <div class="col-md-6">
-            <canvas baseChart 
+            <canvas baseChart
                 [datasets]="chartValues"
                 [labels]="chartLibelles"
                 [chartType]="radarChartType"
@@ -112,7 +116,7 @@
                 <div class="btn-report">
                   <button type="button" class="btn bgc-secondary" data-toggle="modal" data-target="#exampleModal" >
                     <i class="far fa-file-pdf"></i>
-                    <span>Generer le rapport</span>            
+                    <span>Generer le rapport</span>
                    </button>
                 </div>
           </div>
