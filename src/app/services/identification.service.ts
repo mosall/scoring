@@ -28,4 +28,27 @@ export class IdentificationService {
   getEntreprise(id: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises/'+id, AppSettings.httpOptions);
   }
+  
+  generateReport(id: any, payload: any){
+    return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises/'+id+'/rapport', payload, AppSettings.httpOptions);    
+  }
+
+  createDownloadPdfFileLink( filename: any, byte: any, extension: any){
+    const blob = new Blob([this.base64ToArrayBuffer(byte)], {type: 'application/' + extension});
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+  }
+
+  private base64ToArrayBuffer(base64: any) {
+    const binaryString = window.atob(base64);
+    const binaryLen = binaryString.length;
+    const bytes = new Uint8Array(binaryLen);
+    for (let i = 0; i < binaryLen; i++) {
+      const ascii = binaryString.charCodeAt(i);
+      bytes[i] = ascii;
+    }
+    return bytes;
+  }
 }

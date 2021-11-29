@@ -50,6 +50,9 @@ export class QualitatifComponent implements OnInit {
   ];
   edit: boolean = false;
 
+  commentaire: string = '';
+  recommendation: string = '';
+
   constructor(
     private qualitatifService: QualitatifService,
     private idService: IdentificationService,
@@ -225,13 +228,25 @@ export class QualitatifComponent implements OnInit {
     }     
   }
 
-  open(content: any){
-
+  generateReport(){
+    const id = this.connectedUser?.entrepriseId;
+    const payload: any = {
+      commentaire: this.commentaire,
+      recommendation: this.recommendation
+    }
+    this.idService.generateReport(id, payload).subscribe(
+      (data: any) => {
+        this.idService.createDownloadPdfFileLink(data.name, data.content, (data.name.split('.'))[1]);
+        this.commentaire = '';
+        this.recommendation = '';
+      },
+      err => console.log(err)      
+    );
   }
 
   successMsgBox(msg: any){
     Swal.fire({
-      icon: 'success',
+      icon: 'success',  
       text: msg,
       showConfirmButton: false,
       timer: 5000
