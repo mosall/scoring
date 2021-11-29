@@ -157,8 +157,12 @@ export class IndicateursComponent implements OnInit {
     if(this.connectedUser?.entrepriseId){
       this.indicateursService.saveIndicateurs(payload).subscribe(
         data => {
-          this.successMsgBox('Indicateurs enregistrés avec succès !');
-          $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
+          if(year != 0){
+            $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
+          }
+          else {
+            this.successMsgBox('Indicateurs enregistrés avec succès !');
+          }
         },
         error => {
           this.errorMsgBox(error.error);

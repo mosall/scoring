@@ -25,8 +25,8 @@
         <div class="border rounded">
           <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
-                <i class="fa fa-check-circle mr-2"></i>{{financialYear}}
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                <i class="fa fa-check-circle mr-2"></i> {{financialYear-2}}
               </a>
             </li>
 
@@ -37,80 +37,13 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link " id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-                <i class="fa fa-check-circle mr-2"></i> {{financialYear-2}}
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                <i class="fa fa-check-circle mr-2"></i>{{financialYear}}
               </a>
             </li>
           </ul>
           <div class="tab-content p-3" id="myTabContent">
-            <div class="tab-pane fade show active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-              <div class="row">
-                <div class="col-md-8">
-                  <table class="table table-bordered" style="text-align: center">
-                    <thead>
-                    <tr style="background-color: #f78300">
-                      <th style="width: 10%">Code</th>
-                      <th style="width: 30%">Nom</th>
-                      <th style="width: 30%">Source</th>
-                      <th style="width: 30%">Valeur</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let indicateur of indicateurs[0].indicateurs">
-                      <th>{{indicateur.code}}</th>
-                      <td>{{indicateur.nom}}</td>
-                      <td>{{indicateur.source}}</td>
-                      <td>
-                        <input type="number" class="form-control" style="height: 30px; text-align: right" [(ngModel)]="indicateur.value">
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="col-md-4"></div>
-              </div>
-
-              <div class="modal-footer border-0">
-                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(0)">Suivant</button>
-              </div>
-
-            </div>
-
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-              <div class="row">
-                <div class="col-md-8">
-                  <table class="table table-bordered" style="text-align: center">
-                    <thead>
-                    <tr style="background-color: #f78300">
-                      <th style="width: 10%">Code</th>
-                      <th style="width: 30%">Source</th>
-                      <th style="width: 30%">Nom</th>
-                      <th style="width: 30%">Valeur</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let indicateur of indicateurs[1].indicateurs">
-                      <th>{{indicateur.code}}</th>
-                      <td>{{indicateur.source}}</td>
-                      <td>{{indicateur.nom}}</td>
-                      <td>
-                        <input type="number" class="form-control" style="height: 30px; text-align: right" [(ngModel)]="indicateur.value">
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="col-md-4"></div>
-              </div>
-
-              <div class="modal-footer border-0">
-                <button class="btn previous-btn" (click)="nextAndPreviousCtrl()" style="background-color: #f78300; color: #ffffff">Précédent</button>
-                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(1)">Suivant</button>
-              </div>
-
-            </div>
-
-            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
               <div class="row">
                 <div class="col-md-8">
                   <table class="table table-bordered" style="text-align: center">
@@ -185,12 +118,78 @@
               </div>
 
               <div class="modal-footer border-0">
-                <button class="btn previous-btn" (click)="nextAndPreviousCtrl()" style="background-color: #f78300; color: #ffffff">Précédent</button>
-                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(2)">Valider</button>
+                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(2)">Suivant</button>
               </div>
 
             </div>
 
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              <div class="row">
+                <div class="col-md-8">
+                  <table class="table table-bordered" style="text-align: center">
+                    <thead>
+                    <tr style="background-color: #f78300">
+                      <th style="width: 10%">Code</th>
+                      <th style="width: 30%">Source</th>
+                      <th style="width: 30%">Nom</th>
+                      <th style="width: 30%">Valeur</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let indicateur of indicateurs[1].indicateurs">
+                      <th>{{indicateur.code}}</th>
+                      <td>{{indicateur.source}}</td>
+                      <td>{{indicateur.nom}}</td>
+                      <td>
+                        <input type="number" class="form-control" style="height: 30px; text-align: right" [(ngModel)]="indicateur.value">
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <div class="modal-footer border-0">
+                <button class="btn previous-btn" (click)="nextAndPreviousCtrl()" style="background-color: #f78300; color: #ffffff">Précédent</button>
+                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(1)">Suivant</button>
+              </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+              <div class="row">
+                <div class="col-md-8">
+                  <table class="table table-bordered" style="text-align: center">
+                    <thead>
+                    <tr style="background-color: #f78300">
+                      <th style="width: 10%">Code</th>
+                      <th style="width: 30%">Nom</th>
+                      <th style="width: 30%">Source</th>
+                      <th style="width: 30%">Valeur</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let indicateur of indicateurs[0].indicateurs">
+                      <th>{{indicateur.code}}</th>
+                      <td>{{indicateur.nom}}</td>
+                      <td>{{indicateur.source}}</td>
+                      <td>
+                        <input type="number" class="form-control" style="height: 30px; text-align: right" [(ngModel)]="indicateur.value">
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+
+              <div class="modal-footer border-0">
+                <button class="btn previous-btn" (click)="nextAndPreviousCtrl()" style="background-color: #f78300; color: #ffffff">Précédent</button>
+                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(0)">Valider</button>
+              </div>
+
+            </div>
           </div>
         </div>
       </div>
