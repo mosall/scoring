@@ -44,4 +44,8 @@ export class AccueilComponent implements OnInit {
     )
   }
 
+  formatNumber(num: any){
+    return Number(num.toFixed(0)).toLocaleString();
+  }
+
 }
