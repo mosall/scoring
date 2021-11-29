@@ -100,6 +100,7 @@ export class IndicateursComponent implements OnInit {
   fileToAdd: any = [];
   fileList: any = [null, null, null];
   formData = new FormData();
+  disableYear = false;
 
   constructor(private indicateursService: IndicateursService, private authService: AuthService,
               private identificationService: IdentificationService) { }
@@ -181,6 +182,7 @@ export class IndicateursComponent implements OnInit {
         this.reponsesIndicateur = data;
         // @ts-ignore
         this.financialYear = data[0]?.annee;
+        this.disableYear = this.financialYear != null;
         [0,1,2].forEach(i => this.setIndicateur(i, data));
         console.log(this.indicateurs)
       }
@@ -223,7 +225,7 @@ export class IndicateursComponent implements OnInit {
           this.indicateurs[index].file = {nomPiece: '', file: ''};
         }
       }
-    )
+    );
   }
 
   getEntreprise(){

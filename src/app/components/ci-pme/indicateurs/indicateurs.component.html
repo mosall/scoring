@@ -6,7 +6,7 @@
           <h5 class="font-weight-bold text-white">Pour renseigner vos indicateurs financiers, merci de préciser votre dernière année d'exercice comptable.</h5>
         </div>
         <div class="col-md-2">
-          <select class="form-control custom-select small" [(ngModel)]="financialYear">
+          <select class="form-control custom-select small" [disabled]="disableYear" [(ngModel)]="financialYear">
             <option *ngFor="let year of listYear" value="{{year}}">{{year}}</option>
           </select>
         </div>
@@ -209,7 +209,7 @@
       </div>
       <div class="modal-body">
         <table class="table table-bordered">
-          <caption>Score financier : {{roundValue(listRatio?.scoreDTO?.score_financier)}}</caption>
+          <caption style="font-size: 18px; font-weight: bolder">Score financier : {{roundValue(listRatio?.scoreDTO?.score_financier)}}</caption>
           <thead>
           <tr>
             <td style="width: 5%">Code</td>
@@ -222,8 +222,8 @@
             <tr *ngFor="let r of listRatio?.listValeurRatioDTO">
               <th style="width: 5%">{{r.codeRatio}}</th>
               <td>{{r.nomRatio}}</td>
-              <td>{{roundValue(r.valeur)}}</td>
-              <td style="width: 17%">{{r.classe}}</td>
+              <td style="text-align: right">{{roundValue(r.valeur)}}</td>
+              <td style="width: 17%; text-align: right">{{r.classe}}</td>
             </tr>
           </tbody>
         </table>
