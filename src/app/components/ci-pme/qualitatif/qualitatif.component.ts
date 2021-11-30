@@ -27,7 +27,7 @@ export class QualitatifComponent implements OnInit {
   scoreFinancier: any = {};
   
   scores: any = [];
-  total: string = '';
+  total: any;
   
   chartLibelles: any =  ['Score Financier/Solvabilité'];
   chartValues: ChartDataSets[] = [];
@@ -72,7 +72,7 @@ export class QualitatifComponent implements OnInit {
               (data: any) => {
                 this.scores = data;
                 
-                this.total = (data.map((d: any) => d.score).reduce((p:any, c: any) => p + c) / data.length).toFixed(1);
+                this.total = this.formatNumber((data.map((d: any) => d.score).reduce((p:any, c: any) => p + c) / data.length), 1);
                 let tab = data.sort((a:any, b:any) => a.parametre.id - b.parametre.id).map((d: any) => d.score);
                 this.chartValues = [{
                   data: tab,
@@ -99,9 +99,9 @@ export class QualitatifComponent implements OnInit {
                 this.qualitatifService.getScoreFinal(this.entreprise?.id).subscribe(
                   (data:any) => {
                     
-                    this.total = (data?.score_final).toFixed(1);
-                    this.scoreFinancier.score_financier = (data?.score_financier).toFixed(1);
-                    this.scoreFinancier.value = ((this.scoreFinancier.score_financier * this.scoreFinancier.ponderation) / 100).toFixed(1);
+                    this.total = this.formatNumber((data?.score_final), 1);
+                    this.scoreFinancier.score_financier = this.formatNumber((data?.score_financier), 1);
+                    this.scoreFinancier.value = this.formatNumber(((this.scoreFinancier.score_financier * this.scoreFinancier.ponderation) / 100), 1);
                     console.log('final', data);
                     
                     const values: any = this.chartValues[0];
@@ -242,6 +242,12 @@ export class QualitatifComponent implements OnInit {
       },
       err => console.log(err)      
     );
+  }
+
+  formatNumber(num:any, digits: any){
+    var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
+        m = num.toString().match(re);
+    return m ? parseFloat(m[1]) : (num.valueOf()).toString().includes('.') ? num.valueOf() : num.valueOf()+".0" ;
   }
 
   successMsgBox(msg: any){

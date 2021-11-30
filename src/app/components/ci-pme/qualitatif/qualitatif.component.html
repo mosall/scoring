@@ -74,7 +74,7 @@
                 </tr>
               <tr *ngFor="let s of scores">
                   <td>{{s.parametre?.libelle}}</td>
-                  <td>{{(s.score).toFixed(1) }}</td>
+                  <td>{{formatNumber((s.score), 1) }}</td>
                   <!-- <td>{{s.ponderation}}%</td>
                   <td>{{s.value}}</td> -->
               </tr>
