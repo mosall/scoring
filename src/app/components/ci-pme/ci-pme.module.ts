@@ -11,6 +11,7 @@ import { IndicateursComponent } from './indicateurs/indicateurs.component';
 import {HttpClientModule} from "@angular/common/http";
 import { ChartsModule } from 'ng2-charts';
 import { AccueilComponent } from './accueil/accueil.component';
+import { LisPmeComponent } from './lis-pme/lis-pme.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { AccueilComponent } from './accueil/accueil.component';
     EligibiliteComponent,
     QualitatifComponent,
     IndicateursComponent,
-    AccueilComponent
+    AccueilComponent,
+    LisPmeComponent
   ],
   imports: [
     CommonModule,
