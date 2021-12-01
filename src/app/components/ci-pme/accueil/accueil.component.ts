@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import {IdentificationService} from "../../../services/identification.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-accueil',
@@ -12,9 +13,11 @@ export class AccueilComponent implements OnInit {
   entreprise: any = [];
   dirigeant: any = [];
   secteur: any = '';
-  constructor(private identificationService: IdentificationService) { }
+  idEntreprise: any = '';
+  constructor(private identificationService: IdentificationService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.idEntreprise = this.activatedRoute.snapshot.params.idEntreprise;
     this.getEntreprise();
   }
 
@@ -24,15 +27,28 @@ export class AccueilComponent implements OnInit {
         Swal.showLoading();
       }
     });
-    this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
-      data => {
-        this.entreprise = data;
-        // @ts-ignore
-        this.secteur = data.secteurs[0].libelle;
-        this.getDirigeant();
-        Swal.close();
-      }
-    )
+    if(this.connectedUser.profil.code == 'ROLE_EXP_PME'){
+      this.identificationService.getEntreprise(this.idEntreprise).subscribe(
+        data => {
+          this.entreprise = data;
+          // @ts-ignore
+          this.secteur = data.secteurs[0].libelle;
+          this.getDirigeant();
+          Swal.close();
+        }
+      );
+    }
+    else {
+      this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
+        data => {
+          this.entreprise = data;
+          // @ts-ignore
+          this.secteur = data.secteurs[0].libelle;
+          this.getDirigeant();
+          Swal.close();
+        }
+      );
+    }
   }
 
   getDirigeant(){

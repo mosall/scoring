@@ -6,6 +6,7 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav mr-auto">
+      <a *ngIf="user?.profil.code == 'ROLE_EXP_PME'" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/liste-pme">Liste des entreprises</a>
       <a *ngIf="user?.entrepriseId != null" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/accueil">Accueil</a>
       <a class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/identification">Identification de la PME</a>
       <a class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-eligibilite">Questionnaire d'éligibilité</a>

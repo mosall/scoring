@@ -20,7 +20,7 @@
             <label class="mr-2">Forme Juridique: </label>{{entreprise?.formeJur?.libelle}}
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Capital social: </label>{{formatNumber(entreprise?.capital)}}
+            <label class="mr-2">Capital social: </label><span *ngIf="entreprise?.capital">{{formatNumber(entreprise?.capital)}}</span>
             <hr class="mt-lg-n2">
 
             <label class="mr-2">Secteurs d'activités: </label>{{secteur}}

@@ -11,7 +11,7 @@ import { IndicateursComponent } from './indicateurs/indicateurs.component';
 import {HttpClientModule} from "@angular/common/http";
 import { ChartsModule } from 'ng2-charts';
 import { AccueilComponent } from './accueil/accueil.component';
-import { LisPmeComponent } from './lis-pme/lis-pme.component';
+import { LisPmeComponent } from './list-pme/lis-pme.component';
 
 
 @NgModule({
@@ -30,7 +30,7 @@ import { LisPmeComponent } from './lis-pme/lis-pme.component';
     ReactiveFormsModule,
     FormsModule,
     ChartsModule,
-  
+
   ]
 })
 export class CiPmeModule { }

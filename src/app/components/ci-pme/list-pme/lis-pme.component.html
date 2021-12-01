@@ -1,0 +1,94 @@
+<div class="container-fluid parent px-5">
+  <div class="row align-items-center">
+    <div class="col-lg-12">
+      <div class="show-results mt-4">
+        <div class="float-left">
+          <h3 class="text-dark mb-4 pt-2">Liste des entreprises</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row animate__animated animate__backInUp">
+    <div class="col-lg-3">
+      <div class="left-sidebar">
+        <div class="accordion" id="accordionExample">
+          <div class="card mt-4">
+            <a data-toggle="collapse" href="#collapsethree" class="job-list" aria-expanded="true" aria-controls="collapsethree">
+              <div class="card-header" id="headingthree">
+                <h6 class="mb-0 text-dark f-18">Secteurs d'activités</h6>
+              </div>
+            </a>
+            <div id="collapsethree" class="collapse show" aria-labelledby="headingthree">
+              <div class="card-body p-0">
+                <select class="form-control custom-select px-4 py-2" size="{{listSecteur.length + 1}}" (change)="filterPme($event)">
+                  <option value="0">Tout</option>
+                  <option class="text-wrap" *ngFor="let r of listSecteur; let index = index" [value]="r.id">
+                    {{r.libelle}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-9">
+      <div class="row">
+        <div class="col-lg-4 col-md-6" *ngFor="let pme of listPme">
+          <div class="list-grid-item mt-4">
+            <div class="grid-item-content p-2">
+              <div class="employers-list-img mt-3">
+                <!--<img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="img-fluid mx-auto d-block rounded-circle">-->
+                <img src="assets/img/office-building(1).png" alt="logo" class="img-fluid mx-auto d-block ">
+              </div>
+              <div class="grid-list-desc text-center mt-4">
+                <h5 class="mb-1"><a href="#" class="text-dark">{{pme.raisonSociale}}</a></h5>
+                <p class="text-muted f-14 mb-0">{{pme.secteurs[0].libelle}}</p>
+                <p class="text-muted f-14 mb-0"><i class="mdi mdi-map-marker mr-2"></i>{{pme.adresse}}</p>
+                <ul class="employers-icons list-inline mb-1">
+                  <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star f-19"></i></a></li>
+                  <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star f-19"></i></a></li>
+                  <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star f-19"></i></a></li>
+                  <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star f-19"></i></a></li>
+                  <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star f-19"></i></a></li>
+                </ul>
+                <span class="badge badge-warning text-white">{{pme.annee}}</span>
+              </div>
+            </div>
+            <hr class="mt-0 mb-0">
+            <div class="apply-button text-center mt-2 mb-2">
+              <a (click)="gotoDetails(pme.id)" class="btn btn-custom btn-sm">Détails</a>
+            </div>
+          </div>
+        </div>
+
+        <p class="mt-4" *ngIf="listPme.length == 0">La liste des entreprises est vide !</p>
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="row">
+    <div class="col-lg-12">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination job-pagination justify-content-center mt-5 mb-5">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+              <i class="mdi mdi-chevron-double-left f-15"></i>
+            </a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">4</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">
+              <i class="mdi mdi-chevron-double-right f-15"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>-->
+</div>

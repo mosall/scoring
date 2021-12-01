@@ -6,6 +6,7 @@ import {CiPmeComponent} from "./ci-pme.component";
 import {IdentificationComponent} from "./identification/identification.component";
 import {IndicateursComponent} from "./indicateurs/indicateurs.component";
 import {AccueilComponent} from "./accueil/accueil.component";
+import {LisPmeComponent} from "./list-pme/lis-pme.component";
 
 const routes: Routes = [
   {
@@ -15,6 +16,10 @@ const routes: Routes = [
     children: [
       {
         path: 'accueil',
+        component: AccueilComponent,
+      },
+      {
+        path: 'accueil/:idEntreprise',
         component: AccueilComponent,
       },
       {
@@ -32,6 +37,10 @@ const routes: Routes = [
       {
         path: 'indicateurs-financiers',
         component: IndicateursComponent
+      },
+      {
+        path: 'liste-pme',
+        component: LisPmeComponent
       },
     ]
   }

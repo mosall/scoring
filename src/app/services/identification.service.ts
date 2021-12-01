@@ -20,17 +20,17 @@ export class IdentificationService {
   getEntreprises(id: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises', AppSettings.httpOptions);
   }
-  
+
   getDirigeant(id: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/dirigeants/entreprise/' + id, AppSettings.httpOptions);
   }
-  
+
   getEntreprise(id: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises/'+id, AppSettings.httpOptions);
   }
-  
+
   generateReport(id: any, payload: any){
-    return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises/'+id+'/rapport', payload, AppSettings.httpOptions);    
+    return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises/'+id+'/rapport', payload, AppSettings.httpOptions);
   }
 
   createDownloadPdfFileLink( filename: any, byte: any, extension: any){
@@ -50,5 +50,9 @@ export class IdentificationService {
       bytes[i] = ascii;
     }
     return bytes;
+  }
+
+  getListPme(){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises');
   }
 }
