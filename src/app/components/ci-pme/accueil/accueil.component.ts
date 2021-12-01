@@ -61,7 +61,16 @@ export class AccueilComponent implements OnInit {
   }
 
   formatNumber(num: any){
-    return Number(num.toFixed(0)).toLocaleString();
+    return Number(num.toFixed(0)).toLocaleString("fr-FR");
+  }
+
+  formatDate(date:any){
+    let formattedDate: any = new Date(date);
+    let dd = String(formattedDate.getDate()).padStart(2, '0');
+    let mm = String(formattedDate.getMonth() + 1).padStart(2, '0');
+    let yyyy = formattedDate.getFullYear();
+
+    return dd + '/' + mm + '/' + yyyy;
   }
 
 }
