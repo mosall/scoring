@@ -53,6 +53,10 @@ export class QualitatifComponent implements OnInit {
   commentaire: string = '';
   recommendation: string = '';
 
+  currentParametre: any;
+  scoreParametre: any;
+  parametre: any;
+
   constructor(
     private qualitatifService: QualitatifService,
     private idService: IdentificationService,
@@ -195,7 +199,37 @@ export class QualitatifComponent implements OnInit {
     }
       
     this.qualitatifService.saveQualitatif(payload).subscribe(
-      data => this.successMsgBox('Réponses enregistrées avec succés !'),
+      data => {
+        this.successMsgBox('Réponses enregistrées avec succés !');
+      },
+      err => this.errorMsgBox(err.error)
+    );
+  }
+  submitQuestionnaireByParametre(){
+    let payload = {
+      idEntreprise: this.connectedUser?.entrepriseId,
+      listReponse: []
+    };
+    
+    for (let q of this.listQuestions){
+      console.log(q);
+      
+      payload.listReponse.push({
+        // @ts-ignore
+        idQuestion: q.question.id, reponse: parseInt(q.reponse)
+      });
+    }
+      
+    this.qualitatifService.saveQualitatif(payload).subscribe(
+      data => {
+        this.successMsgBox('Réponses enregistrées avec succés !');
+        this.qualitatifService.getScoreParametreQualitatif(payload.idEntreprise, this.currentParametre).subscribe(
+          (data: any) => {
+            this.scoreParametre = data.score;
+          },
+          err => console.log(err)
+        );
+      },
       err => this.errorMsgBox(err.error)
     );
   }
@@ -205,6 +239,7 @@ export class QualitatifComponent implements OnInit {
   }
 
   activeTab(direction: any){
+    this.submitQuestionnaire();
     const elt = $('a[class="nav-link active"][role="tab"][data-toggle="pill"] > span[class*="badge"]');
     elt.parent().removeClass('active');
     const i = parseInt(elt[0].innerText)

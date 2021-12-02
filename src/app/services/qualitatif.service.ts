@@ -24,6 +24,10 @@ export class QualitatifService {
   saveQualitatif(payload: any){
     return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/traitement/questionnaire/qualitatif', payload, AppSettings.httpOptions);
   }
+  
+  saveQualitatifByParametre(payload: any, idParameter: any){
+    return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/traitement/questionnaire/qualitatif/parametres/'+idParameter, payload, AppSettings.httpOptions);
+  }
 
   getReponseParPME(idEntreprise: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL+'/api/traitement/questionnaire/liste-reponses/'+idEntreprise+'/qualitatif', AppSettings.httpOptions);
@@ -31,6 +35,9 @@ export class QualitatifService {
   
   getScoreQualitatif(idEntreprise: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL+'/api/score/qualitatif/'+idEntreprise, AppSettings.httpOptions);
+  }
+  getScoreParametreQualitatif(idEntreprise: any, parametreId: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL+'/api/score/qualitatif/'+idEntreprise+"/parametres/"+parametreId, AppSettings.httpOptions);
   }
 
   getScoreFinal(idEntreprise: any){
