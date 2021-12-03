@@ -6,6 +6,7 @@ import {AppRoutes} from "./app.routing";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
 import { ChartsModule } from 'ng2-charts';
+import {MatCurrencyFormatModule} from "mat-currency-format";
 
 
 @NgModule({
@@ -15,7 +16,7 @@ import { ChartsModule } from 'ng2-charts';
   imports: [
     BrowserModule, HttpClientModule,
     RouterModule.forRoot(AppRoutes),
-    ChartsModule
+    ChartsModule, MatCurrencyFormatModule
   ],
   providers: [
     {

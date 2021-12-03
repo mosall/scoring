@@ -12,6 +12,8 @@ import {HttpClientModule} from "@angular/common/http";
 import { ChartsModule } from 'ng2-charts';
 import { AccueilComponent } from './accueil/accueil.component';
 import { LisPmeComponent } from './list-pme/lis-pme.component';
+import {NgxCurrencyModule} from "ngx-currency";
+import {MatCurrencyFormatModule} from "mat-currency-format";
 
 
 @NgModule({
@@ -30,6 +32,8 @@ import { LisPmeComponent } from './list-pme/lis-pme.component';
     ReactiveFormsModule,
     FormsModule,
     ChartsModule,
+    NgxCurrencyModule,
+    MatCurrencyFormatModule,
 
   ]
 })

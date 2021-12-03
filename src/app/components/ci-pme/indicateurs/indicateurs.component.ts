@@ -154,7 +154,9 @@ export class IndicateursComponent implements OnInit {
       payload.id = this.reponsesIndicateur[year].id;
     }
 
-    if(this.connectedUser?.entrepriseId){
+    console.log(payload)
+
+    /*if(this.connectedUser?.entrepriseId){
       this.indicateursService.saveIndicateurs(payload).subscribe(
         data => {
           if(year != 0){
@@ -171,7 +173,7 @@ export class IndicateursComponent implements OnInit {
     }
     else {
       this.errorMsgBox('Veuillez identifier l\'entreprise avant d\'enregistrer les indicateurs.')
-    }
+    }*/
   }
 
   getIndicateurs(){
@@ -394,7 +396,6 @@ export class IndicateursComponent implements OnInit {
     return Math.round((numb + Number.EPSILON) * 10) / 10;
   }
 
-
   successMsgBox(msg: any){
     Swal.fire({
       icon: 'success',
@@ -413,6 +414,18 @@ export class IndicateursComponent implements OnInit {
       showConfirmButton: false,
       timer: 5000
     });
+  }
+
+  formatNumber(event: any) {
+    new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'CFA',
+      minimumFractionDigits: 2
+    }).format(event.target.value);
+
+    // event.target.value = formatter.format(event.target.value);
+    console.log(event.target);
+    // return formatter.format(event.target.value);
   }
 
 }
