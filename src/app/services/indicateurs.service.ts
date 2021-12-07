@@ -25,7 +25,7 @@ export class IndicateursService {
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + `/api/indicateurs/${id}/attachments`, AppSettings.httpOptions);
   }
 
-  saveIndicateurFile(idIndicateur: any, file: any){
-    return this.http.post(AppSettings.CIPME_SCORING_API_URL + `/api/indicateurs/${idIndicateur}/attachments`, file, AppSettings.httpOptions);
+  saveIndicateurFile(idIndicateur: any, files: any){
+    return this.http.post(AppSettings.CIPME_SCORING_API_URL + `/api/indicateurs/${idIndicateur}/attachments`, files);
   }
 }
