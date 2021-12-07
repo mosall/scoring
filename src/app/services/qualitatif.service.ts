@@ -25,7 +25,7 @@ export class QualitatifService {
     return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/traitement/questionnaire/qualitatif', payload, AppSettings.httpOptions);
   }
   
-  saveQualitatifByParametre(payload: any, idParameter: any){
+  saveQualitatifByParametre(idParameter: any, payload: any){
     return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/traitement/questionnaire/qualitatif/parametres/'+idParameter, payload, AppSettings.httpOptions);
   }
 
