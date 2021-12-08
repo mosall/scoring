@@ -39,7 +39,8 @@ export class IndicateursComponent implements OnInit {
         {code: 'RQ', nom: 'Participations des travailleurs', source: 'Compte de résultat', value: ''},
         {code: 'RS', nom: 'Impôt sur le résultat', source: 'Compte de résultat', value: ''},
       ],
-      file: {nomPiece: '', file: ''}
+      file: {nomPiece: '', file: ''},
+      hasFile: false
     },
     {
       id: null,
@@ -65,7 +66,8 @@ export class IndicateursComponent implements OnInit {
         {code: 'RQ', nom: 'Participations des travailleurs', source: 'Compte de résultat', value: ''},
         {code: 'RS', nom: 'Impôt sur le résultat', source: 'Compte de résultat', value: ''},
       ],
-      file: {nomPiece: '', file: ''}
+      file: {nomPiece: '', file: ''},
+      hasFile: false
     },
     {
       id: null,
@@ -91,12 +93,12 @@ export class IndicateursComponent implements OnInit {
         {code: 'RQ', nom: 'Participations des travailleurs', source: 'Compte de résultat', value: ''},
         {code: 'RS', nom: 'Impôt sur le résultat', source: 'Compte de résultat', value: ''},
       ],
-      file: {nomPiece: '', file: ''}
+      file: {nomPiece: '', file: ''},
+      hasFile: false
     }
   ];
   reponsesIndicateur: any = [];
   listRatio: any = [];
-
   fileToAdd: any = [];
   fileList: any = [null, null, null];
   formData = new FormData();
@@ -154,9 +156,7 @@ export class IndicateursComponent implements OnInit {
       payload.id = this.reponsesIndicateur[year].id;
     }
 
-    console.log(payload)
-
-    /*if(this.connectedUser?.entrepriseId){
+    if(this.connectedUser?.entrepriseId){
       this.indicateursService.saveIndicateurs(payload).subscribe(
         data => {
           if(year != 0){
@@ -173,7 +173,22 @@ export class IndicateursComponent implements OnInit {
     }
     else {
       this.errorMsgBox('Veuillez identifier l\'entreprise avant d\'enregistrer les indicateurs.')
-    }*/
+    }
+  }
+
+  getEntreprise(){
+    if (this.connectedUser?.entrepriseId != null){
+      this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
+        data => {
+          // @ts-ignore
+          this.entreprise = data;
+          if(this.entreprise?.indicateurAjoute){
+            this.getIndicateurs();
+            this.getRatio();
+          }
+        }
+      )
+    }
   }
 
   getIndicateurs(){
@@ -220,29 +235,16 @@ export class IndicateursComponent implements OnInit {
         // @ts-ignore
         if (data.length != 0){
           // @ts-ignore
-          this.indicateurs[index].file = {nomPiece: data.name, file: data};
+          this.indicateurs[index].file = {nomPiece: data[0].nomPiece, file: data};
+          this.indicateurs[index].hasFile = true;
         }
         else {
           // @ts-ignore
           this.indicateurs[index].file = {nomPiece: '', file: ''};
+          this.indicateurs[index].hasFile = false;
         }
       }
     );
-  }
-
-  getEntreprise(){
-    if (this.connectedUser?.entrepriseId != null){
-      this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
-        data => {
-          // @ts-ignore
-          this.entreprise = data;
-          if(this.entreprise?.indicateurAjoute){
-            this.getIndicateurs();
-            this.getRatio();
-          }
-        }
-      )
-    }
   }
 
   getRatio(){
@@ -261,25 +263,15 @@ export class IndicateursComponent implements OnInit {
     });
   }
 
-  triggerClick(){
-    const fileInput = document.getElementById('file') as HTMLInputElement;
+  triggerClick(index: any){
+    const fileInput = document.getElementById('file'+index) as HTMLInputElement;
     fileInput.click();
   }
 
   addFileToList(index: any){
-    const fileInput = document.getElementById('file') as HTMLInputElement;
+    const fileInput = document.getElementById('file'+index) as HTMLInputElement;
     // @ts-ignore
     const fileInputValue = fileInput.files[0];
-
-    /*// @ts-ignore
-    let existing = this.fileList.find(file => {
-      return file != null ? file.file.name == fileInputValue.name : undefined;
-    });
-
-    if (existing != undefined){
-      this.errorMsgBox('Ce fichier a été déjà ajouté.');
-      return;
-    }*/
 
     // @ts-ignore
     let existing = this.indicateurs[index].file.nomPiece == null ? undefined : (this.indicateurs[index].file.nomPiece == fileInputValue.name ? this.indicateurs[index].file : undefined);
@@ -289,8 +281,6 @@ export class IndicateursComponent implements OnInit {
       return;
     }
 
-    /*this.fileList.splice(index, 1);
-    this.fileList.splice(index, 0, {file: fileInputValue});*/
     // @ts-ignore
     this.indicateurs[index].file = {nomPiece: fileInputValue.name, file: fileInputValue};
     console.log(this.indicateurs[index].file);
@@ -305,16 +295,19 @@ export class IndicateursComponent implements OnInit {
   saveFiles(index: any){
     const formData = new FormData();
     formData.append('files', this.indicateurs[index].file.file, this.indicateurs[index].file.nomPiece);
-    this.indicateursService.saveIndicateurFile(this.indicateurs[index].id, formData).subscribe(
-      data => {
-        console.log('ok');
-      },
-      error => {
-        console.log('nok')
-      }
-    );
-
-    // this.fileList[index] = [];
+    if (this.indicateurs[index].id != null){
+      this.indicateursService.saveIndicateurFile(this.indicateurs[index].id, formData).subscribe(
+        data => {
+          this.successMsgBox('Le fichier a été enregistré !')
+        },
+        error => {
+          this.errorMsgBox('Une erreur est survenue, veuillez réesssayer !')
+        }
+      );
+    }
+    else {
+      this.errorMsgBox('Veuillez d\'abord enregistrer les indicateurs.')
+    }
   }
 
   showFile(){}
@@ -414,18 +407,6 @@ export class IndicateursComponent implements OnInit {
       showConfirmButton: false,
       timer: 5000
     });
-  }
-
-  formatNumber(event: any) {
-    new Intl.NumberFormat('fr-FR', {
-      style: 'currency',
-      currency: 'CFA',
-      minimumFractionDigits: 2
-    }).format(event.target.value);
-
-    // event.target.value = formatter.format(event.target.value);
-    console.log(event.target);
-    // return formatter.format(event.target.value);
   }
 
 }
