@@ -42,7 +42,9 @@
               </a>
             </li>
           </ul>
+
           <div class="tab-content p-3" id="myTabContent">
+
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
               <div class="row">
                 <div class="col-md-8">
@@ -61,7 +63,7 @@
                       <td>{{indicateur.nom}}</td>
                       <td>{{indicateur.source}}</td>
                       <td>
-                        <input class="form-control" style="height: 30px;"
+                        <input class="form-control" style="height: 30px; text-align: right"
                                matInput type="text" mvndrMatCurrencyFormat
                                [allowNegative]="true"
                                [currencyCode]="' '"
@@ -80,35 +82,22 @@
                       <p class="small text-muted" *ngIf="indicateurs[2].file?.nomPiece == ''">Aucun fichier disponible !</p>
                       <div class="row" *ngIf="indicateurs[2].file?.nomPiece != ''">
                         <div class="col-md-8">
-                          <!--{{indicateurs[2].file?.nomPiece}}-->
                           {{indicateurs[2].file.nomPiece.length > 20 ? indicateurs[2].file.nomPiece.slice(0,20) + "..." : indicateurs[2].file.nomPiece}}
                         </div>
                         <div class="col-md-4">
                           <em class="fa fa-eye small mr-3" style="color: rgba(0, 0, 0, .7)" (click)="showFile()"></em>
-                          <em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>
-                          <button class="btn btn-sm ml-lg-n2" style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[2].file.file)"><i class="fas fa-trash"></i></button>
+                          <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>
+                          <button class="btn btn-sm ml-lg-n2" style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[2].file.file)"><i class="fas fa-trash"></i></button>-->
                         </div>
                       </div>
-
-                      <!--<div *ngIf="indicateurs[2].file.nomPiece != ''">
-
-                        &lt;!&ndash;<div class="row mb-2" *ngIf="fileList[2] != null">
-                          <div class="col-md-10 small">
-                            {{fileList[2].file.name.length > 20 ? fileList[2].file.name.slice(0,20) + "..." : fileList[2].file.name}}
-                          </div>
-                          <div class="col-md-2">
-                            <button class="btn btn-sm ml-lg-n2" style="cursor: pointer; color: #dc3545;" (click)="deleteFileToFileList(fileList[2].id, 2)"><i class="fas fa-trash"></i></button>
-                          </div>
-                        </div>&ndash;&gt;
-                      </div>-->
                     </div>
 
-                    <div class="card-footer">
+                    <div class="card-footer" *ngIf="!indicateurs[2].hasFile">
                       <div class="row">
                         <div class="col-md-6 text-center">
-                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick()">
+                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(2)">
                             Choisir un fichier
-                            <input type="file" hidden  id="file" [(ngModel)]="fileToAdd" (ngModelChange)="addFileToList(2)"
+                            <input type="file" hidden  id="file2" [(ngModel)]="fileToAdd" (ngModelChange)="addFileToList(2)"
                                    accept="image/png, image/jpeg, .doc, .docx, .pdf">
                           </button>
                         </div>
@@ -145,13 +134,51 @@
                       <td>{{indicateur.source}}</td>
                       <td>{{indicateur.nom}}</td>
                       <td>
-                        <input dir="rtl" type="number" class="form-control" style="height: 30px; text-align: right" [(ngModel)]="indicateur.value">
+                        <input class="form-control" style="height: 30px; text-align: right"
+                               matInput type="text" mvndrMatCurrencyFormat
+                               [allowNegative]="true"
+                               [currencyCode]="' '"
+                               [(ngModel)]="indicateur.value">
                       </td>
                     </tr>
                     </tbody>
                   </table>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <div class="card">
+                    <div class="card-header" style="background-color: #f78300"><h6><i class="fa fa-file"></i> Etats financiers</h6></div>
+
+                    <div class="card-body">
+                      <p class="small font-italic text-success">Les formats acceptés sont: docx, xslx, pdf</p>
+                      <p class="small text-muted" *ngIf="indicateurs[1].file?.nomPiece == ''">Aucun fichier disponible !</p>
+                      <div class="row" *ngIf="indicateurs[1].file?.nomPiece != ''">
+                        <div class="col-md-8">
+                          {{indicateurs[1].file.nomPiece.length > 20 ? indicateurs[1].file.nomPiece.slice(0,20) + "..." : indicateurs[1].file.nomPiece}}
+                        </div>
+                        <div class="col-md-4">
+                          <em class="fa fa-eye small mr-3" style="color: rgba(0, 0, 0, .7)" (click)="showFile()"></em>
+                          <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>
+                          <button class="btn btn-sm ml-lg-n2" style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[1].file.file)"><i class="fas fa-trash"></i></button>-->
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-footer" *ngIf="!indicateurs[1].hasFile">
+                      <div class="row">
+                        <div class="col-md-6 text-center">
+                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(1)">
+                            Choisir un fichier
+                            <input type="file" hidden  id="file1" [(ngModel)]="fileToAdd" (ngModelChange)="addFileToList(1)"
+                                   accept="image/png, image/jpeg, .doc, .docx, .pdf">
+                          </button>
+                        </div>
+                        <div class="col-md-6 text-center">
+                          <button class="btn btn-sm text-white" (click)="saveFiles(1)" style="background-color: #006a25; font-size: 13px">Sauvegarder</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div class="modal-footer border-0">
@@ -179,13 +206,51 @@
                       <td>{{indicateur.nom}}</td>
                       <td>{{indicateur.source}}</td>
                       <td>
-                        <input dir="rtl" type="number" class="form-control" style="height: 30px; text-align: right" [(ngModel)]="indicateur.value">
+                        <input class="form-control" style="height: 30px; text-align: right"
+                               matInput type="text" mvndrMatCurrencyFormat
+                               [allowNegative]="true"
+                               [currencyCode]="' '"
+                               [(ngModel)]="indicateur.value">
                       </td>
                     </tr>
                     </tbody>
                   </table>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <div class="card">
+                    <div class="card-header" style="background-color: #f78300"><h6><i class="fa fa-file"></i> Etats financiers</h6></div>
+
+                    <div class="card-body">
+                      <p class="small font-italic text-success">Les formats acceptés sont: docx, xslx, pdf</p>
+                      <p class="small text-muted" *ngIf="indicateurs[0].file?.nomPiece == ''">Aucun fichier disponible !</p>
+                      <div class="row" *ngIf="indicateurs[0].file?.nomPiece != ''">
+                        <div class="col-md-8">
+                          {{indicateurs[0].file.nomPiece.length > 20 ? indicateurs[0].file.nomPiece.slice(0,20) + "..." : indicateurs[0].file.nomPiece}}
+                        </div>
+                        <div class="col-md-4">
+                          <em class="fa fa-eye small mr-3" style="color: rgba(0, 0, 0, .7)" (click)="showFile()"></em>
+                          <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>
+                          <button class="btn btn-sm ml-lg-n2" style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[0].file.file)"><i class="fas fa-trash"></i></button>-->
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-footer" *ngIf="!indicateurs[0].hasFile">
+                      <div class="row">
+                        <div class="col-md-6 text-center">
+                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(0)">
+                            Choisir un fichier
+                            <input type="file" hidden  id="file0" [(ngModel)]="fileToAdd" (ngModelChange)="addFileToList(0)"
+                                   accept="image/png, image/jpeg, .doc, .docx, .pdf">
+                          </button>
+                        </div>
+                        <div class="col-md-6 text-center">
+                          <button class="btn btn-sm text-white" (click)="saveFiles(0)" style="background-color: #006a25; font-size: 13px">Sauvegarder</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div class="modal-footer border-0">
@@ -194,6 +259,7 @@
               </div>
 
             </div>
+
           </div>
         </div>
       </div>
