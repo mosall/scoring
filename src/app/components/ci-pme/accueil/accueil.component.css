@@ -29,3 +29,8 @@ label {
   font-weight: 800;
   width: 11rem;
 }
+
+.total{
+  background: #f78300;
+  font-weight: bold;
+}

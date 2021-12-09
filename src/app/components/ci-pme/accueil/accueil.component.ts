@@ -21,6 +21,10 @@ export class AccueilComponent implements OnInit {
   scoreFinal: any;
   scores: any;
 
+  chartLibelles: any ;
+  chartValues: any;
+  radarChartType: any = 'radar';
+
   constructor(
     private identificationService: IdentificationService, 
     private activatedRoute: ActivatedRoute,
@@ -34,6 +38,7 @@ export class AccueilComponent implements OnInit {
     this.getScore(this.idEntreprise);
     this.getScoreQualitatif(this.idEntreprise);
     this.getRatio(this.idEntreprise);
+    // this.getRadarData();
   }
 
   getScore(id: any){
@@ -49,6 +54,7 @@ export class AccueilComponent implements OnInit {
     this.qualitatifService.getScoreQualitatif(id).subscribe(
       (data: any) => {
         this.scores = data;
+        this.getRadarData();
       },
       err => console.log(err)      
     );
@@ -62,6 +68,21 @@ export class AccueilComponent implements OnInit {
         this.listRatio = data;
       }
     )
+  }
+
+  getRadarData(){
+    const data = [];
+    data.push(this.scoreFinal?.score_financier ? this.scoreFinal?.score_financier : 0);
+    const labels = ['Score Financier/Solvabilité'];
+    this.scores?.map((s: any) => {
+      data.push(s?.score);
+      labels.push(s?.parametre?.libelle)
+    });
+    this.chartValues = [{
+      data,
+      label: 'Score qualitatif'
+    }];
+    this.chartLibelles = labels;
   }
 
   getEntreprise(){
