@@ -141,7 +141,7 @@
               <tfoot *ngIf="scoreFinal?.score_final">
                 <tr class="total">
                   <th>Score de la PME</th>
-                  <th>{{ scoreFinal?.score_final }} </th>
+                  <th>{{ formatNumberNDecimal(scoreFinal?.score_final, 1) }} </th>
                 </tr>
               </tfoot>
             </table>
