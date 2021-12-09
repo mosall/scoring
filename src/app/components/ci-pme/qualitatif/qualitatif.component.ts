@@ -72,8 +72,7 @@ export class QualitatifComponent implements OnInit {
       this.idService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
         (data: any) =>{ 
           this.entreprise = data;
-          console.log('entr', data);
-           
+                     
           this.fillReponses(this.connectedUser.entrepriseId);  
           if(data.repQuali){
             // this.edit = true;
@@ -160,7 +159,9 @@ export class QualitatifComponent implements OnInit {
               }
             }
           }
-          this.listParameters.sort((a: any, b: any) => a.id - b.id);          
+          this.listParameters.sort((a: any, b: any) => a.id - b.id);
+          console.log('QQQWREP', this.listParameters);
+                    
         },
         err => console.log(err)              
       );

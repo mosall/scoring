@@ -156,7 +156,7 @@ export class IndicateursComponent implements OnInit {
 
     console.log(payload)
 
-    /*if(this.connectedUser?.entrepriseId){
+    if(this.connectedUser?.entrepriseId){
       this.indicateursService.saveIndicateurs(payload).subscribe(
         data => {
           if(year != 0){
@@ -173,7 +173,7 @@ export class IndicateursComponent implements OnInit {
     }
     else {
       this.errorMsgBox('Veuillez identifier l\'entreprise avant d\'enregistrer les indicateurs.')
-    }*/
+    }
   }
 
   getIndicateurs(){
