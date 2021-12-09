@@ -14,6 +14,7 @@ import { AccueilComponent } from './accueil/accueil.component';
 import { LisPmeComponent } from './list-pme/lis-pme.component';
 import {NgxCurrencyModule} from "ngx-currency";
 import {MatCurrencyFormatModule} from "mat-currency-format";
+import { RadarComponent } from './radar/radar.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {MatCurrencyFormatModule} from "mat-currency-format";
     QualitatifComponent,
     IndicateursComponent,
     AccueilComponent,
-    LisPmeComponent
+    LisPmeComponent,
+    RadarComponent
   ],
   imports: [
     CommonModule,

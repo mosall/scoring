@@ -112,8 +112,7 @@ export class QualitatifComponent implements OnInit {
                     
                     this.total = this.formatNumber((data?.score_final), 1);
                     this.scoreFinancier.score_financier = this.formatNumber((data?.score_financier), 1);
-                    this.scoreFinancier.value = this.formatNumber(((this.scoreFinancier.score_financier * this.scoreFinancier.ponderation) / 100), 1);
-                    console.log('final', data);
+                    this.scoreFinancier.score_final = this.formatNumber((data?.score_final), 1);
                     
                     const values: any = this.chartValues[0];
                     values.data.unshift(data?.score_financier? data?.score_financier : 0);
@@ -160,8 +159,6 @@ export class QualitatifComponent implements OnInit {
             }
           }
           this.listParameters.sort((a: any, b: any) => a.id - b.id);
-          console.log('QQQWREP', this.listParameters);
-                    
         },
         err => console.log(err)              
       );
@@ -289,8 +286,7 @@ export class QualitatifComponent implements OnInit {
     else{
       const next = $('a[href*="#P'+(this.answeredParams)+'"] > span[class*="badge"]').parent();
       next.trigger('click');
-      this.tabIndex = this.answeredParams;
-      
+      this.tabIndex = this.answeredParams - 1;
     }   
   }
 

@@ -141,10 +141,20 @@
               <tfoot *ngIf="scoreFinal?.score_final">
                 <tr class="total">
                   <th>Score de la PME</th>
-                  <th>{{ scoreFinal?.score_final }} </th>
+                  <th>{{ formatNumberNDecimal(scoreFinal?.score_final, 1) }} </th>
                 </tr>
               </tfoot>
             </table>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="scores && scoreFinal" class="card mt-4">
+        <div class="card-body">
+          <h5 class="bloc-title">-- Radar des scores de l'entreprise --</h5>
+          <hr>
+
+          <div class="mt-2">
+            <app-radar [labels]="chartLibelles" [values]="chartValues" [chartType]="radarChartType"></app-radar>
           </div>
         </div>
       </div>
