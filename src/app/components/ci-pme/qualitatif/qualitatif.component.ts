@@ -137,6 +137,7 @@ export class QualitatifComponent implements OnInit {
     
     editScore(idEntreprise: any){
       this.edit = true;
+      this.tabIndex = 0;
       this.fillReponses(idEntreprise)
   }
 
