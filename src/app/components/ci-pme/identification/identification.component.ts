@@ -248,6 +248,13 @@ export class IdentificationComponent implements OnInit {
     }).then(() => window.location.reload());
   }
 
+  getListYear(){
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear; i >= 1950; i--){
+      this.listYear.push(i);
+    }
+  }
+
   getListSecteur(){
     let tmp: any = [];
     let tmpSelectedItems: any = [];
@@ -267,13 +274,6 @@ export class IdentificationComponent implements OnInit {
 
       }
     );
-  }
-
-  getListYear(){
-    const currentYear = new Date().getFullYear();
-    for (let i = currentYear; i >= 1950; i--){
-      this.listYear.push(i);
-    }
   }
 
   getListFormJuridique(){
