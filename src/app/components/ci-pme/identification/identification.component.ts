@@ -6,6 +6,9 @@ import {Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
 import {Nationalities} from "../../../utils/nationalities";
 declare var $: any;
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import {HttpClient} from "@angular/common/http";
+
 @Component({
   selector: 'app-identification',
   templateUrl: './identification.component.html',
@@ -47,12 +50,31 @@ export class IdentificationComponent implements OnInit {
   listNationalite = Nationalities.nationalities;
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
 
+  isPointFocal = 'non';
+
+  entreprise: any = [];
+  dropdownSecteur = [];
+  selectedSecteurs = [];
+  dropdownSettings: IDropdownSettings = {
+    singleSelection: false,
+    idField: 'item_id',
+    textField: 'item_text',
+    selectAllText: 'Sélectionner tout',
+    unSelectAllText: 'Effacer tout',
+    searchPlaceholderText: 'Rechercher...',
+    itemsShowLimit: 3,
+    allowSearchFilter: true
+  };
+
   constructor(private identificationService: IdentificationService,
               private referentielService: ReferentielService, private authService: AuthService,
-              private router: Router) { }
+              private router: Router, private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.getEntreprise();
+
     this.nextAndPreviousCtrl();
+
     this.getListYear();
     this.getListSecteur();
     this.getListFormJuridique();
@@ -62,19 +84,20 @@ export class IdentificationComponent implements OnInit {
     $('.previous-btn').click(() => {
       $('.nav-pills > .active').prev('a').trigger('click');
     });
-
-    this.getEntreprise();
   }
 
   saveEntreprise(){
     this.submittedE = true;
 
-    const paylaod = {
+    let secteurs: any = [];
+    // @ts-ignore
+    this.selectedSecteurs.forEach(item => secteurs.push(parseInt(item.item_id)));
+    const payload = {
       id: this.idEntreprise,
       raisonSociale: this.raisonSociale,
       annee: this.annee,
       capital: this.capital,
-      secteurs: [parseInt(this.secteur)],
+      secteurs,
       description: this.description,
       regime: this.regime,
       adresse: this.adresse,
@@ -83,7 +106,7 @@ export class IdentificationComponent implements OnInit {
       formeJuridique: parseInt(this.formeJur)
     }
 
-    this.identificationService.saveEntreprise(paylaod).subscribe(
+    this.identificationService.saveEntreprise(payload).subscribe(
       data => {
         // @ts-ignore
         this.idEntreprise = data.id;
@@ -95,10 +118,10 @@ export class IdentificationComponent implements OnInit {
         );
 
         $('.nav-pills > .active').next('a').trigger('click');
+        this.getEntreprise();
       },
       error => {
         this.errorMsgBox(error.error);
-        console.log(error)
       }
     );
   }
@@ -107,6 +130,7 @@ export class IdentificationComponent implements OnInit {
     if (this.connectedUser?.entrepriseId != null){
       this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
         data => {
+          this.entreprise = data;
           // @ts-ignore
           this.idEntreprise = data?.id;
           // @ts-ignore
@@ -129,6 +153,9 @@ export class IdentificationComponent implements OnInit {
           this.description = data?.description;
           // @ts-ignore
           this.adresse = data?.adresse;
+
+          // @ts-ignore
+
 
           this.getDirigeant();
         }
@@ -222,8 +249,23 @@ export class IdentificationComponent implements OnInit {
   }
 
   getListSecteur(){
+    let tmp: any = [];
+    let tmpSelectedItems: any = [];
+
     this.referentielService.getListSecteur().subscribe(
-      data => this.listSecteur = data
+      data => {
+        this.listSecteur = data;
+        // @ts-ignore
+        data.forEach(d => tmp.push({item_id: d.id, item_text: d.libelle}));
+        this.dropdownSecteur = tmp;
+
+        if (this.entreprise != []){
+          // @ts-ignore
+          this.entreprise?.secteurs?.forEach(d => tmpSelectedItems.push({item_id: d.id, item_text: d.libelle}));
+          this.selectedSecteurs = tmpSelectedItems;
+        }
+
+      }
     );
   }
 
@@ -238,5 +280,36 @@ export class IdentificationComponent implements OnInit {
     this.referentielService.getListFormJuridique().subscribe(
       data => this.listFormJurique = data
     );
+  }
+
+  pointFocalIsDirigeant(){
+    console.log(this.connectedUser);
+    if (this.isPointFocal == 'oui'){
+      this.nom = this.connectedUser.nom;
+      this.prenom = this.connectedUser.prenom;
+      this.email = this.connectedUser.email;
+      this.mobile = this.connectedUser.mobile;
+      this.idDirigeant = this.connectedUser.id;
+    }
+    else {
+      this.nom = '';
+      this.prenom = '';
+      this.email = '';
+      this.mobile = '';
+      this.idDirigeant = null;
+    }
+  }
+
+  onItemSelect(item: any) {}
+
+  onItemDeselect(){}
+
+  onSelectAll(items: any) {
+    // @ts-ignore
+    items.forEach(item => this.selectedSecteurs.push(item));
+  }
+
+  onDeselectAll(){
+    this.selectedSecteurs = [];
   }
 }

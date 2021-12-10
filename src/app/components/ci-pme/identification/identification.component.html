@@ -50,9 +50,21 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Secteurs d'activités*</label>
-                  <select class="form-control custom-select" [(ngModel)]="secteur">
+                  <!--<select class="form-control custom-select" [(ngModel)]="secteur">
                     <option *ngFor="let secteur of listSecteur" value="{{secteur.id}}">{{secteur.libelle}}</option>
-                  </select>
+                  </select>-->
+
+                  <ng-multiselect-dropdown *ngIf="dropdownSecteur.length != null"
+                    [placeholder]="'Sélectionner les secteurs'"
+                    [settings]="dropdownSettings"
+                    [data]="dropdownSecteur"
+                    [ngModel]="selectedSecteurs"
+                    (onSelect)="onItemSelect($event)"
+                    (onSelectAll)="onSelectAll($event)"
+                    (onDeSelect)="onItemDeselect()"
+                    (onDeSelectAll)="onDeselectAll()">
+                  </ng-multiselect-dropdown>
+
                 </div>
               </div>
               <div class="col-md-6">
@@ -108,6 +120,18 @@
           <div class="tab-pane fade py-4" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
             <h3 class="card-title font-weight-bold">Informations du dirigeant</h3>
             <p class="small text-muted">Tous les champs avec (*) sont obligatoires !</p>
+
+            <div class="my-3">
+              <p>Le point focal est le dirigeant</p>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="oui" [(ngModel)]="isPointFocal" (change)="pointFocalIsDirigeant()">
+                <label class="form-check-label" for="inlineRadio1">Oui</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="non" [(ngModel)]="isPointFocal" (change)="pointFocalIsDirigeant()">
+                <label class="form-check-label" for="inlineRadio2">Non</label>
+              </div>
+            </div>
 
             <div class="row pt-3">
               <div class="col-md-6">

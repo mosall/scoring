@@ -14,6 +14,7 @@ import { AccueilComponent } from './accueil/accueil.component';
 import { LisPmeComponent } from './list-pme/lis-pme.component';
 import {NgxCurrencyModule} from "ngx-currency";
 import {MatCurrencyFormatModule} from "mat-currency-format";
+import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 
 
 @NgModule({
@@ -26,15 +27,16 @@ import {MatCurrencyFormatModule} from "mat-currency-format";
     AccueilComponent,
     LisPmeComponent
   ],
-  imports: [
-    CommonModule,
-    CiPmeRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
-    ChartsModule,
-    NgxCurrencyModule,
-    MatCurrencyFormatModule,
+    imports: [
+        CommonModule,
+        CiPmeRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        ChartsModule,
+        NgxCurrencyModule,
+        MatCurrencyFormatModule,
+        NgMultiSelectDropDownModule,
 
-  ]
+    ]
 })
 export class CiPmeModule { }
