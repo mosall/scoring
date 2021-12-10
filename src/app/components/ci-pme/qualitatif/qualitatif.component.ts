@@ -53,6 +53,12 @@ export class QualitatifComponent implements OnInit {
   commentaire: string = '';
   recommendation: string = '';
 
+  currentParametre: any;
+  scoreParametre: any;
+  parametre: any;
+
+  answeredParams: number = 0;
+
   constructor(
     private qualitatifService: QualitatifService,
     private idService: IdentificationService,
@@ -65,13 +71,18 @@ export class QualitatifComponent implements OnInit {
     if(this.connectedUser?.entrepriseId){
       this.idService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
         (data: any) =>{ 
-          this.entreprise = data;         
+          this.entreprise = data;
+                     
+          this.fillReponses(this.connectedUser.entrepriseId);  
           if(data.repQuali){
             // this.edit = true;
             this.qualitatifService.getScoreQualitatif(data.id).subscribe(
               (data: any) => {
                 this.scores = data;
                 
+                this.setParametreScore(this.listParameters, data);
+                this.answeredParams != 0 && this.activeTab('');      
+
                 this.total = this.formatNumber((data.map((d: any) => d.score).reduce((p:any, c: any) => p + c) / data.length), 1);
                 let tab = data.sort((a:any, b:any) => a.parametre.id - b.parametre.id).map((d: any) => d.score);
                 this.chartValues = [{
@@ -101,13 +112,17 @@ export class QualitatifComponent implements OnInit {
                     
                     this.total = this.formatNumber((data?.score_final), 1);
                     this.scoreFinancier.score_financier = this.formatNumber((data?.score_financier), 1);
-                    this.scoreFinancier.value = this.formatNumber(((this.scoreFinancier.score_financier * this.scoreFinancier.ponderation) / 100), 1);
-                    console.log('final', data);
+                    this.scoreFinancier.score_final = this.formatNumber((data?.score_final), 1);
                     
                     const values: any = this.chartValues[0];
                     values.data.unshift(data?.score_financier? data?.score_financier : 0);
                   },
-                  err => console.log(err)                  
+                  err => {
+                    this.scoreFinancier.score_financier = '0.0';
+                    const values: any = this.chartValues[0];
+                    values.data.unshift(0);
+                    console.log(err);
+                  }                  
                 );
                 
               },
@@ -122,7 +137,12 @@ export class QualitatifComponent implements OnInit {
     
     editScore(idEntreprise: any){
       this.edit = true;
-      this.qualitatifService.getReponseParPME(idEntreprise).subscribe(
+      this.tabIndex = 0;
+      this.fillReponses(idEntreprise)
+  }
+
+  fillReponses(id: any){
+    this.qualitatifService.getReponseParPME(id).subscribe(
         (rep: any) => {                
           for(let p of this.listParameters){
             for(let q of p.questions){
@@ -131,10 +151,15 @@ export class QualitatifComponent implements OnInit {
                   q.reponse = r.id_reponse_quali;
                 } 
               });
+              
+              for(let r of q.question.listReponsesDTO){
+                if(r.id == q.reponse){
+                  q.chosen = r.libelle;
+                }
+              }
             }
           }
           this.listParameters.sort((a: any, b: any) => a.id - b.id);
-          console.log('Edit',this.listParameters);          
         },
         err => console.log(err)              
       );
@@ -152,10 +177,7 @@ export class QualitatifComponent implements OnInit {
           item.questions = [];
           this.listParameters.push(item)
           this.chartLibelles.push(item.libelle)
-        });
-
-        console.log('para', this.listParameters);
-        
+        });        
         this.getQuestion();
       }
     );
@@ -168,7 +190,7 @@ export class QualitatifComponent implements OnInit {
           // @ts-ignore
           data.forEach(question => {
             if (p.id == question.parametreDTO.id){
-              p.questions.push({question, reponse: ''});
+              p.questions.push({question, reponse: '', chosen: ''});
               // this.listQuestions.push({question, reponse: ''});
             }
           });
@@ -195,12 +217,48 @@ export class QualitatifComponent implements OnInit {
     }
       
     this.qualitatifService.saveQualitatif(payload).subscribe(
-      data => this.successMsgBox('Réponses enregistrées avec succés !'),
+      data => {
+        this.successMsgBox('Réponses enregistrées avec succés !');
+      },
       err => this.errorMsgBox(err.error)
     );
   }
 
-  onSelectReponse(event: any, question: any){    
+  submitQuestionnaireByParametre(id: any){
+    let payload = {
+      idEntreprise: this.connectedUser?.entrepriseId,
+      listReponse: []
+    };
+    
+    for (let q of this.listQuestions){
+      console.log(q);
+      
+      payload.listReponse.push({
+        // @ts-ignore
+        idQuestion: q.question.id, reponse: parseInt(q.reponse)
+      });
+    }
+      
+    this.qualitatifService.saveQualitatifByParametre(id, payload).subscribe(
+      data => {
+        this.successMsgBox('Réponses enregistrées avec succés !');
+        this.setParametreScore(this.listParameters, [data]);
+      },
+      err => this.errorMsgBox(err.error)
+    );
+  }
+
+  onSelectReponse(event: any, question: any){ 
+    const reponse = event.target.value;
+    for(let p of this.listParameters){
+      for(let q of p.questions){
+        for(let r of q.question.listReponsesDTO){
+          if(r.id == reponse){
+            q.chosen = r.libelle;
+          }
+        }   
+      }
+    }    
     this.listQuestions.push({...question, reponse: event.target.value});
   }
 
@@ -223,9 +281,14 @@ export class QualitatifComponent implements OnInit {
       next.trigger('click');
       console.log('prev', this.tabIndex);
     } 
-    else{
+    else if(direction.includes('P')){
       this.tabIndex = (direction[1] - 1)
-    }     
+    }  
+    else{
+      const next = $('a[href*="#P'+(this.answeredParams)+'"] > span[class*="badge"]').parent();
+      next.trigger('click');
+      this.tabIndex = this.answeredParams - 1;
+    }   
   }
 
   generateReport(){
@@ -242,6 +305,23 @@ export class QualitatifComponent implements OnInit {
       },
       err => console.log(err)      
     );
+  }
+
+  setParametreScore(parametres: any, scores: any){
+    for(let p of parametres){
+      for(let s of scores){
+        if(p.id == s.parametre.id){
+          p.score = this.formatNumber(s.score, 1);         
+        } 
+        if(p.score != 0 && p.id == s.parametre.id ){
+          this.answeredParams++;
+        }
+      }
+    }
+    console.log("Params Score",this.listParameters);
+    console.log('ans', !this.entreprise?.repQuali || this.edit || this.answeredParams != 7);
+    
+    
   }
 
   formatNumber(num:any, digits: any){

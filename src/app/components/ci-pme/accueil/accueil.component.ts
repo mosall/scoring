@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import {IdentificationService} from "../../../services/identification.service";
 import {ActivatedRoute} from "@angular/router";
+import { QualitatifService } from 'src/app/services/qualitatif.service';
+import { IndicateursService } from 'src/app/services/indicateurs.service';
 
 @Component({
   selector: 'app-accueil',
@@ -14,11 +16,73 @@ export class AccueilComponent implements OnInit {
   dirigeant: any = [];
   secteur: any = '';
   idEntreprise: any = '';
-  constructor(private identificationService: IdentificationService, private activatedRoute: ActivatedRoute) { }
+  score: any;
+  listRatio: any;
+  scoreFinal: any;
+  scores: any;
+
+  chartLibelles: any ;
+  chartValues: any;
+  radarChartType: any = 'radar';
+
+  constructor(
+    private identificationService: IdentificationService, 
+    private activatedRoute: ActivatedRoute,
+    private qualitatifService: QualitatifService,
+    private indicateursService: IndicateursService
+    ) { }
 
   ngOnInit(): void {
-    this.idEntreprise = this.activatedRoute.snapshot.params.idEntreprise;
+    this.idEntreprise = this.connectedUser?.entrepriseId;
     this.getEntreprise();
+    this.getScore(this.idEntreprise);
+    this.getScoreQualitatif(this.idEntreprise);
+    this.getRatio(this.idEntreprise);
+    // this.getRadarData();
+  }
+
+  getScore(id: any){
+    this.qualitatifService.getScoreFinal(id).subscribe(
+      (data: any) => {
+        this.scoreFinal = data;
+      },
+      err => console.log(err)      
+    );
+  }
+
+  getScoreQualitatif(id: any){
+    this.qualitatifService.getScoreQualitatif(id).subscribe(
+      (data: any) => {
+        this.scores = data;
+        this.getRadarData();
+      },
+      err => console.log(err)      
+    );
+  }
+
+  getRatio(id: any){
+    this.indicateursService.getRatio(id).subscribe(
+      data => {
+        // @ts-ignore
+        data.listValeurRatioDTO.sort((a: any, b: any) => a.idRatio > b.idRatio);
+        this.listRatio = data;
+      }
+    )
+  }
+
+  getRadarData(){
+    const data = [];
+    data.push(this.scoreFinal?.score_financier ? this.scoreFinal?.score_financier : 0);
+    const labels = ['Score Financier/Solvabilité'];
+    this.scores?.map((s: any) => {
+      data.push(s?.score);
+      labels.push(s?.parametre?.libelle)
+    });
+    this.chartValues = [{
+      data,
+      label: 'Score qualitatif'
+    }];
+    this.chartLibelles = labels;
   }
 
   getEntreprise(){
@@ -72,5 +136,14 @@ export class AccueilComponent implements OnInit {
 
     return dd + '/' + mm + '/' + yyyy;
   }
+  
+  roundValue(numb: any){
+    return Math.round((numb + Number.EPSILON) * 10) / 10;
+  }
 
+formatNumberNDecimal(num:any, digits: any){
+    var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
+        m = num.toString().match(re);
+    return m ? parseFloat(m[1]) : (num.valueOf()).toString().includes('.') ? num.valueOf() : num.valueOf()+".0" ;
+  }
 }

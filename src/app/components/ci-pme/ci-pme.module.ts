@@ -15,7 +15,7 @@ import { LisPmeComponent } from './list-pme/lis-pme.component';
 import {NgxCurrencyModule} from "ngx-currency";
 import {MatCurrencyFormatModule} from "mat-currency-format";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
-
+import { RadarComponent } from './radar/radar.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
     QualitatifComponent,
     IndicateursComponent,
     AccueilComponent,
-    LisPmeComponent
+    LisPmeComponent,
+    RadarComponent
   ],
     imports: [
         CommonModule,
