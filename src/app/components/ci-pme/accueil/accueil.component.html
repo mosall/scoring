@@ -23,8 +23,9 @@
             <label class="mr-2">Capital social: </label><span *ngIf="entreprise?.capital">{{formatNumber(entreprise?.capital)}}</span>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Secteurs d'activités: </label>{{secteur}}
-            <hr class="mt-lg-n2">
+            <label class="mr-2">Secteurs d'activités: </label>
+            <span *ngFor="let secteur of secteur">{{secteur.libelle}}, </span>
+            <hr class="mt-lg-n1">
 
             <label class="mr-2">Régime d'imposition: </label>{{entreprise?.regime}}
             <hr class="mt-lg-n2">

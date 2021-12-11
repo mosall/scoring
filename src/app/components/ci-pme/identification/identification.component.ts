@@ -300,9 +300,15 @@ export class IdentificationComponent implements OnInit {
     }
   }
 
-  onItemSelect(item: any) {}
+  onItemSelect(item: any) {
+    // @ts-ignore
+    this.selectedSecteurs.push(item);
+  }
 
-  onItemDeselect(){}
+  onItemDeselect(item: any){
+    // @ts-ignore
+    this.selectedSecteurs.splice(this.selectedSecteurs.indexOf(this.selectedSecteurs.find(secteur => secteur.item_id == item.item_id)), 1);
+  }
 
   onSelectAll(items: any) {
     // @ts-ignore

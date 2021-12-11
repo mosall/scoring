@@ -63,10 +63,10 @@
                       <td>{{indicateur.nom}}</td>
                       <td>{{indicateur.source}}</td>
                       <td>
-                        <input class="form-control" style="height: 30px; text-align: right"
+                        <input type="text" class="form-control" style="height: 30px; text-align: right"
                                matInput type="text" mvndrMatCurrencyFormat
                                [allowNegative]="true"
-                               [currencyCode]="' '"
+                               [currencyCode]="'XOF'"
                                [(ngModel)]="indicateur.value">
                       </td>
                     </tr>

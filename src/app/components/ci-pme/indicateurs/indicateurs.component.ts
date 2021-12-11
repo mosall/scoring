@@ -151,7 +151,9 @@ export class IndicateursComponent implements OnInit {
       rsImpot: this.indicateurs[year].indicateurs[19].value,
     }
 
-    if(this.entreprise.indicateurAjoute){
+    console.log(payload)
+
+    /*if(this.entreprise.indicateurAjoute){
       // @ts-ignore
       payload.id = this.reponsesIndicateur[year].id;
     }
@@ -173,7 +175,7 @@ export class IndicateursComponent implements OnInit {
     }
     else {
       this.errorMsgBox('Veuillez identifier l\'entreprise avant d\'enregistrer les indicateurs.')
-    }
+    }*/
   }
 
   getEntreprise(){

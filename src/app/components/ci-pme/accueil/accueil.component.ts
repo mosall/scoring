@@ -26,7 +26,7 @@ export class AccueilComponent implements OnInit {
   radarChartType: any = 'radar';
 
   constructor(
-    private identificationService: IdentificationService, 
+    private identificationService: IdentificationService,
     private activatedRoute: ActivatedRoute,
     private qualitatifService: QualitatifService,
     private indicateursService: IndicateursService
@@ -46,7 +46,7 @@ export class AccueilComponent implements OnInit {
       (data: any) => {
         this.scoreFinal = data;
       },
-      err => console.log(err)      
+      err => console.log(err)
     );
   }
 
@@ -56,7 +56,7 @@ export class AccueilComponent implements OnInit {
         this.scores = data;
         this.getRadarData();
       },
-      err => console.log(err)      
+      err => console.log(err)
     );
   }
 
@@ -96,7 +96,7 @@ export class AccueilComponent implements OnInit {
         data => {
           this.entreprise = data;
           // @ts-ignore
-          this.secteur = data.secteurs[0].libelle;
+          this.secteur = data.secteurs;
           this.getDirigeant();
           Swal.close();
         }
@@ -107,7 +107,7 @@ export class AccueilComponent implements OnInit {
         data => {
           this.entreprise = data;
           // @ts-ignore
-          this.secteur = data.secteurs[0].libelle;
+          this.secteur = data.secteurs;
           this.getDirigeant();
           Swal.close();
         }
@@ -136,7 +136,7 @@ export class AccueilComponent implements OnInit {
 
     return dd + '/' + mm + '/' + yyyy;
   }
-  
+
   roundValue(numb: any){
     return Math.round((numb + Number.EPSILON) * 10) / 10;
   }
