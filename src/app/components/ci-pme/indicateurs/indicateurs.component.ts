@@ -159,6 +159,12 @@ export class IndicateursComponent implements OnInit {
     if(this.connectedUser?.entrepriseId){
       this.indicateursService.saveIndicateurs(payload).subscribe(
         data => {
+          // @ts-ignore
+          this.indicateurs[year].id = data.id;
+          if (this.indicateurs[year].file.file != ''){
+            this.saveFiles(year);
+          }
+
           if(year != 0){
             $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
           }
@@ -301,7 +307,7 @@ export class IndicateursComponent implements OnInit {
           this.successMsgBox('Le fichier a été enregistré !')
         },
         error => {
-          this.errorMsgBox('Une erreur est survenue, veuillez réesssayer !')
+          this.errorMsgBox('Enregistrement fichier échoué, veuillez réesssayer !')
         }
       );
     }

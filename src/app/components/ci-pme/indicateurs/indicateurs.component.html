@@ -101,7 +101,7 @@
                                    accept="image/png, image/jpeg, .doc, .docx, .pdf">
                           </button>
                         </div>
-                        <div class="col-md-6 text-center">
+                        <div class="col-md-6 text-center" *ngIf="indicateurs[2].id != null">
                           <button class="btn btn-sm text-white" (click)="saveFiles(2)" style="background-color: #006a25; font-size: 13px">Sauvegarder</button>
                         </div>
                       </div>
