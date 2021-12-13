@@ -23,7 +23,7 @@ export class IdentificationComponent implements OnInit {
   regime: any = '';
   adresse: any = '';
   siteWeb: any = '';
-  logo: any = '';
+  logo: any = null;
   formeJur: any = '';
 
   idDirigeant: any = null;
@@ -160,8 +160,6 @@ export class IdentificationComponent implements OnInit {
           // @ts-ignore
           this.siteWeb = data?.siteWeb;
           // @ts-ignore
-          this.logo = data?.logo;
-          // @ts-ignore
           this.description = data?.description;
           // @ts-ignore
           this.adresse = data?.adresse;
@@ -170,9 +168,11 @@ export class IdentificationComponent implements OnInit {
 
           this.identificationService.getLogo(this.connectedUser?.entrepriseId).subscribe(
             data1 => {
-              console.log(data1)
               // @ts-ignore
-              this.logo = "data:image/png;base64,"+data1[0].contenu;
+              if (data1[0]){
+                // @ts-ignore
+                this.logo = "data:image/png;base64,"+data1[0].contenu;
+              }
             }
           );
         }
