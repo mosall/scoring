@@ -7,7 +7,12 @@
 
       <div class="card">
         <div class="card-body">
-          <h5 class="bloc-title">-- Information sur l'entreprise --</h5>
+          <div style="text-align: center">
+            <img *ngIf="logo != null" class="rounded" [src]="logo" alt="logo" style="width: 100px">
+            <h5 class="bloc-title">
+              -- Information sur l'entreprise --
+            </h5>
+          </div>
           <hr>
 
           <div class="mt-2">

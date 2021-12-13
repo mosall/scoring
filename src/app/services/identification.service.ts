@@ -17,6 +17,10 @@ export class IdentificationService {
     return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/dirigeants', payload, AppSettings.httpOptions);
   }
 
+  uploadLogo(id: any, files: any){
+    return this.http.post(AppSettings.CIPME_SCORING_API_URL + `/api/entreprises/${id}/attachments`, files);
+  }
+
   getEntreprises(id: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises', AppSettings.httpOptions);
   }
@@ -27,6 +31,10 @@ export class IdentificationService {
 
   getEntreprise(id: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises/'+id, AppSettings.httpOptions);
+  }
+
+  getLogo(id: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL + `/api/entreprises/${id}/attachments`, AppSettings.httpOptions);
   }
 
   generateReport(id: any, payload: any){

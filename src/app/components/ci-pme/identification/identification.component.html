@@ -104,10 +104,23 @@
 
               <div class="col-md-6">
                 <label>Logo</label><br>
-                <input type="text" class="form-control" [(ngModel)]="logo">
-                <!--<label class="btn" style="background-color: rgba(182,178,174,0.6);">
-                  Sélectionner un fichier <input type="file" hidden>
-                </label>-->
+                <!--<input type="text" class="form-control" [(ngModel)]="logo">-->
+                <label class="btn" style="background-color: rgba(182,178,174,0.6);">
+                  <span *ngIf="logoImg == null">Sélectionner un fichier</span>
+                  <span *ngIf="logoImg != null">{{logoImg.name}}</span>
+                  <input type="file" hidden accept="image/*" id="logoImg" (change)="addFileToList()">
+                </label>
+
+                <br>
+
+                <img *ngIf="images == null" [src]="logo">
+
+                <div class="m-1" *ngFor='let url of images'>
+                  <img [src]="url" height="100px" width="100px" style="margin: 4px; border-radius: 5px; border: 1px solid rgba(182,178,174,0.6)"> <br>
+                  <button id="deleteImage" style="cursor: pointer; border-radius: 4px; border: 1px solid rgba(182,178,174,0.6)" (click)="deleteImage()">
+                    <i class="fa fa-trash text-danger p-1" style="font-size: 20px !important"></i>
+                  </button>
+                </div>
               </div>
             </div>
 

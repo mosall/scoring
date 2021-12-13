@@ -27,8 +27,24 @@ export class LisPmeComponent implements OnInit {
       data => {
         // @ts-ignore
         data.sort((a: { id: number; }, b: { id: number; }) => a.id > b.id);
-        this.listPme = data;
-        this.listPmeTmp = data;
+        // @ts-ignore
+        for (let pme of data){
+          // console.log(pme);
+          this.identificationService.getLogo(pme.id).subscribe(
+            data1 => {
+              let logo: any = '';
+              // @ts-ignore
+              if (data1[0]){
+
+                // @ts-ignore
+                logo = "data:image/png;base64,"+data1[0].contenu;
+              }
+
+              this.listPme.push({pme, logo})
+              this.listPmeTmp.push({pme, logo})
+            }
+          );
+        }
       }
     );
   }
@@ -48,7 +64,7 @@ export class LisPmeComponent implements OnInit {
     }
     else{
       for (let pme of this.listPmeTmp){
-        if(pme.secteurs[0].id == event.target.value){
+        if(pme.pme.secteurs[0].id == event.target.value){
           this.listPme.push(pme);
         }
       }

@@ -36,13 +36,13 @@
               <div class="list-grid-item mt-4">
                 <div class="grid-item-content p-2">
                   <div class="employers-list-img mt-3">
-                    <!--<img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="img-fluid mx-auto d-block rounded-circle">-->
-                    <img src="assets/img/office-building(1).png" alt="logo" class="img-fluid mx-auto d-block ">
+                    <img *ngIf="pme.logo == ''" src="assets/img/office-building(1).png" alt="logo" class="img-fluid mx-auto d-block ">
+                    <img *ngIf="pme.logo != ''" [src]="pme.logo" alt="logo" class="img-fluid mx-auto d-block ">
                   </div>
                   <div class="grid-list-desc text-center mt-4">
-                    <h5 class="mb-1"><a href="#" class="text-dark">{{pme.raisonSociale}}</a></h5>
-                    <p class="text-muted f-14 mb-0">{{pme.secteurs[0].libelle}}</p>
-                    <p class="text-muted f-14 mb-0"><i class="mdi mdi-map-marker mr-2"></i>{{pme.adresse}}</p>
+                    <h5 class="mb-1"><a href="#" class="text-dark">{{pme.pme.raisonSociale}}</a></h5>
+                    <!--<p class="text-muted f-14 mb-0">{{pme.secteurs[0].libelle}}</p>-->
+                    <p class="text-muted f-14 mb-0"><i class="mdi mdi-map-marker mr-2"></i>{{pme.pme.adresse}}</p>
                     <ul class="employers-icons list-inline mb-1">
                       <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star f-19"></i></a></li>
                       <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star f-19"></i></a></li>
@@ -50,12 +50,12 @@
                       <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star f-19"></i></a></li>
                       <li class="list-inline-item"><a href="#" class="text-warning"><i class="mdi mdi-star f-19"></i></a></li>
                     </ul>
-                    <span class="badge badge-warning text-white">{{pme.annee}}</span>
+                    <span class="badge badge-warning text-white">{{pme.pme.annee}}</span>
                   </div>
                 </div>
                 <hr class="mt-0 mb-0">
                 <div class="apply-button text-center mt-2 mb-2">
-                  <a (click)="gotoDetails(pme.id)" class="btn btn-custom btn-sm">Détails</a>
+                  <a (click)="gotoDetails(pme.pme.id)" class="btn btn-custom btn-sm">Détails</a>
                 </div>
               </div>
             </div>

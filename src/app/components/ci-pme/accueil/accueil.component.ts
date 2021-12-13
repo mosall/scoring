@@ -25,6 +25,8 @@ export class AccueilComponent implements OnInit {
   chartValues: any;
   radarChartType: any = 'radar';
 
+  logo: any = null;
+
   constructor(
     private identificationService: IdentificationService,
     private activatedRoute: ActivatedRoute,
@@ -98,6 +100,7 @@ export class AccueilComponent implements OnInit {
           // @ts-ignore
           this.secteur = data.secteurs;
           this.getDirigeant();
+          this.getLogo();
           Swal.close();
         }
       );
@@ -109,10 +112,20 @@ export class AccueilComponent implements OnInit {
           // @ts-ignore
           this.secteur = data.secteurs;
           this.getDirigeant();
+          this.getLogo();
           Swal.close();
         }
       );
     }
+  }
+
+  getLogo(){
+    this.identificationService.getLogo(this.connectedUser?.entrepriseId).subscribe(
+      data => {
+        // @ts-ignore
+        this.logo = "data:image/png;base64,"+data[0].contenu;
+      }
+    );
   }
 
   getDirigeant(){

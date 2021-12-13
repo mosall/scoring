@@ -19,10 +19,12 @@ body{
   background-position: center center;
 }
 
+.employers-list-img {
+  height: 70px
+}
+
 .employers-list-img img {
   max-width: 80px;
-  -webkit-box-shadow: 0 0 5px 0px #d7d7d7;
-  box-shadow: 0 0 5px 0px #d7d7d7;
 }
 
 .employers-icons li {

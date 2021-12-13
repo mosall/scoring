@@ -66,6 +66,11 @@ export class IdentificationComponent implements OnInit {
     allowSearchFilter: true
   };
 
+  logoImg: any = null;
+  images: any = null;
+
+  formData = new FormData();
+
   constructor(private identificationService: IdentificationService,
               private referentielService: ReferentielService, private authService: AuthService,
               private router: Router, private http: HttpClient) { }
@@ -102,7 +107,6 @@ export class IdentificationComponent implements OnInit {
       regime: this.regime,
       adresse: this.adresse,
       siteWeb: this.siteWeb,
-      logo: this.logo,
       formeJuridique: parseInt(this.formeJur)
     }
 
@@ -112,10 +116,18 @@ export class IdentificationComponent implements OnInit {
         this.idEntreprise = data.id;
 
         this.authService.getUserInfos().subscribe(
-          data => {
-            sessionStorage.setItem('connectedUserData', JSON.stringify(data));
-          }
+          data => sessionStorage.setItem('connectedUserData', JSON.stringify(data))
         );
+
+        if (this.logoImg != null){
+          const formData = new FormData();
+          formData.append('files', this.logoImg, this.logoImg.name);
+
+          this.identificationService.uploadLogo(this.idEntreprise, formData).subscribe(
+            data => {},
+            error => this.errorMsgBox(error.error)
+          );
+        }
 
         $('.nav-pills > .active').next('a').trigger('click');
         this.getEntreprise();
@@ -154,10 +166,15 @@ export class IdentificationComponent implements OnInit {
           // @ts-ignore
           this.adresse = data?.adresse;
 
-          // @ts-ignore
-
-
           this.getDirigeant();
+
+          this.identificationService.getLogo(this.connectedUser?.entrepriseId).subscribe(
+            data1 => {
+              console.log(data1)
+              // @ts-ignore
+              this.logo = "data:image/png;base64,"+data1[0].contenu;
+            }
+          );
         }
       )
     }
@@ -245,7 +262,7 @@ export class IdentificationComponent implements OnInit {
       text: msg,
       showConfirmButton: false,
       timer: 5000
-    }).then(() => window.location.reload());
+    }).then(() => {});
   }
 
   getListYear(){
@@ -317,5 +334,23 @@ export class IdentificationComponent implements OnInit {
 
   onDeselectAll(){
     this.selectedSecteurs = [];
+  }
+
+  addFileToList(){
+    const fileInput = document.getElementById('logoImg') as HTMLInputElement;
+    // @ts-ignore
+    this.logoImg = fileInput.files[0];
+    this.images = [];
+    const reader = new FileReader();
+    reader.onload = (event:any) => {
+      // @ts-ignore
+      this.images.push(event.target.result);
+    }
+    reader.readAsDataURL(this.logoImg);
+  }
+
+  deleteImage(){
+    this.images = null;
+    this.logoImg = null;
   }
 }
