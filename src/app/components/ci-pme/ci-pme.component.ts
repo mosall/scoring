@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {IdentificationService} from "../../services/identification.service";
+import { AppSettings } from 'src/app/settings/app.settings';
 
 @Component({
   selector: 'app-ci-pme',
@@ -32,7 +33,7 @@ export class CiPmeComponent implements OnInit {
     if (token != null){
       sessionStorage.removeItem("connectedUser");
       // this.router.navigate(['/'])
-      window.location.href = 'http://217.182.185.176/administration';
+      window.location.href = AppSettings.UM_HOME;
     }
   }
 
