@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import Swal from "sweetalert2";
 import {IndicateursService} from "../../../services/indicateurs.service";
 import {IdentificationService} from "../../../services/identification.service";
 import {AuthService} from "../../../services/auth.service";
+import {DomSanitizer} from "@angular/platform-browser";
+
 declare var $: any;
 @Component({
   selector: 'app-indicateurs',
@@ -100,11 +102,14 @@ export class IndicateursComponent implements OnInit {
   reponsesIndicateur: any = [];
   listRatio: any = [];
   fileToAdd: any = [];
+  fileToShow: any = {name: '', ext: '', src: '', href: ''};
   fileList: any = [null, null, null];
   formData = new FormData();
   disableYear = false;
 
-  constructor(private indicateursService: IndicateursService, private authService: AuthService,
+  constructor(private indicateursService: IndicateursService,
+              private sanitizer: DomSanitizer,
+              private authService: AuthService,
               private identificationService: IdentificationService) { }
 
   ngOnInit(): void {
@@ -207,7 +212,7 @@ export class IndicateursComponent implements OnInit {
         this.financialYear = data[0]?.annee;
         this.disableYear = this.financialYear != null;
         [0,1,2].forEach(i => this.setIndicateur(i, data));
-        console.log(this.reponsesIndicateur)
+        // console.log(this.reponsesIndicateur)
       }
     )
   }
@@ -316,10 +321,56 @@ export class IndicateursComponent implements OnInit {
     }
   }
 
-  showFile(){}
+  showFile(file: any){
+    this.fileToShow.name  =  file.nomPiece;
+    this.fileToShow.ext   =  file.nomPiece.split('.')[1];
+    this.fileToShow.href   =  <string>this.createDownloadFileLink(file.contenu, file.nomPiece.split('.')[1]);
+
+    if (file.nomPiece.split('.')[1] == 'pdf'){
+      this.fileToShow.src = 'data:application/pdf;base64,' + file.contenu + '#toolbar=0&navpanes=0&scrollbar=0';
+    }else{
+      if (['png', 'PNG', 'jpg', 'JPG', 'jpeg', 'JPEG', 'gif', 'GIF'].includes(file.nomPiece.split('.')[1])){
+        this.fileToShow.src = 'data:image/' + file.nomPiece.split('.')[1] + ';base64,' + file.contenu;
+      }
+    }
+
+    $('#fileModal').modal('show');
+  }
+
+  escapeUnsafeURL(url: any){
+    return  this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  downloadFile(data: any) {
+    this.fileToShow.name  =  data.nomPiece;
+    this.fileToShow.ext   =  data.nomPiece.split('.')[1];
+    this.fileToShow.href  = <string>this.createDownloadFileLink(data.contenu, data.nomPiece.split('.')[1]);
+  }
+
+  createDownloadFileLink(byte: any, extension: any){
+    let blob: any = null;
+    if (['pdf', 'doc', 'docx', 'xslx'].includes(extension)){
+      blob = new Blob([this.base64ToArrayBuffer(byte)], {type: 'application/' + extension});
+    }else{
+      blob = new Blob([this.base64ToArrayBuffer(byte)], {type: 'image/' + extension});
+    }
+
+    return this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(blob));
+  }
+
+  base64ToArrayBuffer(base64: any) {
+    const binaryString = window.atob(base64);
+    const binaryLen = binaryString.length;
+    const bytes = new Uint8Array(binaryLen);
+    for (let i = 0; i < binaryLen; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+  }
 
   deleteFile(file: any){
     const idFile = file.id;
+    console.log(file)
     Swal.fire({
       title: 'Suppression',
       text: 'Êtes vous sûr de vouloir supprimer le fichier ?',
