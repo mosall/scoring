@@ -113,7 +113,7 @@
 
                 <br>
 
-                <img *ngIf="images == null && logo != ''" [src]="logo">
+                <img height="100px" width="100px" *ngIf="images == null && logo != ''" [src]="logo">
 
                 <div class="m-1" *ngFor='let url of images'>
                   <img [src]="url" height="100px" width="100px" style="margin: 4px; border-radius: 5px; border: 1px solid rgba(182,178,174,0.6)"> <br>
@@ -124,7 +124,7 @@
               </div>
             </div>
 
-            <div class="modal-footer border-0 ">
+            <div class="modal-footer border-0">
               <a class="py-2 btn next-btn" (click)="saveEntreprise()">Suivant</a>
             </div>
           </div>

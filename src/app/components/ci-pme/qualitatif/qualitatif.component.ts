@@ -25,10 +25,10 @@ export class QualitatifComponent implements OnInit {
 
   entreprise: any;
   scoreFinancier: any = {};
-  
+
   scores: any = [];
   total: any;
-  
+
   chartLibelles: any =  ['Score Financier/Solvabilité'];
   chartValues: ChartDataSets[] = [];
   radarChartType: ChartType = 'radar';
@@ -43,7 +43,7 @@ export class QualitatifComponent implements OnInit {
     }
   };
   lineChartColors: Color[] = [
-    { 
+    {
       backgroundColor: 'rgb(247 131 0 / 50%)',
       borderColor: 'rgb(247 131 0 )',
     },
@@ -67,21 +67,20 @@ export class QualitatifComponent implements OnInit {
 
   ngOnInit(): void {
     this.getParameter();
-        
+
     if(this.connectedUser?.entrepriseId){
       this.idService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
-        (data: any) =>{ 
+        (data: any) =>{
           this.entreprise = data;
-                     
-          this.fillReponses(this.connectedUser.entrepriseId);  
+
           if(data.repQuali){
             // this.edit = true;
             this.qualitatifService.getScoreQualitatif(data.id).subscribe(
               (data: any) => {
                 this.scores = data;
-                
+
                 this.setParametreScore(this.listParameters, data);
-                this.answeredParams != 0 && this.activeTab('');      
+                this.answeredParams != 0 && this.activeTab('');
 
                 this.total = this.formatNumber((data.map((d: any) => d.score).reduce((p:any, c: any) => p + c) / data.length), 1);
                 let tab = data.sort((a:any, b:any) => a.parametre.id - b.parametre.id).map((d: any) => d.score);
@@ -91,7 +90,7 @@ export class QualitatifComponent implements OnInit {
                 }];
                 // get ponderation
                 this.ref.getPonderations().subscribe(
-                  (data:any) => {                    
+                  (data:any) => {
                     for(let s of this.scores){
                       for(let p of data){
                         if(s.parametre.id == p.parametreDTO?.id){
@@ -109,11 +108,11 @@ export class QualitatifComponent implements OnInit {
                 // score final
                 this.qualitatifService.getScoreFinal(this.entreprise?.id).subscribe(
                   (data:any) => {
-                    
+
                     this.total = this.formatNumber((data?.score_final), 1);
                     this.scoreFinancier.score_financier = this.formatNumber((data?.score_financier), 1);
                     this.scoreFinancier.score_final = this.formatNumber((data?.score_final), 1);
-                    
+
                     const values: any = this.chartValues[0];
                     values.data.unshift(data?.score_financier? data?.score_financier : 0);
                   },
@@ -122,9 +121,11 @@ export class QualitatifComponent implements OnInit {
                     const values: any = this.chartValues[0];
                     values.data.unshift(0);
                     console.log(err);
-                  }                  
+                  }
                 );
-                
+
+                this.fillReponses(this.connectedUser.entrepriseId);
+
               },
               err => console.log(err)
             );
@@ -134,8 +135,8 @@ export class QualitatifComponent implements OnInit {
         );
       }
     }
-    
-    editScore(idEntreprise: any){
+
+  editScore(idEntreprise: any){
       this.edit = true;
       this.tabIndex = 0;
       this.fillReponses(idEntreprise)
@@ -143,15 +144,15 @@ export class QualitatifComponent implements OnInit {
 
   fillReponses(id: any){
     this.qualitatifService.getReponseParPME(id).subscribe(
-        (rep: any) => {                
+        (rep: any) => {
           for(let p of this.listParameters){
             for(let q of p.questions){
               rep.forEach((r: any) => {
                 if( q.question.id === r.idQuestion){
                   q.reponse = r.id_reponse_quali;
-                } 
+                }
               });
-              
+
               for(let r of q.question.listReponsesDTO){
                 if(r.id == q.reponse){
                   q.chosen = r.libelle;
@@ -161,7 +162,7 @@ export class QualitatifComponent implements OnInit {
           }
           this.listParameters.sort((a: any, b: any) => a.id - b.id);
         },
-        err => console.log(err)              
+        err => console.log(err)
       );
   }
 
@@ -177,7 +178,7 @@ export class QualitatifComponent implements OnInit {
           item.questions = [];
           this.listParameters.push(item)
           this.chartLibelles.push(item.libelle)
-        });        
+        });
         this.getQuestion();
       }
     );
@@ -199,23 +200,21 @@ export class QualitatifComponent implements OnInit {
     );
   }
 
-
-
   submitQuestionnaire(){
     let payload = {
       idEntreprise: this.connectedUser?.entrepriseId,
       listReponse: []
     };
-    
+
     for (let q of this.listQuestions){
       console.log(q);
-      
+
       payload.listReponse.push({
         // @ts-ignore
         idQuestion: q.question.id, reponse: parseInt(q.reponse)
       });
     }
-      
+
     this.qualitatifService.saveQualitatif(payload).subscribe(
       data => {
         this.successMsgBox('Réponses enregistrées avec succés !');
@@ -229,16 +228,16 @@ export class QualitatifComponent implements OnInit {
       idEntreprise: this.connectedUser?.entrepriseId,
       listReponse: []
     };
-    
+
     for (let q of this.listQuestions){
       console.log(q);
-      
+
       payload.listReponse.push({
         // @ts-ignore
         idQuestion: q.question.id, reponse: parseInt(q.reponse)
       });
     }
-      
+
     this.qualitatifService.saveQualitatifByParametre(id, payload).subscribe(
       data => {
         this.successMsgBox('Réponses enregistrées avec succés !');
@@ -248,7 +247,7 @@ export class QualitatifComponent implements OnInit {
     );
   }
 
-  onSelectReponse(event: any, question: any){ 
+  onSelectReponse(event: any, question: any){
     const reponse = event.target.value;
     for(let p of this.listParameters){
       for(let q of p.questions){
@@ -256,9 +255,9 @@ export class QualitatifComponent implements OnInit {
           if(r.id == reponse){
             q.chosen = r.libelle;
           }
-        }   
+        }
       }
-    }    
+    }
     this.listQuestions.push({...question, reponse: event.target.value});
   }
 
@@ -280,15 +279,15 @@ export class QualitatifComponent implements OnInit {
       this.tabIndex -= 1;
       next.trigger('click');
       console.log('prev', this.tabIndex);
-    } 
+    }
     else if(direction.includes('P')){
       this.tabIndex = (direction[1] - 1)
-    }  
+    }
     else{
       const next = $('a[href*="#P'+(this.answeredParams)+'"] > span[class*="badge"]').parent();
       next.trigger('click');
       this.tabIndex = this.answeredParams - 1;
-    }   
+    }
   }
 
   generateReport(){
@@ -303,7 +302,7 @@ export class QualitatifComponent implements OnInit {
         this.commentaire = '';
         this.recommendation = '';
       },
-      err => console.log(err)      
+      err => console.log(err)
     );
   }
 
@@ -311,17 +310,15 @@ export class QualitatifComponent implements OnInit {
     for(let p of parametres){
       for(let s of scores){
         if(p.id == s.parametre.id){
-          p.score = this.formatNumber(s.score, 1);         
-        } 
+          p.score = this.formatNumber(s.score, 1);
+        }
         if(p.score != 0 && p.id == s.parametre.id ){
           this.answeredParams++;
         }
       }
     }
-    console.log("Params Score",this.listParameters);
-    console.log('ans', !this.entreprise?.repQuali || this.edit || this.answeredParams != 7);
-    
-    
+    // console.log("Params Score",this.listParameters);
+    // console.log('ans', !this.entreprise?.repQuali || this.edit || this.answeredParams != 7);
   }
 
   formatNumber(num:any, digits: any){
@@ -332,7 +329,7 @@ export class QualitatifComponent implements OnInit {
 
   successMsgBox(msg: any){
     Swal.fire({
-      icon: 'success',  
+      icon: 'success',
       text: msg,
       showConfirmButton: false,
       timer: 5000
@@ -349,6 +346,5 @@ export class QualitatifComponent implements OnInit {
       timer: 5000
     });
   }
-  
 
 }

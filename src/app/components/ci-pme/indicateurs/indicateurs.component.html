@@ -82,12 +82,14 @@
                       <p class="small text-muted" *ngIf="indicateurs[2].file?.nomPiece == ''">Aucun fichier disponible !</p>
                       <div class="row" *ngIf="indicateurs[2].file?.nomPiece != ''">
                         <div class="col-md-8">
-                          {{indicateurs[2].file.nomPiece.length > 20 ? indicateurs[2].file.nomPiece.slice(0,20) + "..." : indicateurs[2].file.nomPiece}}
+                          <span data-toggle="tooltip" data-placement="bottom" title="{{indicateurs[2].file.nomPiece}}" style="cursor: pointer;">
+                            {{indicateurs[2].file.nomPiece.length > 20 ? indicateurs[2].file.nomPiece.slice(0,20) + "..." : indicateurs[2].file.nomPiece}}
+                          </span>
                         </div>
                         <div class="col-md-4">
                           <em class="fa fa-eye small mr-3" style="color: rgba(0, 0, 0, .7)" (click)="showFile()"></em>
-                          <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>
-                          <button class="btn btn-sm ml-lg-n2" style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[2].file.file)"><i class="fas fa-trash"></i></button>-->
+                          <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>-->
+                          <button class="btn btn-sm ml-lg-n2" style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[2].file.file[0])"><i class="fas fa-trash"></i></button>
                         </div>
                       </div>
                     </div>
@@ -98,7 +100,7 @@
                           <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(2)">
                             Choisir un fichier
                             <input type="file" hidden  id="file2" [(ngModel)]="fileToAdd" (ngModelChange)="addFileToList(2)"
-                                   accept="image/png, image/jpeg, .doc, .docx, .pdf">
+                                   accept="image/png, image/jpeg, image/jpg, .doc, .docx, .pdf, .xlsx">
                           </button>
                         </div>
                         <div class="col-md-6 text-center" *ngIf="indicateurs[2].id != null">
@@ -153,12 +155,14 @@
                       <p class="small text-muted" *ngIf="indicateurs[1].file?.nomPiece == ''">Aucun fichier disponible !</p>
                       <div class="row" *ngIf="indicateurs[1].file?.nomPiece != ''">
                         <div class="col-md-8">
-                          {{indicateurs[1].file.nomPiece.length > 20 ? indicateurs[1].file.nomPiece.slice(0,20) + "..." : indicateurs[1].file.nomPiece}}
+                          <span data-toggle="tooltip" data-placement="bottom" title="{{indicateurs[1].file.nomPiece}}" style="cursor: pointer;">
+                            {{indicateurs[1].file.nomPiece.length > 20 ? indicateurs[1].file.nomPiece.slice(0,20) + "..." : indicateurs[1].file.nomPiece}}
+                          </span>
                         </div>
                         <div class="col-md-4">
                           <em class="fa fa-eye small mr-3" style="color: rgba(0, 0, 0, .7)" (click)="showFile()"></em>
-                          <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>
-                          <button class="btn btn-sm ml-lg-n2" style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[1].file.file)"><i class="fas fa-trash"></i></button>-->
+                          <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>-->
+                          <button class="btn btn-sm ml-lg-n2" style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[1].file.file[0])"><i class="fas fa-trash"></i></button>
                         </div>
                       </div>
                     </div>
@@ -169,10 +173,10 @@
                           <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(1)">
                             Choisir un fichier
                             <input type="file" hidden  id="file1" [(ngModel)]="fileToAdd" (ngModelChange)="addFileToList(1)"
-                                   accept="image/png, image/jpeg, .doc, .docx, .pdf">
+                                   accept="image/png, image/jpeg, image/jpg, .doc, .docx, .pdf, .xlsx">
                           </button>
                         </div>
-                        <div class="col-md-6 text-center">
+                        <div class="col-md-6 text-center" *ngIf="indicateurs[1].id != null">
                           <button class="btn btn-sm text-white" (click)="saveFiles(1)" style="background-color: #006a25; font-size: 13px">Sauvegarder</button>
                         </div>
                       </div>
@@ -225,12 +229,14 @@
                       <p class="small text-muted" *ngIf="indicateurs[0].file?.nomPiece == ''">Aucun fichier disponible !</p>
                       <div class="row" *ngIf="indicateurs[0].file?.nomPiece != ''">
                         <div class="col-md-8">
-                          {{indicateurs[0].file.nomPiece.length > 20 ? indicateurs[0].file.nomPiece.slice(0,20) + "..." : indicateurs[0].file.nomPiece}}
+                          <span data-toggle="tooltip" data-placement="bottom" title="{{indicateurs[0].file.nomPiece}}" style="cursor: pointer;">
+                            {{indicateurs[0].file.nomPiece.length > 20 ? indicateurs[0].file.nomPiece.slice(0,20) + "..." : indicateurs[0].file.nomPiece}}
+                          </span>
                         </div>
                         <div class="col-md-4">
                           <em class="fa fa-eye small mr-3" style="color: rgba(0, 0, 0, .7)" (click)="showFile()"></em>
-                          <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>
-                          <button class="btn btn-sm ml-lg-n2" style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[0].file.file)"><i class="fas fa-trash"></i></button>-->
+                          <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>-->
+                          <button class="btn btn-sm ml-lg-n2" style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[0].file.file[0])"><i class="fas fa-trash"></i></button>
                         </div>
                       </div>
                     </div>
@@ -241,10 +247,10 @@
                           <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(0)">
                             Choisir un fichier
                             <input type="file" hidden  id="file0" [(ngModel)]="fileToAdd" (ngModelChange)="addFileToList(0)"
-                                   accept="image/png, image/jpeg, .doc, .docx, .pdf">
+                                   accept="image/png, image/jpeg, image/jpg, .doc, .docx, .pdf, .xlsx">
                           </button>
                         </div>
-                        <div class="col-md-6 text-center">
+                        <div class="col-md-6 text-center" *ngIf="indicateurs[0].id != null">
                           <button class="btn btn-sm text-white" (click)="saveFiles(0)" style="background-color: #006a25; font-size: 13px">Sauvegarder</button>
                         </div>
                       </div>

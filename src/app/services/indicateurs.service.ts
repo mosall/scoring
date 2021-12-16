@@ -28,4 +28,8 @@ export class IndicateursService {
   saveIndicateurFile(idIndicateur: any, files: any){
     return this.http.post(AppSettings.CIPME_SCORING_API_URL + `/api/indicateurs/${idIndicateur}/attachments`, files);
   }
+
+  deleteIndicateurFile(idIndicateur: any, idFile: any){
+    return this.http.delete(AppSettings.CIPME_SCORING_API_URL + `/api/indicateurs/${idIndicateur}/attachments/${idFile}`, AppSettings.httpOptions);
+  }
 }

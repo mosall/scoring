@@ -161,7 +161,7 @@ export class IndicateursComponent implements OnInit {
         data => {
           // @ts-ignore
           this.indicateurs[year].id = data.id;
-          if (this.indicateurs[year].file.file != ''){
+          if (this.indicateurs[year].file.file != '' && !this.indicateurs[year].hasFile){
             this.saveFiles(year);
           }
 
@@ -207,7 +207,7 @@ export class IndicateursComponent implements OnInit {
         this.financialYear = data[0]?.annee;
         this.disableYear = this.financialYear != null;
         [0,1,2].forEach(i => this.setIndicateur(i, data));
-        console.log(this.indicateurs)
+        console.log(this.reponsesIndicateur)
       }
     )
   }
@@ -318,8 +318,8 @@ export class IndicateursComponent implements OnInit {
 
   showFile(){}
 
-  deleteFile(idFile: any){
-    console.log(idFile);
+  deleteFile(file: any){
+    const idFile = file.id;
     Swal.fire({
       title: 'Suppression',
       text: 'Êtes vous sûr de vouloir supprimer le fichier ?',
@@ -332,15 +332,14 @@ export class IndicateursComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         // tslint:disable-next-line:triple-equals
-        /*this.ecourrier.deleteFile(this.idCourrier, idFile, [
+        this.indicateursService.deleteIndicateurFile(this.entreprise?.id, idFile).subscribe(
           (resp) => {
-            console.log(resp);
-            this.getMail();
+            this.getIndicateurs();
           },
           (err) => {
-            this.errorMsgAlert(err.error);
+            this.errorMsgBox(err.error);
           }
-        ]);*/
+        );
       }
     });
   }
@@ -402,7 +401,11 @@ export class IndicateursComponent implements OnInit {
       showConfirmButton: false,
       timer: 5000
     }).then(
-      ()=> window.location.reload()
+      ()=> {
+        if (!msg.startsWith('Le')){
+          window.location.reload();
+        }
+      }
     );
   }
 
