@@ -385,9 +385,16 @@ export class IndicateursComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         // tslint:disable-next-line:triple-equals
-        this.indicateursService.deleteIndicateurFile(this.entreprise?.id, idFile).subscribe(
+        this.indicateursService.deleteIndicateurFile(file.indicateur.id, idFile).subscribe(
           (resp) => {
-            this.getIndicateurs();
+            Swal.fire({
+              icon: 'success',
+              text: 'Fichier supprimé !',
+              showConfirmButton: false,
+              timer: 5000
+            }).then(
+              ()=> this.getIndicateurs()
+            );
           },
           (err) => {
             this.errorMsgBox(err.error);
