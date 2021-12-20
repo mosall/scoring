@@ -8,7 +8,6 @@ import {IdentificationComponent} from "./identification/identification.component
 import {EligibiliteComponent} from "./eligibilite/eligibilite.component";
 import {QualitatifComponent} from "./qualitatif/qualitatif.component";
 import { IndicateursComponent } from './indicateurs/indicateurs.component';
-import {HttpClientModule} from "@angular/common/http";
 import { ChartsModule } from 'ng2-charts';
 import { AccueilComponent } from './accueil/accueil.component';
 import { LisPmeComponent } from './list-pme/lis-pme.component';
@@ -16,6 +15,7 @@ import {NgxCurrencyModule} from "ngx-currency";
 import {MatCurrencyFormatModule} from "mat-currency-format";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import { RadarComponent } from './radar/radar.component';
+import {PdfViewerModule} from "ng2-pdf-viewer";
 
 @NgModule({
   declarations: [
@@ -28,16 +28,16 @@ import { RadarComponent } from './radar/radar.component';
     LisPmeComponent,
     RadarComponent
   ],
-    imports: [
-        CommonModule,
-        CiPmeRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        ChartsModule,
-        NgxCurrencyModule,
-        MatCurrencyFormatModule,
-        NgMultiSelectDropDownModule,
-
-    ]
+  imports: [
+    CommonModule,
+    CiPmeRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ChartsModule,
+    NgxCurrencyModule,
+    MatCurrencyFormatModule,
+    NgMultiSelectDropDownModule,
+    PdfViewerModule,
+  ]
 })
 export class CiPmeModule { }

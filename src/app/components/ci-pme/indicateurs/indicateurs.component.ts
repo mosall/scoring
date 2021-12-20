@@ -334,7 +334,9 @@ export class IndicateursComponent implements OnInit {
       }
     }
 
-    $('#fileModal').modal('show');
+    if (['pdf', 'png', 'PNG', 'jpg', 'JPG', 'jpeg', 'JPEG', 'gif', 'GIF'].includes(file.nomPiece.split('.')[1])){
+      $('#fileModal').modal('show');
+    }
   }
 
   escapeUnsafeURL(url: any){

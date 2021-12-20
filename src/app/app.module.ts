@@ -8,6 +8,7 @@ import {AuthInterceptor} from "./interceptors/auth.interceptor";
 import { ChartsModule } from 'ng2-charts';
 import {MatCurrencyFormatModule} from "mat-currency-format";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
+import {PdfViewerModule} from "ng2-pdf-viewer";
 
 
 @NgModule({
@@ -15,7 +16,7 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
     AppComponent,
   ],
   imports: [
-    BrowserModule, HttpClientModule,
+    BrowserModule, HttpClientModule, PdfViewerModule,
     RouterModule.forRoot(AppRoutes),
     ChartsModule, MatCurrencyFormatModule,
     NgMultiSelectDropDownModule.forRoot()

@@ -87,10 +87,10 @@
                           </span>
                         </div>
                         <div class="col-md-4">
-                          <!--<button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Voir"
+                          <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Voir"
                                   style="cursor: pointer; color: rgba(0, 0, 0, .7);" (click)="showFile(indicateurs[2].file.file[0])">
                             <i class="fa fa-eye"></i>
-                          </button>-->
+                          </button>
                           <button class="btn btn-sm ml-lg-n2 text-primary" data-toggle="tooltip" data-placement="bottom" title="Télécharger"
                                   style="cursor: pointer;" (click)="downloadFile(indicateurs[2].file.file[0])">
                             <a [href]="fileToShow.href" [download]="fileToShow.name">
@@ -98,10 +98,10 @@
                             </a>
                           </button>
                           <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>-->
-                          <!--<button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
+                          <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
                                   style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[2].file.file[0])">
                             <i class="fas fa-trash"></i>
-                          </button>-->
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -172,10 +172,10 @@
                           </span>
                         </div>
                         <div class="col-md-4">
-                          <!--<button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Voir"
+                          <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Voir"
                                   style="cursor: pointer; color: rgba(0, 0, 0, .7);" (click)="showFile(indicateurs[1].file.file[0])">
                             <i class="fa fa-eye"></i>
-                          </button>-->
+                          </button>
                           <button class="btn btn-sm ml-lg-n2 text-primary" data-toggle="tooltip" data-placement="bottom" title="Télécharger"
                                   style="cursor: pointer;" (click)="downloadFile(indicateurs[1].file.file[0])">
                             <a [href]="fileToShow.href" [download]="fileToShow.name">
@@ -183,10 +183,10 @@
                             </a>
                           </button>
                           <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>-->
-                          <!--<button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
+                          <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
                                   style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[1].file.file[0])">
                             <i class="fas fa-trash"></i>
-                          </button>-->
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -258,10 +258,10 @@
                           </span>
                         </div>
                         <div class="col-md-4">
-                          <!--<button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Voir"
+                          <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Voir"
                                   style="cursor: pointer; color: rgba(0, 0, 0, .7);" (click)="showFile(indicateurs[0].file.file[0])">
                             <i class="fa fa-eye"></i>
-                          </button>-->
+                          </button>
                           <button class="btn btn-sm ml-lg-n2 text-primary" data-toggle="tooltip" data-placement="bottom" title="Télécharger"
                                   style="cursor: pointer;" (click)="downloadFile(indicateurs[0].file.file[0])">
                             <a [href]="fileToShow.href" [download]="fileToShow.name">
@@ -269,10 +269,10 @@
                             </a>
                           </button>
                           <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>-->
-                          <!--<button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
+                          <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
                                   style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[0].file.file[0])">
                             <i class="fas fa-trash"></i>
-                          </button>-->
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -360,9 +360,15 @@
         <img *ngIf="['png', 'PNG', 'jpg', 'JPG', 'jpeg', 'JPEG', 'gif', 'GIF'].includes(fileToShow.ext)"
              [src]="escapeUnsafeURL(fileToShow.src)" alt="{{fileToShow.name}}" width="70%">
 
-        <iframe title="myIframe" *ngIf="fileToShow.ext == 'pdf'"
-                [src]="escapeUnsafeURL(fileToShow.src)" type="application/pdf" control="false" width="100%" height="800px">
-        </iframe>
+        <pdf-viewer *ngIf="fileToShow.ext == 'pdf'"
+          [src]="fileToShow.src"
+          [rotation]="0"
+          [fit-to-page]="true"
+          [original-size]="true"
+          [show-all]="true"
+          style="width:100%;min-height:600px;display:block">
+        </pdf-viewer>
+
       </div>
     </div>
   </div>
