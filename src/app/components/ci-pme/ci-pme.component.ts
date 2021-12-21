@@ -3,6 +3,8 @@ import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {IdentificationService} from "../../services/identification.service";
 import { AppSettings } from 'src/app/settings/app.settings';
+import { DemandeService } from 'src/app/services/demande.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ci-pme',
@@ -13,8 +15,10 @@ export class CiPmeComponent implements OnInit {
   user: any = null;
   entreprise: any = null;
   currentYear = new Date().getFullYear();
+  demande: any;
   constructor(private authService: AuthService, private router: Router,
-              private identificationService: IdentificationService,) { }
+              private identificationService: IdentificationService,
+              private demandeService: DemandeService) { }
 
   ngOnInit(): void {
     this.authService.getUserInfos().subscribe(
@@ -23,9 +27,11 @@ export class CiPmeComponent implements OnInit {
         this.user = data;
         if (this.user.entrepriseId != null){
           this.getEntreprise();
+          this.getDemandeEnCours(this.user?.entrepriseId);
         }
       }
     );
+
   }
 
   logout(){
@@ -41,6 +47,42 @@ export class CiPmeComponent implements OnInit {
     this.identificationService.getEntreprise(this.user?.entrepriseId).subscribe(
       data => this.entreprise = data
     )
+  }
+  
+  getDemandeEnCours(idEntreprise: any){
+    this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
+      (data: any) => this.demande = data,
+      err => console.log(err)      
+    );
+  }
+
+  createDemande(){
+    this.demandeService.createDemande(this.user?.entrepriseId).subscribe(
+      data => {
+        this.successMsgBox('Une demande de scoring a été bien créée.');
+      },
+      err => console.log(err)      
+    );
+  }
+
+  successMsgBox(msg: any){
+    Swal.fire({
+      icon: 'success',
+      text: msg,
+      showConfirmButton: false,
+      timer: 5000
+    }).then(
+      ()=> window.location.reload()
+    );
+  }
+
+  errorMsgBox(msg: any){
+    Swal.fire({
+      icon: 'warning',
+      text: msg,
+      showConfirmButton: false,
+      timer: 5000
+    });
   }
 
 }

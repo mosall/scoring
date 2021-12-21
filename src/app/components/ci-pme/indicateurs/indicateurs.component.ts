@@ -4,6 +4,7 @@ import {IndicateursService} from "../../../services/indicateurs.service";
 import {IdentificationService} from "../../../services/identification.service";
 import {AuthService} from "../../../services/auth.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import { DemandeService } from 'src/app/services/demande.service';
 
 declare var $: any;
 @Component({
@@ -106,20 +107,31 @@ export class IndicateursComponent implements OnInit {
   fileList: any = [null, null, null];
   formData = new FormData();
   disableYear = false;
+  demande: any;
 
   constructor(private indicateursService: IndicateursService,
               private sanitizer: DomSanitizer,
               private authService: AuthService,
-              private identificationService: IdentificationService) { }
+              private identificationService: IdentificationService,
+              private demandeService: DemandeService
+  ) { }
 
   ngOnInit(): void {
     this.getListYear();
     this.getEntreprise();
 
     this.authService.getUserInfos().subscribe(
-      data => {
+      (data: any) => {
         sessionStorage.setItem('connectedUserData', JSON.stringify(data));
+        this.getDemandeEnCours(data?.entrepriseId)
       }
+    );
+  }
+
+  getDemandeEnCours(idEntreprise: any){
+    this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
+      (data: any) => this.demande = data,
+      err => console.log(err)      
     );
   }
 
@@ -448,6 +460,15 @@ export class IndicateursComponent implements OnInit {
         );
       }*/
     }) ();
+  }
+
+  sendDemande(){
+    this.demandeService.sendDemande(this.demande?.id).subscribe(
+      data => {
+        this.successMsgBox('Votre demande de scoring a été bien envoyée.');
+      },
+      err => console.log(err)      
+    );
   }
 
   roundValue(numb: any){

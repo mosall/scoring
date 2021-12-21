@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'vars.scss';
+
+.bgc-primary{
+	background-color: $primary !important;
+	color: white !important;
+}
+.bgc-secondary{
+	background-color: $secondary !important;
+	color: white !important;
+}
+
+.multiselect-dropdown .dropdown-btn .selected-item{
+	background: $secondary !important;
+	max-width: unset !important;
+}
