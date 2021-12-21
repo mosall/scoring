@@ -9,11 +9,14 @@
       <a *ngIf="user?.profil.code == 'ROLE_EXP_PME'" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/liste-pme">Liste des entreprises</a>
       <a *ngIf="user?.entrepriseId != null" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/accueil">Accueil</a>
       <a class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/identification">Identification de la PME</a>
-      <a class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-eligibilite">Questionnaire d'éligibilité</a>
-      <a *ngIf="entreprise?.eligible" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/indicateurs-financiers">Indicateurs financiers</a>
-      <a *ngIf="entreprise?.eligible" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-qualitatif">Questionnaire qualitatif</a>
+      <a *ngIf="demande" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-eligibilite">Questionnaire d'éligibilité</a>
+      <a *ngIf="demande && entreprise?.eligible" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/indicateurs-financiers">Indicateurs financiers</a>
+      <a *ngIf="demande && entreprise?.eligible" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-qualitatif">Questionnaire qualitatif</a>
     </div>
-
+    <div *ngIf="user?.profil.code == 'ROLE_ENTR' && !demande" class="ml-auto">
+      <a  class="nav-item nav-link btn btn-link bgc-secondary ml-auto" routerLinkActive="active" (click)="createDemande()" >Faire une demande de scoring</a>
+    </div>
+    
     <div class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-user"></i>

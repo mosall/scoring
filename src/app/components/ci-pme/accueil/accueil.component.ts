@@ -102,6 +102,10 @@ export class AccueilComponent implements OnInit {
           this.getDirigeant();
           this.getLogo();
           Swal.close();
+        },
+        err => {
+          Swal.close();
+          
         }
       );
     }
@@ -118,6 +122,7 @@ export class AccueilComponent implements OnInit {
       );
     }
   }
+
 
   getLogo(){
     this.identificationService.getLogo(this.connectedUser?.entrepriseId).subscribe(

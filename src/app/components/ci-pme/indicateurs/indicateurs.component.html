@@ -14,10 +14,11 @@
 
       <div class="py-5" *ngIf="financialYear != null">
         <div class="row">
-          <div class="col-md-10">
+          <div class="col-md-9">
             <p class=" text-danger">Merci de saisir la valeur de chaque indicateur sur les 3 dernières années !</p>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
+            <button *ngIf="demande?.status == 1" class="btn btn-sm mr-2" style="color: #ffffff; background-color: #f78300" (click)="sendDemande()">Envoyer la demande</button>
             <button *ngIf="entreprise?.indicateurAjoute" class="btn btn-sm" style="color: #ffffff; background-color: #006a25" data-toggle="modal" data-target="#ratioModal">Calculer le ratio</button>
           </div>
         </div>
