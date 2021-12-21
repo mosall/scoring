@@ -156,7 +156,7 @@ export class IndicateursComponent implements OnInit {
       rsImpot: this.indicateurs[year].indicateurs[19].value,
     }
 
-    if(this.entreprise.indicateurAjoute){
+    if(this.entreprise.indicateurAjoute && this.reponsesIndicateur[year]){
       // @ts-ignore
       payload.id = this.reponsesIndicateur[year].id;
     }
@@ -205,57 +205,57 @@ export class IndicateursComponent implements OnInit {
   getIndicateurs(){
     this.indicateursService.getIndicateurs(this.entreprise?.id).subscribe(
       data => {
-        // @ts-ignore
-        data.sort((a: any, b: any) => a.annee < b.annee);
         this.reponsesIndicateur = data;
-        // @ts-ignore
-        this.financialYear = data[0]?.annee;
+        this.reponsesIndicateur.sort((a: any, b: any) => a.annee < b.annee);
+
+        this.financialYear = this.reponsesIndicateur[0]?.annee;
         this.disableYear = this.financialYear != null;
-        [0,1,2].forEach(i => this.setIndicateur(i, data));
-        // console.log(this.reponsesIndicateur)
+        [0,1,2].forEach(i => this.setIndicateur(i, this.reponsesIndicateur));
       }
     )
   }
 
   setIndicateur(index: any, data: any){
-    this.indicateurs[index].id = data[index].id;
-    this.indicateurs[index].indicateurs = [
-      {code: 'BK', nom: 'Actif circulant', source: 'Bilan actif', value: data[index]?.bkActifCirculant},
-      {code: 'BT', nom: 'Trésorerie actif', source: 'Bilan actif', value: data[index]?.btTresorerieActif},
-      {code: 'BI', nom: 'Créances clients', source: 'Bilan actif', value: data[index]?.biCreanceClient},
-      {code: 'DP', nom: 'Passif circulant', source: 'Bilan passif', value: data[index]?.dpPassifCirculant},
-      {code: 'DT', nom: 'Trésorerie passif', source: 'Bilan passif', value: data[index]?.dtTresoreriePassif},
-      {code: 'CA', nom: 'Capitaux propres', source: 'Bilan passif', value: data[index]?.caCapitauxPropres},
-      {code: 'DF', nom: 'Total ressources', source: 'Bilan passif', value: data[index]?.dfTotalResources},
-      {code: 'DJ', nom: 'Dettes fournisseurs', source: 'Bilan passif', value: data[index]?.djDettesFournisseurs},
-      {code: 'DA', nom: 'Emprunts et dettes financières diverses', source: 'Bilan passif', value: data[index]?.daEmpruntsDettes},
-      {code: 'DB', nom: 'Dettes de location et acquisitions', source: 'Bilan passif', value: data[index]?.dbDettesAcquisitions},
-      {code: 'XI', nom: 'Résultat net', source: 'Compte de résultat', value: data[index]?.xiResultatNet},
-      {code: 'XB', nom: 'Chiffres d\'affaires', source: 'Compte de résultat', value: data[index]?.xbChiffresDaffaires},
-      {code: 'RA', nom: 'Achats', source: 'Compte de résultat', value: data[index]?.raAchats},
-      {code: 'XD', nom: 'Excédents brut d\'exploitation', source: 'Compte de résultat', value: data[index]?.xdExcedentBrutExploit},
-      {code: 'RM', nom: 'Charges financières', source: 'Compte de résultat', value: data[index]?.rmChargesFinancieres},
-      {code: 'TK', nom: 'Revenus financiers', source: 'Compte de résultat', value: data[index]?.tkRevenusFinanciers},
-      {code: 'TL', nom: 'Reprises de provisions et dépréciations financières', source: 'Compte de résultat', value: data[index]?.tlReprisesDepreciations},
-      {code: 'TM', nom: 'Transfert de charges financières', source: 'Compte de résultat', value: data[index]?.tmTransfertCharges},
-      {code: 'RQ', nom: 'Participations des travailleurs', source: 'Compte de résultat', value: data[index]?.rqParticipations},
-      {code: 'RS', nom: 'Impôt sur le résultat', source: 'Compte de résultat', value: data[index]?.rsImpot},
-    ];
-    this.indicateursService.getIndicateurFiles(this.indicateurs[index]?.id).subscribe(
-      data => {
-        // @ts-ignore
-        if (data.length != 0){
+    if (data[index]){
+      this.indicateurs[index].id = data[index].id;
+      this.indicateurs[index].indicateurs = [
+        {code: 'BK', nom: 'Actif circulant', source: 'Bilan actif', value: data[index]?.bkActifCirculant},
+        {code: 'BT', nom: 'Trésorerie actif', source: 'Bilan actif', value: data[index]?.btTresorerieActif},
+        {code: 'BI', nom: 'Créances clients', source: 'Bilan actif', value: data[index]?.biCreanceClient},
+        {code: 'DP', nom: 'Passif circulant', source: 'Bilan passif', value: data[index]?.dpPassifCirculant},
+        {code: 'DT', nom: 'Trésorerie passif', source: 'Bilan passif', value: data[index]?.dtTresoreriePassif},
+        {code: 'CA', nom: 'Capitaux propres', source: 'Bilan passif', value: data[index]?.caCapitauxPropres},
+        {code: 'DF', nom: 'Total ressources', source: 'Bilan passif', value: data[index]?.dfTotalResources},
+        {code: 'DJ', nom: 'Dettes fournisseurs', source: 'Bilan passif', value: data[index]?.djDettesFournisseurs},
+        {code: 'DA', nom: 'Emprunts et dettes financières diverses', source: 'Bilan passif', value: data[index]?.daEmpruntsDettes},
+        {code: 'DB', nom: 'Dettes de location et acquisitions', source: 'Bilan passif', value: data[index]?.dbDettesAcquisitions},
+        {code: 'XI', nom: 'Résultat net', source: 'Compte de résultat', value: data[index]?.xiResultatNet},
+        {code: 'XB', nom: 'Chiffres d\'affaires', source: 'Compte de résultat', value: data[index]?.xbChiffresDaffaires},
+        {code: 'RA', nom: 'Achats', source: 'Compte de résultat', value: data[index]?.raAchats},
+        {code: 'XD', nom: 'Excédents brut d\'exploitation', source: 'Compte de résultat', value: data[index]?.xdExcedentBrutExploit},
+        {code: 'RM', nom: 'Charges financières', source: 'Compte de résultat', value: data[index]?.rmChargesFinancieres},
+        {code: 'TK', nom: 'Revenus financiers', source: 'Compte de résultat', value: data[index]?.tkRevenusFinanciers},
+        {code: 'TL', nom: 'Reprises de provisions et dépréciations financières', source: 'Compte de résultat', value: data[index]?.tlReprisesDepreciations},
+        {code: 'TM', nom: 'Transfert de charges financières', source: 'Compte de résultat', value: data[index]?.tmTransfertCharges},
+        {code: 'RQ', nom: 'Participations des travailleurs', source: 'Compte de résultat', value: data[index]?.rqParticipations},
+        {code: 'RS', nom: 'Impôt sur le résultat', source: 'Compte de résultat', value: data[index]?.rsImpot},
+      ];
+      this.indicateursService.getIndicateurFiles(this.indicateurs[index]?.id).subscribe(
+        data => {
           // @ts-ignore
-          this.indicateurs[index].file = {nomPiece: data[0].nomPiece, file: data};
-          this.indicateurs[index].hasFile = true;
+          if (data.length != 0){
+            // @ts-ignore
+            this.indicateurs[index].file = {nomPiece: data[0].nomPiece, file: data};
+            this.indicateurs[index].hasFile = true;
+          }
+          else {
+            // @ts-ignore
+            this.indicateurs[index].file = {nomPiece: '', file: ''};
+            this.indicateurs[index].hasFile = false;
+          }
         }
-        else {
-          // @ts-ignore
-          this.indicateurs[index].file = {nomPiece: '', file: ''};
-          this.indicateurs[index].hasFile = false;
-        }
-      }
-    );
+      );
+    }
   }
 
   getRatio(){
@@ -269,9 +269,7 @@ export class IndicateursComponent implements OnInit {
   }
 
   nextAndPreviousCtrl(){
-    $('.previous-btn').click(() => {
       $('.nav-tabs > .nav-item > .active').parent().prev('li').find('a').trigger('click');
-    });
   }
 
   triggerClick(index: any){
@@ -372,7 +370,6 @@ export class IndicateursComponent implements OnInit {
 
   deleteFile(file: any){
     const idFile = file.id;
-    console.log(file)
     Swal.fire({
       title: 'Suppression',
       text: 'Êtes vous sûr de vouloir supprimer le fichier ?',
@@ -462,9 +459,9 @@ export class IndicateursComponent implements OnInit {
       timer: 5000
     }).then(
       ()=> {
-        if (!msg.startsWith('Le')){
-          window.location.reload();
-        }
+          if (msg.startsWith('Le')){
+            window.location.reload();
+          }
       }
     );
   }
