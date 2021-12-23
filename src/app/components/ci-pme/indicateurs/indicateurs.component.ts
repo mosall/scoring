@@ -130,7 +130,13 @@ export class IndicateursComponent implements OnInit {
 
   getDemandeEnCours(idEntreprise: any){
     this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
-      (data: any) => this.demande = data,
+      (data: any) => {
+        this.demande = data;
+        if(this.demande?.indicateurAjoute){
+            this.getIndicateurs();
+            this.getRatio();
+          }
+      },
       err => console.log(err)      
     );
   }
@@ -166,6 +172,7 @@ export class IndicateursComponent implements OnInit {
       tmTransfertCharges: this.indicateurs[year].indicateurs[17].value,
       rqParticipations: this.indicateurs[year].indicateurs[18].value,
       rsImpot: this.indicateurs[year].indicateurs[19].value,
+      idDemande: this.demande?.id
     }
 
     if(this.entreprise.indicateurAjoute){
@@ -205,17 +212,13 @@ export class IndicateursComponent implements OnInit {
         data => {
           // @ts-ignore
           this.entreprise = data;
-          if(this.entreprise?.indicateurAjoute){
-            this.getIndicateurs();
-            this.getRatio();
-          }
         }
       )
     }
   }
 
   getIndicateurs(){
-    this.indicateursService.getIndicateurs(this.entreprise?.id).subscribe(
+    this.indicateursService.getIndicateurs(this.demande?.id).subscribe(
       data => {
         // @ts-ignore
         data.sort((a: any, b: any) => a.annee < b.annee);
@@ -271,7 +274,7 @@ export class IndicateursComponent implements OnInit {
   }
 
   getRatio(){
-    this.indicateursService.getRatio(this.entreprise?.id).subscribe(
+    this.indicateursService.getRatio(this.demande?.id).subscribe(
       data => {
         // @ts-ignore
         data.listValeurRatioDTO.sort((a: any, b: any) => a.idRatio > b.idRatio);
@@ -457,6 +460,7 @@ export class IndicateursComponent implements OnInit {
     this.demandeService.sendDemande(this.demande?.id).subscribe(
       data => {
         this.successMsgBox('Votre demande de scoring a été bien envoyée.');
+        window.location.reload();
       },
       err => console.log(err)      
     );
