@@ -45,7 +45,11 @@ export class CiPmeComponent implements OnInit {
 
   getEntreprise(){
     this.identificationService.getEntreprise(this.user?.entrepriseId).subscribe(
-      data => this.entreprise = data
+      data => {
+        this.entreprise = data;
+        console.log('Entreprise :: ', data);
+        
+      }
     )
   }
   

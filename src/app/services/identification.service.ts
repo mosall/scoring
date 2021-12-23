@@ -38,7 +38,7 @@ export class IdentificationService {
   }
 
   generateReport(id: any, payload: any){
-    return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises/'+id+'/rapport', payload, AppSettings.httpOptions);
+    return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/demandes/'+id+'/rapport', payload, AppSettings.httpOptions);
   }
 
   createDownloadPdfFileLink( filename: any, byte: any, extension: any){
