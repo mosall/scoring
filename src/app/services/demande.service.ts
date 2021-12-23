@@ -6,8 +6,9 @@ import { AppSettings } from "../settings/app.settings";
 	providedIn: 'root'
 })
 export class DemandeService {
+  
 	
-	private baseUrl: string = AppSettings.CIPME_SCORING_API_URL+"/api/demandes/scoring"
+	private baseUrl: string = AppSettings.CIPME_SCORING_API_URL+"/api/demandes"
 	
 	constructor(
 		private http: HttpClient
@@ -23,5 +24,21 @@ export class DemandeService {
 
 	sendDemande(id: any) {
 		return this.http.get(this.baseUrl+'/'+id+'/envoyer', AppSettings.httpOptions);
+	}
+
+	receiveDemande(id: any) {
+		return this.http.get(this.baseUrl+'/'+id+'/receptionner', AppSettings.httpOptions);
+	}
+	
+	rejectDemande(id: any, data: any) {
+		return this.http.post(this.baseUrl+'/'+id+'/rejet', data, AppSettings.httpOptions);
+	}
+
+	closeDemande(id: any){
+		return this.http.get(this.baseUrl+'/'+id+'/cloture', AppSettings.httpOptions);
+	}
+
+	getLastClosedDemande(idEntreprise: any) {
+		return this.http.get(this.baseUrl+'/'+idEntreprise+'/last-closed', AppSettings.httpOptions);
 	}
 }

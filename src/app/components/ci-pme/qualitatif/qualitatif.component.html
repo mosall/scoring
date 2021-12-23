@@ -1,6 +1,6 @@
 <div class="px-5 parent">
   <div class="card animate__animated animate__backInUp" style="border-radius: 10px">
-    <div class="row" style="height: auto" *ngIf="!entreprise?.repQuali || edit || answeredParams != 7">
+    <div class="row" style="height: auto" *ngIf="!demande?.repQuali || edit || answeredParams != 7">
       <div class="col-md-3 px-3 py-5">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a *ngFor="let p of listParameters" [ngClass]="{'active': p.id == 1}" class="nav-link"
@@ -56,7 +56,7 @@
         </div>
       </div>
     </div>
-    <div class="row" style="height: auto" *ngIf="entreprise?.repQuali && !edit && answeredParams == 7">
+    <div class="row" style="height: auto" *ngIf="demande?.repQuali && !edit && answeredParams == 7">
       <div class="col-md-12 p-5" style="background-color: #f8f8f8">
         <div class="col-md-12 d-center">
           <h4>Score Qualitatif</h4>
@@ -95,7 +95,7 @@
                   <td></td>
                   <td></td>
                   <td>
-                    <button class="btn" style="background-color: #006a25; color: #ffffff" *ngIf="entreprise?.repQuali" (click)="editScore(entreprise?.id)">Modifier</button>
+                    <button class="btn" style="background-color: #006a25; color: #ffffff" *ngIf="demande?.repQuali" (click)="editScore(demande?.id)">Modifier</button>
                   </td>
                 </tr>
               </tfoot>
@@ -111,9 +111,13 @@
                 [colors]="lineChartColors"
                 ></canvas>
                 <div class="btn-report">
-                  <button type="button" class="btn bgc-secondary" data-toggle="modal" data-target="#exampleModal" >
+                  <button *ngIf="demande?.status == 3 && connectedUser?.profil?.code == 'ROLE_ENTR'" type="button" class="btn bgc-secondary" data-toggle="modal" data-target="#exampleModal" >
                     <i class="far fa-file-pdf"></i>
                     <span>Générer le rapport</span>
+                   </button>
+                  <button *ngIf="demande?.status == 5 && !demande?.rapportGenere && connectedUser?.profil?.code == 'ROLE_ENTR'" type="button" class="btn bgc-primary" data-toggle="modal" data-target="#exampleModal" >
+                    <i class="far fa-window-close"></i>
+                    <span>Cloturer la demande</span>
                    </button>
                 </div>
           </div>
@@ -125,9 +129,9 @@
 
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header bgc-secondary">
         <h5 class="modal-title" id="exampleModalLabel">Saisissez un commentaire et des Recommandations</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -147,7 +151,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn bgc-primary" data-dismiss="modal">Fermer</button>
-        <button type="button" class="btn bgc-secondary" (click)="generateReport()" data-dismiss="modal">Générer</button>
+        <button *ngIf="demande?.status == 3" type="button" class="btn bgc-secondary" (click)="generateReport()" data-dismiss="modal">Générer le rapport</button>
+        <button *ngIf="demande?.status == 5" type="button" class="btn bgc-secondary" (click)="closeDemande()" data-dismiss="modal">Cloturer la demande</button>
       </div>
     </div>
   </div>

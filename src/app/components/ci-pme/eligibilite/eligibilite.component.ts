@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {IdentificationService} from "../../../services/identification.service";
 import {AuthService} from "../../../services/auth.service";
+import { DemandeService } from 'src/app/services/demande.service';
 declare var $: any;
 @Component({
   selector: 'app-eligibilite',
@@ -16,9 +17,12 @@ export class EligibiliteComponent implements OnInit {
   reponseQuestionnaire: any = [];
   entreprise: any = [];
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
+  demande: any;
 
   constructor(private eligibilityService: EligibiliteService, private authService: AuthService,
-              private identificationService: IdentificationService) { }
+              private identificationService: IdentificationService,
+              private demandeService: DemandeService
+              ) { }
 
   ngOnInit(): void {
     this.getEntreprise();
@@ -37,9 +41,23 @@ export class EligibiliteComponent implements OnInit {
     );
   }
 
+  getDemandeEnCours(idEntreprise: any){
+    this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
+      (data: any) => {
+        this.demande = data;
+        console.log('Demande :: ', data);
+        if(this.demande?.repEli){
+            this.getReponse();
+          }
+      },
+      err => console.log(err)      
+    );
+  }
+
   submitQuestionnaire(){
     let payload = {
       idEntreprise: this.connectedUser?.entrepriseId,
+      idDemande: this.demande?.id,
       listReponse: []
     };
 
@@ -76,20 +94,18 @@ export class EligibiliteComponent implements OnInit {
   getEntreprise() {
     if(this.connectedUser?.entrepriseId){
       this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
-        data => {
+        (data: any) => {
           // @ts-ignore
           this.entreprise = data;
-          if(this.entreprise?.repEli){
-            this.getReponse();
-          }
+          this.getDemandeEnCours(data?.id)
         }
       );
     }
   }
 
   getReponse(){
-    if(this.entreprise?.repEli){
-      this.eligibilityService.getReponseEntreprise(this.entreprise?.id).subscribe(
+    if(this.demande?.repEli){
+      this.eligibilityService.getReponseEntreprise(this.demande?.id).subscribe(
         data => {
           this.reponseQuestionnaire = data;
 

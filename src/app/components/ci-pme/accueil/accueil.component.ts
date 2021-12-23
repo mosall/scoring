@@ -4,6 +4,7 @@ import {IdentificationService} from "../../../services/identification.service";
 import {ActivatedRoute} from "@angular/router";
 import { QualitatifService } from 'src/app/services/qualitatif.service';
 import { IndicateursService } from 'src/app/services/indicateurs.service';
+import { DemandeService } from 'src/app/services/demande.service';
 
 @Component({
   selector: 'app-accueil',
@@ -26,20 +27,24 @@ export class AccueilComponent implements OnInit {
   radarChartType: any = 'radar';
 
   logo: any = null;
+  demande: any;
+  motifRejet: any = '';
+
 
   constructor(
     private identificationService: IdentificationService,
     private activatedRoute: ActivatedRoute,
     private qualitatifService: QualitatifService,
-    private indicateursService: IndicateursService
+    private indicateursService: IndicateursService,
+    private demandeService: DemandeService
     ) { }
 
   ngOnInit(): void {
-    this.idEntreprise = this.connectedUser?.entrepriseId;
+    this.idEntreprise = this.activatedRoute.snapshot.paramMap.get('idEntreprise');
     this.getEntreprise();
-    this.getScore(this.idEntreprise);
-    this.getScoreQualitatif(this.idEntreprise);
-    this.getRatio(this.idEntreprise);
+    // this.getScore(this.idEntreprise);
+    // this.getScoreQualitatif(this.idEntreprise);
+    // this.getRatio(this.idEntreprise);
     // this.getRadarData();
   }
 
@@ -100,12 +105,12 @@ export class AccueilComponent implements OnInit {
           // @ts-ignore
           this.secteur = data.secteurs;
           this.getDirigeant();
+          this.getDemandeEnCours(this.idEntreprise);
           this.getLogo();
           Swal.close();
         },
         err => {
           Swal.close();
-          
         }
       );
     }
@@ -115,6 +120,7 @@ export class AccueilComponent implements OnInit {
           this.entreprise = data;
           // @ts-ignore
           this.secteur = data.secteurs;
+          this.getDemandeEnCours(this.connectedUser?.entrepriseId);
           this.getDirigeant();
           this.getLogo();
           Swal.close();
@@ -142,6 +148,60 @@ export class AccueilComponent implements OnInit {
     )
   }
 
+  getDemandeEnCours(idEntreprise: any){
+    this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
+      (data: any) => {
+        this.demande = data;
+        console.log("Demande::: ", data);
+        if(this.demande == null){
+          this.getLastClosedDemande(idEntreprise);
+        }
+        else{
+          this.getScore(this.demande?.id);
+          this.getScoreQualitatif(this.demande?.id);
+          this.getRatio(this.demande?.id);
+        }
+      },
+      err => console.log(err)      
+    );
+  }
+
+  getLastClosedDemande(idEntreprise: any){
+    this.demandeService.getLastClosedDemande(idEntreprise).subscribe(
+      (data: any) => {
+        this.demande = data;
+        this.getScore(this.demande?.id);
+        this.getScoreQualitatif(this.demande?.id);
+        this.getRatio(this.demande?.id);
+        console.log('Last ::', data);
+      },
+      err => console.log(err)      
+    );
+  }
+
+  receiveDemande(){
+    this.demandeService.receiveDemande(this.demande?.id).subscribe(
+      (data: any) => {
+        this.successMsgBox("La demande de scoring a été bien réceptionné.")
+      },
+      err => console.log(err)      
+    );
+  }
+
+  rejectDemande(){
+    const data = {
+      motif_rejet: this.motifRejet
+    }
+    this.demandeService.rejectDemande(this.demande?.id, data).subscribe(
+      (data: any) => {
+        this.motifRejet = '';
+        this.successMsgBox('La demande a été bien rejeté.');
+      },
+      err => console.log(err)      
+    );
+  }
+
+
   formatNumber(num: any){
     return Number(num.toFixed(0)).toLocaleString("fr-FR");
   }
@@ -159,9 +219,27 @@ export class AccueilComponent implements OnInit {
     return Math.round((numb + Number.EPSILON) * 10) / 10;
   }
 
-formatNumberNDecimal(num:any, digits: any){
+  formatNumberNDecimal(num:any, digits: any){
     var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
         m = num.toString().match(re);
     return m ? parseFloat(m[1]) : (num.valueOf()).toString().includes('.') ? num.valueOf() : num.valueOf()+".0" ;
+  }
+
+  successMsgBox(msg: any){
+    Swal.fire({
+      icon: 'success',
+      text: msg,
+      showConfirmButton: false,
+      timer: 5000
+    }).then(()=> window.location.reload());
+  }
+
+  errorMsgBox(msg: any){
+    Swal.fire({
+      icon: 'warning',
+      text: msg,
+      showConfirmButton: false,
+      timer: 5000
+    }).then(() => window.location.reload());
   }
 }

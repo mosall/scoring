@@ -29,18 +29,18 @@ export class QualitatifService {
     return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/traitement/questionnaire/qualitatif/parametres/'+idParameter, payload, AppSettings.httpOptions);
   }
 
-  getReponseParPME(idEntreprise: any){
-    return this.http.get(AppSettings.CIPME_SCORING_API_URL+'/api/traitement/questionnaire/liste-reponses/'+idEntreprise+'/qualitatif', AppSettings.httpOptions);
+  getReponseParPME(idDemande: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL+'/api/traitement/questionnaire/liste-reponses/'+idDemande+'/qualitatif', AppSettings.httpOptions);
   }
   
-  getScoreQualitatif(idEntreprise: any){
-    return this.http.get(AppSettings.CIPME_SCORING_API_URL+'/api/score/qualitatif/'+idEntreprise, AppSettings.httpOptions);
+  getScoreQualitatif(idDemande: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL+'/api/score/qualitatif/'+idDemande, AppSettings.httpOptions);
   }
-  getScoreParametreQualitatif(idEntreprise: any, parametreId: any){
-    return this.http.get(AppSettings.CIPME_SCORING_API_URL+'/api/score/qualitatif/'+idEntreprise+"/parametres/"+parametreId, AppSettings.httpOptions);
+  getScoreParametreQualitatif(idDemande: any, parametreId: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL+'/api/score/qualitatif/'+idDemande+"/parametres/"+parametreId, AppSettings.httpOptions);
   }
 
-  getScoreFinal(idEntreprise: any){
-    return this.http.get(AppSettings.CIPME_SCORING_API_URL+"/api/score/final/"+idEntreprise, AppSettings.httpOptions);
+  getScoreFinal(idDemande: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL+"/api/score/final/"+idDemande, AppSettings.httpOptions);
   }
 }
