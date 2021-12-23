@@ -42,9 +42,9 @@ export class AccueilComponent implements OnInit {
   ngOnInit(): void {
     this.idEntreprise = this.activatedRoute.snapshot.paramMap.get('idEntreprise');
     this.getEntreprise();
-    this.getScore(this.idEntreprise);
-    this.getScoreQualitatif(this.idEntreprise);
-    this.getRatio(this.idEntreprise);
+    // this.getScore(this.idEntreprise);
+    // this.getScoreQualitatif(this.idEntreprise);
+    // this.getRatio(this.idEntreprise);
     // this.getRadarData();
   }
 
@@ -111,7 +111,6 @@ export class AccueilComponent implements OnInit {
         },
         err => {
           Swal.close();
-          
         }
       );
     }
@@ -121,6 +120,7 @@ export class AccueilComponent implements OnInit {
           this.entreprise = data;
           // @ts-ignore
           this.secteur = data.secteurs;
+          this.getDemandeEnCours(this.connectedUser?.entrepriseId);
           this.getDirigeant();
           this.getLogo();
           Swal.close();
@@ -150,7 +150,31 @@ export class AccueilComponent implements OnInit {
 
   getDemandeEnCours(idEntreprise: any){
     this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
-      (data: any) => this.demande = data,
+      (data: any) => {
+        this.demande = data;
+        console.log("Demande::: ", data);
+        if(this.demande == null){
+          this.getLastClosedDemande(idEntreprise);
+        }
+        else{
+          this.getScore(this.demande?.id);
+          this.getScoreQualitatif(this.demande?.id);
+          this.getRatio(this.demande?.id);
+        }
+      },
+      err => console.log(err)      
+    );
+  }
+
+  getLastClosedDemande(idEntreprise: any){
+    this.demandeService.getLastClosedDemande(idEntreprise).subscribe(
+      (data: any) => {
+        this.demande = data;
+        this.getScore(this.demande?.id);
+        this.getScoreQualitatif(this.demande?.id);
+        this.getRatio(this.demande?.id);
+        console.log('Last ::', data);
+      },
       err => console.log(err)      
     );
   }

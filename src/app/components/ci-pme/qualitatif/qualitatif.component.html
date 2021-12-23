@@ -111,11 +111,11 @@
                 [colors]="lineChartColors"
                 ></canvas>
                 <div class="btn-report">
-                  <button *ngIf="demande?.status == 3" type="button" class="btn bgc-secondary" data-toggle="modal" data-target="#exampleModal" >
+                  <button *ngIf="demande?.status == 3 && connectedUser?.profil?.code == 'ROLE_ENTR'" type="button" class="btn bgc-secondary" data-toggle="modal" data-target="#exampleModal" >
                     <i class="far fa-file-pdf"></i>
                     <span>Générer le rapport</span>
                    </button>
-                  <button *ngIf="demande?.status == 5" type="button" class="btn bgc-primary" data-toggle="modal" data-target="#exampleModal" >
+                  <button *ngIf="demande?.status == 5 && !demande?.rapportGenere && connectedUser?.profil?.code == 'ROLE_ENTR'" type="button" class="btn bgc-primary" data-toggle="modal" data-target="#exampleModal" >
                     <i class="far fa-window-close"></i>
                     <span>Cloturer la demande</span>
                    </button>
@@ -129,9 +129,9 @@
 
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header bgc-secondary">
         <h5 class="modal-title" id="exampleModalLabel">Saisissez un commentaire et des Recommandations</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -151,7 +151,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn bgc-primary" data-dismiss="modal">Fermer</button>
-        <button type="button" class="btn bgc-secondary" (click)="generateReport()" data-dismiss="modal">Générer</button>
+        <button *ngIf="demande?.status == 3" type="button" class="btn bgc-secondary" (click)="generateReport()" data-dismiss="modal">Générer le rapport</button>
+        <button *ngIf="demande?.status == 5" type="button" class="btn bgc-secondary" (click)="closeDemande()" data-dismiss="modal">Cloturer la demande</button>
       </div>
     </div>
   </div>

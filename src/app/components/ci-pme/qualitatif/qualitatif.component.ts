@@ -132,6 +132,8 @@ export class QualitatifComponent implements OnInit {
         (data: any) => {
           this.demande = data;
           this.fillData(data);
+          console.log('Demande :: ', data);
+          
         },
         err => console.log(err)      
       );
@@ -320,8 +322,17 @@ export class QualitatifComponent implements OnInit {
         }
       }
     }
-    // console.log("Params Score",this.listParameters);
-    // console.log('ans', !this.entreprise?.repQuali || this.edit || this.answeredParams != 7);
+  }
+
+  closeDemande(){
+    this.demandeService.closeDemande(this.demande?.id).subscribe(
+      (data: any) => {
+        this.successMsgBox('La demande de scoring a été bien cloturée.', false);
+        this.generateReport();
+
+      },
+      err => console.log(err)      
+    );
   }
 
   formatNumber(num:any, digits: any){
@@ -330,14 +341,17 @@ export class QualitatifComponent implements OnInit {
     return m ? parseFloat(m[1]) : (num.valueOf()).toString().includes('.') ? num.valueOf() : num.valueOf()+".0" ;
   }
 
-  successMsgBox(msg: any){
+  successMsgBox(msg: any, reload: boolean = true){
     Swal.fire({
       icon: 'success',
       text: msg,
       showConfirmButton: false,
       timer: 5000
     }).then(
-      ()=> window.location.reload()
+      ()=> {
+        if(reload)
+          window.location.reload();
+      }
     );
   }
 

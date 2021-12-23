@@ -33,4 +33,12 @@ export class DemandeService {
 	rejectDemande(id: any, data: any) {
 		return this.http.post(this.baseUrl+'/'+id+'/rejet', data, AppSettings.httpOptions);
 	}
+
+	closeDemande(id: any){
+		return this.http.get(this.baseUrl+'/'+id+'/cloture', AppSettings.httpOptions);
+	}
+
+	getLastClosedDemande(idEntreprise: any) {
+		return this.http.get(this.baseUrl+'/'+idEntreprise+'/last-closed', AppSettings.httpOptions);
+	}
 }

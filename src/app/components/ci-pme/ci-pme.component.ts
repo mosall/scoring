@@ -55,7 +55,15 @@ export class CiPmeComponent implements OnInit {
   
   getDemandeEnCours(idEntreprise: any){
     this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
-      (data: any) => this.demande = data,
+      (data: any) => {
+        this.demande = data;
+        if(!this.demande && this.user?.profil?.code == 'ROLE_ENTR'){
+          this.router.navigate(['/ci-pme/accueil'])
+        }
+        else if(!this.demande && this.user?.profil?.code == 'ROLE_EXP_PME'){
+          this.router.navigate(['/ci-pme/list-pme'])
+        }
+      },
       err => console.log(err)      
     );
   }
