@@ -4,6 +4,7 @@ import {IndicateursService} from "../../../services/indicateurs.service";
 import {IdentificationService} from "../../../services/identification.service";
 import {AuthService} from "../../../services/auth.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import {CiPmeService} from "../../../services/ci-pme.service";
 
 declare var $: any;
 @Component({
@@ -107,9 +108,12 @@ export class IndicateursComponent implements OnInit {
   formData = new FormData();
   disableYear = false;
 
+  ratioEnabled = false;
+  demandeNonCloturee: any = [];
+
   constructor(private indicateursService: IndicateursService,
               private sanitizer: DomSanitizer,
-              private authService: AuthService,
+              private authService: AuthService, private ciPmeService: CiPmeService,
               private identificationService: IdentificationService) { }
 
   ngOnInit(): void {
@@ -134,6 +138,7 @@ export class IndicateursComponent implements OnInit {
     let payload = {
       annee: this.financialYear - year,
       entreprise: this.connectedUser?.entrepriseId,
+      idDemande: this.demandeNonCloturee?.id,
       bkActifCirculant: this.indicateurs[year].indicateurs[0].value,
       btTresorerieActif: this.indicateurs[year].indicateurs[1].value,
       dpPassifCirculant: this.indicateurs[year].indicateurs[2].value,
@@ -156,7 +161,7 @@ export class IndicateursComponent implements OnInit {
       rsImpot: this.indicateurs[year].indicateurs[19].value,
     }
 
-    if(this.entreprise.indicateurAjoute && this.reponsesIndicateur[year]){
+    if(this.demandeNonCloturee?.indicateurAjoute && this.reponsesIndicateur[year]){
       // @ts-ignore
       payload.id = this.reponsesIndicateur[year].id;
     }
@@ -193,17 +198,37 @@ export class IndicateursComponent implements OnInit {
         data => {
           // @ts-ignore
           this.entreprise = data;
-          if(this.entreprise?.indicateurAjoute){
-            this.getIndicateurs();
-            this.getRatio();
-          }
+          this.ciPmeService.getDemandeNonCloturer(this.entreprise?.id).subscribe(
+            data => {
+              this.demandeNonCloturee = data;
+              this.ratioEnabled = this.demandeNonCloturee?.indicateurAjoute && [3, 5].includes(this.demandeNonCloturee.status);
+
+              if(this.demandeNonCloturee?.indicateurAjoute){
+                this.getIndicateurs();
+
+                if ([3, 5].includes(this.demandeNonCloturee?.status)){
+                  this.getRatio();
+                }
+              }
+            }
+          );
         }
       )
     }
   }
 
+  getRatio(){
+    this.indicateursService.getRatio(this.demandeNonCloturee?.id).subscribe(
+      data => {
+        // @ts-ignore
+        data.listValeurRatioDTO.sort((a: any, b: any) => a.idRatio > b.idRatio);
+        this.listRatio = data;
+      }
+    )
+  }
+
   getIndicateurs(){
-    this.indicateursService.getIndicateurs(this.entreprise?.id).subscribe(
+    this.indicateursService.getIndicateurs(this.demandeNonCloturee?.id).subscribe(
       data => {
         this.reponsesIndicateur = data;
         this.reponsesIndicateur.sort((a: any, b: any) => a.annee < b.annee);
@@ -256,16 +281,6 @@ export class IndicateursComponent implements OnInit {
         }
       );
     }
-  }
-
-  getRatio(){
-    this.indicateursService.getRatio(this.entreprise?.id).subscribe(
-      data => {
-        // @ts-ignore
-        data.listValeurRatioDTO.sort((a: any, b: any) => a.idRatio > b.idRatio);
-        this.listRatio = data;
-      }
-    )
   }
 
   nextAndPreviousCtrl(){

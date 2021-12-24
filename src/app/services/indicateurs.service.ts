@@ -13,8 +13,8 @@ export class IndicateursService {
     return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/indicateurs', payload, AppSettings.httpOptions);
   }
 
-  getIndicateurs(id: any){
-    return this.http.get(AppSettings.CIPME_SCORING_API_URL + `/api/entreprises/${id}/indicateurs`, AppSettings.httpOptions);
+  getIndicateurs(idDemande: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL + `/api/indicateurs/${idDemande}/demande`, AppSettings.httpOptions);
   }
 
   getRatio(id: any){

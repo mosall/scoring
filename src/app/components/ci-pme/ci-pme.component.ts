@@ -3,6 +3,7 @@ import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {IdentificationService} from "../../services/identification.service";
 import { AppSettings } from 'src/app/settings/app.settings';
+import {CiPmeService} from "../../services/ci-pme.service";
 
 @Component({
   selector: 'app-ci-pme',
@@ -13,7 +14,10 @@ export class CiPmeComponent implements OnInit {
   user: any = null;
   entreprise: any = null;
   currentYear = new Date().getFullYear();
-  constructor(private authService: AuthService, private router: Router,
+  canActivateEligibility = false;
+  canActivateIndicateur = false;
+
+  constructor(private authService: AuthService, private router: Router, private ciPmeService: CiPmeService,
               private identificationService: IdentificationService,) { }
 
   ngOnInit(): void {
@@ -39,7 +43,19 @@ export class CiPmeComponent implements OnInit {
 
   getEntreprise(){
     this.identificationService.getEntreprise(this.user?.entrepriseId).subscribe(
-      data => this.entreprise = data
+      data => {
+        this.entreprise = data;
+
+        this.ciPmeService.getDemandeNonCloturer(this.entreprise?.id).subscribe(
+          data => {
+            // @ts-ignore
+            this.canActivateEligibility = data?.status != 6;
+
+            // @ts-ignore
+            this.canActivateIndicateur = data?.status != 6;
+          }
+        );
+      }
     )
   }
 

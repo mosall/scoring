@@ -1,7 +1,7 @@
 <div class="mx-5 px-5 parent">
   <div class="card animate__animated animate__backInUp" style="border-radius: 10px">
     <div class="card-body">
-      <div class="row card-title" *ngIf="!entreprise?.repEli">
+      <div class="row card-title" *ngIf="!demande?.repEli">
         <div class="col-md-11">
           <h5 class="font-weight-bold">Veuillez répondre au questionnaire d'éligibilité puis soumettre !</h5>
         </div>
@@ -10,7 +10,7 @@
         </div>
       </div>
 
-      <div class="row card-title" *ngIf="entreprise?.repEli">
+      <div class="row card-title" *ngIf="demande?.repEli">
         <div class="col-md-12">
           <h5 class="font-weight-bold">Mes réponses au questionnaire d'éligibilité</h5>
         </div>
@@ -24,11 +24,11 @@
           </div>
           <div class="col-sm-4">
             <div class="custom-control custom-radio custom-control-inline">
-              <input [disabled]="entreprise?.repEli" type="radio" id="{{index+'1'}}" name="radio_{{index}}" [value]="true" [(ngModel)]="q.reponse" class="custom-control-input">
+              <input [disabled]="demande?.repEli" type="radio" id="{{index+'1'}}" name="radio_{{index}}" [value]="true" [(ngModel)]="q.reponse" class="custom-control-input">
               <label class="custom-control-label" for="{{index+'1'}}">Oui</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input [disabled]="entreprise?.repEli" type="radio" id="{{index+'2'}}" name="radio_{{index}}" [value]="false" [(ngModel)]="q.reponse" class="custom-control-input">
+              <input [disabled]="demande?.repEli" type="radio" id="{{index+'2'}}" name="radio_{{index}}" [value]="false" [(ngModel)]="q.reponse" class="custom-control-input">
               <label class="custom-control-label" for="{{index+'2'}}">Non</label>
             </div>
           </div>
