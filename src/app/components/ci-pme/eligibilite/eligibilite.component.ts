@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {IdentificationService} from "../../../services/identification.service";
 import {AuthService} from "../../../services/auth.service";
 import {CiPmeService} from "../../../services/ci-pme.service";
+import { DemandeService } from 'src/app/services/demande.service';
 declare var $: any;
 @Component({
   selector: 'app-eligibilite',
@@ -20,7 +21,9 @@ export class EligibiliteComponent implements OnInit {
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
 
   constructor(private eligibilityService: EligibiliteService, private authService: AuthService, private ciPmeService: CiPmeService,
-              private identificationService: IdentificationService) { }
+              private identificationService: IdentificationService,
+              private demandeService: DemandeService
+              ) { }
 
   ngOnInit(): void {
     this.getEntreprise();
@@ -36,6 +39,19 @@ export class EligibiliteComponent implements OnInit {
           this.listQuestions.push({id: q.id, code: q.code, libelle: q.libelle, reponse: ''});
         }
       }
+    );
+  }
+
+  getDemandeEnCours(idEntreprise: any){
+    this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
+      (data: any) => {
+        this.demande = data;
+        console.log('Demande :: ', data);
+        if(this.demande?.repEli){
+            this.getReponse(this.demande?.id);
+          }
+      },
+      err => console.log(err)      
     );
   }
 
@@ -79,7 +95,7 @@ export class EligibiliteComponent implements OnInit {
   getEntreprise() {
     if(this.connectedUser?.entrepriseId){
       this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
-        data => {
+        (data: any) => {
           // @ts-ignore
           this.entreprise = data;
 

@@ -1,6 +1,6 @@
 <body>
 <nav class="mx-2 navbar navbar-expand-lg navbar-light bg-light fixed-top my-navbar animate__animated animate__bounce">
-  <a class="navbar-brand" href="#"><img src="assets/img/Logo-Scoring-PME-01.png" style="width: 100px" alt=""></a>
+  <a class="navbar-brand" href="#"><img src="/scoring-awi/assets/img/Logo-Scoring-PME-01.png" style="width: 100px" alt=""></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -13,7 +13,10 @@
       <a *ngIf="entreprise?.eligible && canActivateIndicateur" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/indicateurs-financiers">Indicateurs financiers</a>
       <a *ngIf="entreprise?.eligible" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-qualitatif">Questionnaire qualitatif</a>
     </div>
-
+    <div *ngIf="user?.profil.code == 'ROLE_ENTR' && !demande" class="ml-auto">
+      <a  class="nav-item nav-link btn btn-link bgc-secondary ml-auto" routerLinkActive="active" (click)="createDemande()" >Faire une demande de scoring</a>
+    </div>
+    
     <div class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-user"></i>
@@ -36,7 +39,7 @@
   <router-outlet></router-outlet>
 
   <div class="footer small text-muted">
-    Tous droits réservés <img src="assets/img/Logo-Scoring-PME-01.png" alt="logo" style="width: 50px"> {{currentYear}}
+    Tous droits réservés <img src="/scoring-awi/assets/img/Logo-Scoring-PME-01.png" alt="logo" style="width: 50px"> {{currentYear}}
   </div>
 </div>
 

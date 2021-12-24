@@ -164,9 +164,45 @@
           </div>
         </div>
       </div>
+      <div *ngIf="demande" class="card mt-4">
+        <div class="card-body">
+          <!-- <h5 class="bloc-title">-- Radar des scores de l'entreprise --</h5>
+          <hr> -->
+
+          <div class="mt-2">
+             <button *ngIf="demande?.status == 2 && connectedUser?.profil.code == 'ROLE_EXP_PME'" class="btn btn-sm mr-2" style="color: #ffffff; background-color: #006a25" (click)="receiveDemande()">Réceptionner demande</button>
+            <button *ngIf="demande?.status == 3 && connectedUser?.profil.code == 'ROLE_EXP_PME'" class="btn btn-sm" style="color: #ffffff; background-color:  #f78300" data-toggle="modal" data-toggle="modal" data-target="#ratioModal">Rejetter demande </button>
+          </div>
+        </div>
+      </div>
 
 
 
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ratioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #006a25; color: #ebeef2">
+        <h5 class="modal-title">Motif de rejet de la demande</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Motif :</label>
+            <textarea class="form-control" id="recipient-name" rows="5" [(ngModel)]="motifRejet" [ngModelOptions]="{standalone: true}"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn bgc-primary" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn bgc-secondary" (click)="rejectDemande()" data-dismiss="modal">Rejetter</button>
+      </div>
     </div>
   </div>
 </div>

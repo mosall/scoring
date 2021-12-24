@@ -4,6 +4,8 @@ import {Router} from "@angular/router";
 import {IdentificationService} from "../../services/identification.service";
 import { AppSettings } from 'src/app/settings/app.settings';
 import {CiPmeService} from "../../services/ci-pme.service";
+import { DemandeService } from 'src/app/services/demande.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ci-pme',
@@ -16,9 +18,11 @@ export class CiPmeComponent implements OnInit {
   currentYear = new Date().getFullYear();
   canActivateEligibility = false;
   canActivateIndicateur = false;
+  demande: any;
+
 
   constructor(private authService: AuthService, private router: Router, private ciPmeService: CiPmeService,
-              private identificationService: IdentificationService,) { }
+              private identificationService: IdentificationService, private demandeService: DemandeService) { }
 
   ngOnInit(): void {
     this.authService.getUserInfos().subscribe(
@@ -27,9 +31,11 @@ export class CiPmeComponent implements OnInit {
         this.user = data;
         if (this.user.entrepriseId != null){
           this.getEntreprise();
+          this.getDemandeEnCours(this.user?.entrepriseId);
         }
       }
     );
+
   }
 
   logout(){
@@ -43,20 +49,59 @@ export class CiPmeComponent implements OnInit {
 
   getEntreprise(){
     this.identificationService.getEntreprise(this.user?.entrepriseId).subscribe(
+      data => this.entreprise = data
+    );
+  }
+  
+  getDemandeEnCours(idEntreprise: any){
+    this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
+      (data: any) => {
+        this.demande = data;
+
+        // @ts-ignore
+        this.canActivateEligibility = data?.status != 6;
+
+        // @ts-ignore
+        this.canActivateIndicateur = data?.status != 6;
+
+        if(!this.demande && this.user?.profil?.code == 'ROLE_ENTR'){
+          this.router.navigate(['/ci-pme/accueil'])
+        }
+        else if(!this.demande && this.user?.profil?.code == 'ROLE_EXP_PME'){
+          this.router.navigate(['/ci-pme/list-pme'])
+        }
+      },
+      err => console.log(err)      
+    );
+  }
+
+  createDemande(){
+    this.demandeService.createDemande(this.user?.entrepriseId).subscribe(
       data => {
-        this.entreprise = data;
+        this.successMsgBox('Une demande de scoring a été bien créée.');
+      },
+      err => console.log(err)      
+    );
+  }
 
-        this.ciPmeService.getDemandeNonCloturer(this.entreprise?.id).subscribe(
-          data => {
-            // @ts-ignore
-            this.canActivateEligibility = data?.status != 6;
+  successMsgBox(msg: any){
+    Swal.fire({
+      icon: 'success',
+      text: msg,
+      showConfirmButton: false,
+      timer: 5000
+    }).then(
+      ()=> window.location.reload()
+    );
+  }
 
-            // @ts-ignore
-            this.canActivateIndicateur = data?.status != 6;
-          }
-        );
-      }
-    )
+  errorMsgBox(msg: any){
+    Swal.fire({
+      icon: 'warning',
+      text: msg,
+      showConfirmButton: false,
+      timer: 5000
+    });
   }
 
 }
