@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {IdentificationService} from "../../../services/identification.service";
 import {AuthService} from "../../../services/auth.service";
+import {CiPmeService} from "../../../services/ci-pme.service";
 import { DemandeService } from 'src/app/services/demande.service';
 declare var $: any;
 @Component({
@@ -16,10 +17,10 @@ export class EligibiliteComponent implements OnInit {
   listQuestions: any = [];
   reponseQuestionnaire: any = [];
   entreprise: any = [];
+  demande: any = [];
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
-  demande: any;
 
-  constructor(private eligibilityService: EligibiliteService, private authService: AuthService,
+  constructor(private eligibilityService: EligibiliteService, private authService: AuthService, private ciPmeService: CiPmeService,
               private identificationService: IdentificationService,
               private demandeService: DemandeService
               ) { }
@@ -47,7 +48,7 @@ export class EligibiliteComponent implements OnInit {
         this.demande = data;
         console.log('Demande :: ', data);
         if(this.demande?.repEli){
-            this.getReponse();
+            this.getReponse(this.demande?.id);
           }
       },
       err => console.log(err)      
@@ -97,27 +98,34 @@ export class EligibiliteComponent implements OnInit {
         (data: any) => {
           // @ts-ignore
           this.entreprise = data;
-          this.getDemandeEnCours(data?.id)
+
+          this.ciPmeService.getDemandeNonCloturer(this.entreprise?.id).subscribe(
+            data => {
+              this.demande = data;
+              // @ts-ignore
+              if(data?.repEli){
+                // @ts-ignore
+                this.getReponse(data?.id);
+              }
+            }
+          );
         }
       );
     }
   }
 
-  getReponse(){
-    if(this.demande?.repEli){
-      this.eligibilityService.getReponseEntreprise(this.demande?.id).subscribe(
-        data => {
-          this.reponseQuestionnaire = data;
+  getReponse(idDemande: any){
+    this.eligibilityService.getReponseEntreprise(idDemande).subscribe(
+      data => {
+        this.reponseQuestionnaire = data;
 
-          for (let q of this.listQuestions){
-            // @ts-ignore
-            const question = data.find(_question => _question.idQuestion == q.id);
-            q.reponse = question.reponse_eligibilite;
-
-          }
+        for (let q of this.listQuestions){
+          // @ts-ignore
+          const question = data.find(_question => _question.idQuestion == q.id);
+          q.reponse = question.reponse_eligibilite;
         }
-      )
-    }
+      }
+    );
   }
 
   successMsgBox(msg: any){

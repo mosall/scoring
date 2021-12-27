@@ -3,6 +3,7 @@ import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {IdentificationService} from "../../services/identification.service";
 import { AppSettings } from 'src/app/settings/app.settings';
+import {CiPmeService} from "../../services/ci-pme.service";
 import { DemandeService } from 'src/app/services/demande.service';
 import Swal from 'sweetalert2';
 
@@ -15,10 +16,13 @@ export class CiPmeComponent implements OnInit {
   user: any = null;
   entreprise: any = null;
   currentYear = new Date().getFullYear();
+  canActivateEligibility = false;
+  canActivateIndicateur = false;
   demande: any;
-  constructor(private authService: AuthService, private router: Router,
-              private identificationService: IdentificationService,
-              private demandeService: DemandeService) { }
+
+
+  constructor(private authService: AuthService, private router: Router, private ciPmeService: CiPmeService,
+              private identificationService: IdentificationService, private demandeService: DemandeService) { }
 
   ngOnInit(): void {
     this.authService.getUserInfos().subscribe(
@@ -45,18 +49,21 @@ export class CiPmeComponent implements OnInit {
 
   getEntreprise(){
     this.identificationService.getEntreprise(this.user?.entrepriseId).subscribe(
-      data => {
-        this.entreprise = data;
-        console.log('Entreprise :: ', data);
-        
-      }
-    )
+      data => this.entreprise = data
+    );
   }
   
   getDemandeEnCours(idEntreprise: any){
     this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
       (data: any) => {
         this.demande = data;
+
+        // @ts-ignore
+        this.canActivateEligibility = data?.status != 6;
+
+        // @ts-ignore
+        this.canActivateIndicateur = data?.status != 6;
+
         if(!this.demande && this.user?.profil?.code == 'ROLE_ENTR'){
           this.router.navigate(['/ci-pme/accueil'])
         }

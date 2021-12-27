@@ -16,6 +16,10 @@
   background-color: #006a25;
 }
 
+pdf-viewer {
+  height: 100vh;
+}
+
 /*
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button { margin-left: 100px; }
