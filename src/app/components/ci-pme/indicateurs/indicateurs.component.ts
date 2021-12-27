@@ -136,6 +136,8 @@ export class IndicateursComponent implements OnInit {
     this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
       (data: any) => {
         this.demande = data;
+        console.log('Demande indicateur ::', data);
+        
         if(this.demande?.indicateurAjoute){
             this.getIndicateurs();
             this.getRatio();
@@ -198,6 +200,7 @@ export class IndicateursComponent implements OnInit {
           }
           else {
             this.successMsgBox('Indicateurs enregistrés avec succès !');
+            window.location.reload();
           }
         },
         error => {

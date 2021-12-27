@@ -30,6 +30,14 @@ export class AccueilComponent implements OnInit {
   demande: any;
   motifRejet: any = '';
 
+  status: any = [
+    'Brouillon',
+    'Envoyée',
+    'Réceptionnée',
+    'Rejetée',
+    'Provisoire',
+    'Cloturée'
+  ];
 
   constructor(
     private identificationService: IdentificationService,
@@ -120,11 +128,12 @@ export class AccueilComponent implements OnInit {
           this.entreprise = data;
           // @ts-ignore
           this.secteur = data.secteurs;
-          this.getDemandeEnCours(this.connectedUser?.entrepriseId);
+          this.getDemandeEnCours(this.entreprise?.id);
           this.getDirigeant();
           this.getLogo();
           Swal.close();
-        }
+        },
+        err => console.log('Accueil :: Entreprise ::', err)        
       );
     }
   }
@@ -152,11 +161,11 @@ export class AccueilComponent implements OnInit {
     this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
       (data: any) => {
         this.demande = data;
-        console.log("Demande::: ", data);
+        console.log("Demande::: ", this.demande);
         if(this.demande == null){
           this.getLastClosedDemande(idEntreprise);
         }
-        else{
+        else if (this.demande != null){
           this.getScore(this.demande?.id);
           this.getScoreQualitatif(this.demande?.id);
           this.getRatio(this.demande?.id);
@@ -170,10 +179,12 @@ export class AccueilComponent implements OnInit {
     this.demandeService.getLastClosedDemande(idEntreprise).subscribe(
       (data: any) => {
         this.demande = data;
-        this.getScore(this.demande?.id);
-        this.getScoreQualitatif(this.demande?.id);
-        this.getRatio(this.demande?.id);
-        console.log('Last ::', data);
+        if(this.demande != null){
+          this.getScore(this.demande?.id);
+          this.getScoreQualitatif(this.demande?.id);
+          this.getRatio(this.demande?.id);
+          console.log('Last ::', data);
+        }
       },
       err => console.log(err)      
     );

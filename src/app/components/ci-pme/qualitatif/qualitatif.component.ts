@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 import {QualitatifService} from "../../../services/qualitatif.service";
 import Swal from "sweetalert2";
 import { IdentificationService } from 'src/app/services/identification.service';
@@ -60,19 +61,27 @@ export class QualitatifComponent implements OnInit {
 
   answeredParams: number = 0;
   demande: any;
+  idEntreprise: any;
 
   constructor(
     private qualitatifService: QualitatifService,
     private idService: IdentificationService,
     private ref: ReferentielService,
-    private demandeService: DemandeService
+    private demandeService: DemandeService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    if(this.connectedUser?.profil.code == 'ROLE_EXP_PME'){
+      this.idEntreprise = this.activatedRoute.snapshot.paramMap.get('idEntreprise');
+    }
+    else if(this.connectedUser?.profil.code == 'ROLE_ENTR'){
+      this.idEntreprise = this.connectedUser?.entrepriseId;
+    }
     this.getParameter();
 
-    if(this.connectedUser?.entrepriseId){
-      this.idService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
+    if(this.idEntreprise){
+      this.idService.getEntreprise(this.idEntreprise).subscribe(
         (data: any) =>{
           this.entreprise = data;
 
@@ -205,7 +214,7 @@ export class QualitatifComponent implements OnInit {
 
   submitQuestionnaire(){
     let payload = {
-      idEntreprise: this.connectedUser?.entrepriseId,
+      idEntreprise: this.idEntreprise,
       listReponse: []
     };
 
@@ -228,7 +237,7 @@ export class QualitatifComponent implements OnInit {
 
   submitQuestionnaireByParametre(id: any){
     let payload = {
-      idEntreprise: this.connectedUser?.entrepriseId,
+      idEntreprise: this.idEntreprise,
       listReponse: [],
       idDemande: this.demande?.id
     };

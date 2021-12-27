@@ -31,7 +31,6 @@ export class CiPmeComponent implements OnInit {
         this.user = data;
         if (this.user.entrepriseId != null){
           this.getEntreprise();
-          this.getDemandeEnCours(this.user?.entrepriseId);
         }
       }
     );
@@ -49,7 +48,10 @@ export class CiPmeComponent implements OnInit {
 
   getEntreprise(){
     this.identificationService.getEntreprise(this.user?.entrepriseId).subscribe(
-      data => this.entreprise = data
+      data => {
+        this.entreprise = data;
+        this.getDemandeEnCours(this.entreprise?.id);
+      }
     );
   }
   
@@ -59,10 +61,10 @@ export class CiPmeComponent implements OnInit {
         this.demande = data;
 
         // @ts-ignore
-        this.canActivateEligibility = data?.status != 6;
+        this.canActivateEligibility = data && data?.status != 6;
 
         // @ts-ignore
-        this.canActivateIndicateur = data?.status != 6;
+        this.canActivateIndicateur = data && data?.status != 6;
 
         if(!this.demande && this.user?.profil?.code == 'ROLE_ENTR'){
           this.router.navigate(['/ci-pme/accueil'])

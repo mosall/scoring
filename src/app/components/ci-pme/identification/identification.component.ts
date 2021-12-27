@@ -252,7 +252,9 @@ export class IdentificationComponent implements OnInit {
     }).then(
       () => {
         // this.idDirigeant == null ? this.router.navigateByUrl('/ci-pme/questionnaire-eligibilite') : this.router.navigateByUrl('/ci-pme/accueil');
-        this.router.navigateByUrl('/ci-pme/accueil');
+        // this.router.navigateByUrl('/ci-pme/accueil');
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
+        this.router.navigate(['/ci-pme/accueil']));
       }
     );
   }
