@@ -9,8 +9,8 @@
       <a *ngIf="user?.profil.code == 'ROLE_EXP_PME'" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/liste-pme">Liste des entreprises</a>
       <a *ngIf="user?.entrepriseId != null" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/accueil">Accueil</a>
       <a *ngIf="user?.profil.code == 'ROLE_ENTR'" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/identification">Identification de la PME</a>
-      <a *ngIf="canActivateEligibility" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-eligibilite">Questionnaire d'éligibilité</a>
-      <a *ngIf="entreprise?.eligible && canActivateIndicateur" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/indicateurs-financiers">Indicateurs financiers</a>
+      <a *ngIf="canActivateEligibility && user?.profil?.code == 'ROLE_ENTR'" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-eligibilite">Questionnaire d'éligibilité</a>
+      <a *ngIf="((entreprise?.eligible && user?.profil?.code == 'ROLE_ENTR') || user?.profil?.code == 'ROLE_EXP_PME') && canActivateIndicateur" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/indicateurs-financiers/{{entreprise?.id}}">Indicateurs financiers</a>
       <a *ngIf="entreprise?.eligible && user?.profil.code == 'ROLE_EXP_PME'" class="nav-item nav-link" routerLinkActive="active" routerLink="/ci-pme/questionnaire-qualitatif/{{entreprise?.id}}">Questionnaire qualitatif</a>
     </div>
     <div *ngIf="user?.profil.code == 'ROLE_ENTR' && !demande && entreprise?.id" class="ml-auto">

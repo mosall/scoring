@@ -27,7 +27,7 @@ const routes: Routes = [
         component: EligibiliteComponent,
       },
       {
-        path: 'questionnaire-qualitatif',
+        path: 'questionnaire-qualitatif/:idEntreprise',
         component: QualitatifComponent
       },
       {
@@ -35,7 +35,7 @@ const routes: Routes = [
         component: IdentificationComponent
       },
       {
-        path: 'indicateurs-financiers',
+        path: 'indicateurs-financiers/:idEntreprise',
         component: IndicateursComponent
       },
       {

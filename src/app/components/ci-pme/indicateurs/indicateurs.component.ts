@@ -6,6 +6,7 @@ import {AuthService} from "../../../services/auth.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {CiPmeService} from "../../../services/ci-pme.service";
 import { DemandeService } from 'src/app/services/demande.service';
+import { ActivatedRoute } from '@angular/router';
 
 declare var $: any;
 @Component({
@@ -112,22 +113,32 @@ export class IndicateursComponent implements OnInit {
 
   ratioEnabled = false;
   demandeNonCloturee: any = [];
+  idEntreprise: any;
 
   constructor(private indicateursService: IndicateursService,
               private sanitizer: DomSanitizer,
               private authService: AuthService, private ciPmeService: CiPmeService,
               private identificationService: IdentificationService, 
-              private demandeService: DemandeService) { }
+              private demandeService: DemandeService,
+              private activatedRoute: ActivatedRoute
+              ) { }
             
 
   ngOnInit(): void {
     this.getListYear();
-    this.getEntreprise();
-
+    
     this.authService.getUserInfos().subscribe(
       (data: any) => {
         sessionStorage.setItem('connectedUserData', JSON.stringify(data));
-        this.getDemandeEnCours(data?.entrepriseId)
+        if(data?.profil?.code == 'ROLE_EXP_PME'){
+          this.idEntreprise = this.activatedRoute.snapshot.paramMap.get('idEntreprise');
+          this.getEntreprise();
+        }
+        else if(data?.profil?.code == 'ROLE_ENTR'){
+          this.idEntreprise = data?.entrepriseId;
+          this.getEntreprise();
+          // this.getDemandeEnCours(this.idEntreprise);
+        }
       }
     );
   }
@@ -157,7 +168,7 @@ export class IndicateursComponent implements OnInit {
   saveIndicateur(year: any){
     let payload = {
       annee: this.financialYear - year,
-      entreprise: this.connectedUser?.entrepriseId,
+      entreprise: this.idEntreprise,
       idDemande: this.demandeNonCloturee?.id,
       bkActifCirculant: this.indicateurs[year].indicateurs[0].value,
       btTresorerieActif: this.indicateurs[year].indicateurs[1].value,
@@ -186,7 +197,7 @@ export class IndicateursComponent implements OnInit {
       payload.id = this.reponsesIndicateur[year].id;
     }
 
-    if(this.connectedUser?.entrepriseId){
+    if(this.idEntreprise){
       this.indicateursService.saveIndicateurs(payload).subscribe(
         data => {
           // @ts-ignore
@@ -213,9 +224,9 @@ export class IndicateursComponent implements OnInit {
     }
   }
 
-  getEntreprise(){
-    if (this.connectedUser?.entrepriseId != null){
-      this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
+    getEntreprise(){
+    if (this.idEntreprise != null){
+      this.identificationService.getEntreprise(this.idEntreprise).subscribe(
         data => {
           // @ts-ignore
           this.entreprise = data;
@@ -224,6 +235,8 @@ export class IndicateursComponent implements OnInit {
               this.demandeNonCloturee = data;
               this.ratioEnabled = this.demandeNonCloturee?.indicateurAjoute && [3, 5].includes(this.demandeNonCloturee.status);
 
+              console.log("Non cloture :: ", data);
+              
               if(this.demandeNonCloturee?.indicateurAjoute){
                 this.getIndicateurs();
 

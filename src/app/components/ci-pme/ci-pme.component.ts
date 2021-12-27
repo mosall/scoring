@@ -25,73 +25,51 @@ export class CiPmeComponent implements OnInit {
   demande: any;
   idEntreprise: any;
 
-  routePathParam: Observable<string|null>;
-  navigationEnd: Observable<NavigationEnd>;
+  // routePathParam: Observable<string|null>;
+  // navigationEnd: Observable<NavigationEnd>;
 
 
   constructor(private authService: AuthService, private router: Router, private ciPmeService: CiPmeService,
               private identificationService: IdentificationService, private demandeService: DemandeService,
               private activatedRoute: ActivatedRoute
   ) {
-    this.navigationEnd = this.router.events.pipe(
-      filter((event): event is NavigationEnd   => {
-        console.log("Event :::", event);
-        
-        return event instanceof NavigationEnd;
-      })
-    );
 
-    this.routePathParam = this.navigationEnd.pipe(
-      map(() => this.activatedRoute.root),
-      map(root => root.firstChild),
-      switchMap(firstChild => {
-        console.log('first :::', firstChild);
-        
-        if(firstChild && firstChild.firstChild){
-          const targetRoute = firstChild.firstChild;
-          return targetRoute.paramMap.pipe(
-            map(paramMap => paramMap.get('idEntreprise'))
-          );
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => this.activatedRoute),
+      map(route => {
+        while (route.firstChild) {
+         route = route.firstChild;
         }
-        else{
-          return of(null)
+        return route;
+       }),
+       switchMap(route => {
+        return route.paramMap.pipe(
+                      map(paramMap => paramMap.get('idEntreprise'))
+                    );
+       })
+      )
+      .subscribe(
+        data => {
+          this.idEntreprise = data? +data : null;
+          if(this.idEntreprise){
+            this.getEntreprise();
+          }
         }
-      })
-    );
+      )
+
     }
 
   ngOnInit(): void {
-    console.log('Active ::', this.activatedRoute.root)
-    // this.routePathParam = this.activatedRoute.paramMap.pipe(
-    //   map(paramMap => paramMap.get('idEntreprise'))
-    // );
- 
     this.authService.getUserInfos().subscribe(
       data => {
         sessionStorage.setItem('connectedUserData', JSON.stringify(data));
         this.user = data;
-        if (this.user.entrepriseId != null){
-          this.idEntreprise = this.user?.entrepriseId;
-          this.getEntreprise();
+        if(this.user?.profil.code == 'ROLE_ENTR'){
+            this.idEntreprise = this.user?.entrepriseId;
+            this.getEntreprise()
         }
-      //   if(this.user?.profil?.code == 'ROLE_EXP_PME'){
-      //     // this.idEntreprise = this.activatedRoute.snapshot.paramMap.get('idEntreprise');
-      //     this.routePathParam.subscribe(
-      //       data => {
-      //         this.idEntreprise = data ? +data : null;
-      //         console.log('ID :::', data);
-              
-      //         this.getEntreprise()
-      //       },
-      //       err => console.log(err)
-            
-      //       );
-      //     }
-      //     else if(this.user?.profil.code == 'ROLE_ENTR'){
-      //       this.idEntreprise = this.user?.entrepriseId;
-      //       this.getEntreprise()
-      //   }
-      //   console.log('User ::', data, 'ID ::', this.idEntreprise);
+        console.log('User ::', data, 'ID ::', this.idEntreprise);
         
       }
     );
@@ -109,9 +87,11 @@ export class CiPmeComponent implements OnInit {
   }
 
   getEntreprise(){
-    this.identificationService.getEntreprise(this.user?.entrepriseId).subscribe(
+    this.identificationService.getEntreprise(this.idEntreprise).subscribe(
       data => {
         this.entreprise = data;
+        console.log('Entreprise ci :: ', data);
+        
         this.getDemandeEnCours(this.entreprise?.id);
       }
     );
@@ -121,7 +101,8 @@ export class CiPmeComponent implements OnInit {
     this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
       (data: any) => {
         this.demande = data;
-
+        console.log("Demande ci ::", data);
+        
         // @ts-ignore
         this.canActivateEligibility = data && data?.status != 6;
 
@@ -132,7 +113,7 @@ export class CiPmeComponent implements OnInit {
           this.router.navigate(['/ci-pme/accueil'])
         }
         else if(!this.demande && this.user?.profil?.code == 'ROLE_EXP_PME'){
-          this.router.navigate(['/ci-pme/list-pme'])
+          this.router.navigate(['/ci-pme/liste-pme'])
         }
       },
       err => console.log(err)      
