@@ -77,7 +77,7 @@
       </div>
     </div>
 
-    <mat-paginator [length]="listPme.length" [pageSize]="5"
+    <mat-paginator *ngIf="listPme.length != 0" [length]="listPme.length" [pageSize]="5"
                    [pageSizeOptions]="[5, 10, 20, 50]" (page)="handlePageChange($event)">
     </mat-paginator>
 

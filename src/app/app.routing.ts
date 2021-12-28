@@ -1,5 +1,4 @@
 import {Routes} from "@angular/router";
-import {HomeComponent} from "./components/home/home.component";
 
 export const AppRoutes: Routes = [
   {
@@ -21,9 +20,5 @@ export const AppRoutes: Routes = [
           import('./components/ci-pme/ci-pme.module').then(m => m.CiPmeModule)
       }
     ]
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
-  },
+  }
 ];

@@ -7,7 +7,6 @@ import {IdentificationComponent} from "./identification/identification.component
 import {IndicateursComponent} from "./indicateurs/indicateurs.component";
 import {AccueilComponent} from "./accueil/accueil.component";
 import {LisPmeComponent} from "./list-pme/lis-pme.component";
-import {HomeComponent} from "../home/home.component";
 
 const routes: Routes = [
   {
