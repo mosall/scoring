@@ -2,7 +2,7 @@ import {HttpHeaders} from "@angular/common/http";
 
 export class AppSettings {
 
-  private static BACK_IP = 'http://217.182.185.176';
+  private static BACK_IP = 'http://localhost';
 
 
   public static CIPME_ADMINISTRATION_API_URL    = AppSettings.BACK_IP+':3000/administration';
