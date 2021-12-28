@@ -23,22 +23,22 @@
                   <label class="mr-2">Status Demande : </label>{{status[demande?.status - 1]}}
                   <hr class="mt-lg-n2">
                 </div>
-    
+
                 <div *ngIf="demande?.dateCreation">
                   <label class="mr-2">Date de création : </label>{{formatDate(demande?.dateCreation)}}
                   <hr class="mt-lg-n2">
                 </div>
-    
+
                 <div *ngIf="demande?.dateEnvoie">
                   <label class="mr-2">Date d'envoi: </label>{{formatDate(demande?.dateEnvoie)}}
                   <hr class="mt-lg-n2">
                 </div>
-                
+
                 <div *ngIf="demande?.dateReception">
                   <label class="mr-2">Date de reception: </label>{{formatDate(demande?.dateReception)}}
                   <hr class="mt-lg-n2">
                 </div>
-    
+
               </div>
             </div>
           </div>
@@ -56,15 +56,10 @@
             <h5 class="bloc-title">
               -- Information sur l'entreprise --
             </h5>
-            <p *ngIf="demande != null" class="font-weight-bolder my-4" style="color: #006a25; font-size: 1.2rem">Statut demande : {{demande.libelleStatut}}</p>
           </div>
           <hr>
 
           <div class="mt-2">
-            <!--<div *ngIf="demande != null" class="font-weight-bolder" style="font-size: 1.2rem">
-              <label class="mr-2">Statut demande: </label>{{entreprise?.raisonSociale}}
-              <hr class="mt-lg-n2">
-            </div>-->
 
             <label class="mr-2">Raison sociale: </label>{{entreprise?.raisonSociale}}
             <hr class="mt-lg-n2">
@@ -214,7 +209,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
   </div>
 </div>

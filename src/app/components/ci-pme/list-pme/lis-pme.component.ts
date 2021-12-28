@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {ReferentielService} from "../../../services/referentiel.service";
 import {CiPmeService} from "../../../services/ci-pme.service";
 import {catchError} from "rxjs/operators";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-lis-pme',
@@ -14,6 +15,7 @@ export class LisPmeComponent implements OnInit {
   listPme: any = [];
   listPmeTmp: any = [];
   listSecteur: any = [];
+  pageSlice: any;
 
   constructor(private identificationService: IdentificationService,
               private referentielService: ReferentielService, private ciPmeService: CiPmeService,
@@ -27,9 +29,10 @@ export class LisPmeComponent implements OnInit {
   getListPme(){
     this.ciPmeService.getListPme().subscribe(
       data => {
-        console.log(data)
         // @ts-ignore
         data.sort((a: { id: number; }, b: { id: number; }) => a.id > b.id);
+        // @ts-ignore
+        console.log(data)
         // @ts-ignore
         for (let pme of data){
           let demande: any = [];
@@ -44,6 +47,9 @@ export class LisPmeComponent implements OnInit {
 
               this.listPme.push({pme, logo, demande})
               this.listPmeTmp.push({pme, logo, demande})
+
+              this.pageSlice = this.listPme.slice(0, 5);
+
             }
           );
         }
@@ -83,6 +89,17 @@ export class LisPmeComponent implements OnInit {
 
   parseToInt(i: any){
     return parseInt(i);
+  }
+
+  handlePageChange(event: PageEvent){
+    const startIndex = event.pageIndex * event.pageSize;
+    let endIndex = startIndex + event.pageSize;
+
+    if (endIndex > this.listPme.length){
+      endIndex = this.listPme.length;
+    }
+
+    this.pageSlice = this.listPme.slice(startIndex, endIndex);
   }
 
 }

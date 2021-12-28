@@ -1,0 +1,7 @@
+body {
+  background-image: linear-gradient(to bottom, #e0e0e0 , #9e9d9d);
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: 'Bahnschrift';
+  height: 100vh;
+}
