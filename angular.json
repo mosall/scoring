@@ -36,7 +36,8 @@
             ],
             "allowedCommonJsDependencies": [
               "jquery",
-              "chart.js"
+              "chart.js",
+              "pdfjs-dist"
             ]
           },
           "configurations": {
