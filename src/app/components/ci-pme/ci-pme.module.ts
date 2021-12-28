@@ -17,6 +17,7 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import { RadarComponent } from './radar/radar.component';
 import {PdfViewerModule} from "ng2-pdf-viewer";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import { HomeComponent } from '../home/home.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     IndicateursComponent,
     AccueilComponent,
     LisPmeComponent,
-    RadarComponent
+    RadarComponent,
+    HomeComponent
   ],
     imports: [
         CommonModule,
