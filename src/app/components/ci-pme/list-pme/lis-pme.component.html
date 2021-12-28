@@ -32,7 +32,7 @@
 
         <div class="col-lg-9">
           <div class="row">
-            <div class="col-lg-4 col-md-6" *ngFor="let pme of listPme">
+            <div class="col-lg-4 col-md-6" *ngFor="let pme of pageSlice">
               <div class="list-grid-item mt-4">
                 <div class="grid-item-content p-2">
                   <div class="employers-list-img mt-3">
@@ -76,5 +76,10 @@
         </div>
       </div>
     </div>
+
+    <mat-paginator [length]="listPme.length" [pageSize]="5"
+                   [pageSizeOptions]="[5, 10, 20, 50]" (page)="handlePageChange($event)">
+    </mat-paginator>
+
   </div>
 </div>

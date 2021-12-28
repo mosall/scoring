@@ -9,6 +9,7 @@ import { ChartsModule } from 'ng2-charts';
 import {MatCurrencyFormatModule} from "mat-currency-format";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import {PdfViewerModule} from "ng2-pdf-viewer";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {PdfViewerModule} from "ng2-pdf-viewer";
     BrowserModule, HttpClientModule, PdfViewerModule,
     RouterModule.forRoot(AppRoutes),
     ChartsModule, MatCurrencyFormatModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [
     {

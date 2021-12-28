@@ -16,6 +16,7 @@ import {MatCurrencyFormatModule} from "mat-currency-format";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import { RadarComponent } from './radar/radar.component';
 import {PdfViewerModule} from "ng2-pdf-viewer";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -28,16 +29,17 @@ import {PdfViewerModule} from "ng2-pdf-viewer";
     LisPmeComponent,
     RadarComponent
   ],
-  imports: [
-    CommonModule,
-    CiPmeRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
-    ChartsModule,
-    NgxCurrencyModule,
-    MatCurrencyFormatModule,
-    NgMultiSelectDropDownModule,
-    PdfViewerModule,
-  ]
+    imports: [
+        CommonModule,
+        CiPmeRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        ChartsModule,
+        NgxCurrencyModule,
+        MatCurrencyFormatModule,
+        NgMultiSelectDropDownModule,
+        PdfViewerModule,
+        MatPaginatorModule,
+    ]
 })
 export class CiPmeModule { }
