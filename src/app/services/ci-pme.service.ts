@@ -12,4 +12,8 @@ export class CiPmeService {
   getDemandeNonCloturer(idEntreprise: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + `/api/demandes/entreprise/${idEntreprise}`, AppSettings.httpOptions);
   }
+
+  getListPme(){
+    return this.http.get("http://217.182.185.176:4000/scoring/api/entreprises/demandes/envoyees", AppSettings.httpOptions);
+  }
 }

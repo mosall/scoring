@@ -2,7 +2,7 @@
   <div class="card p-4 animate__animated animate__backInUp" style="border-radius: 10px">
     <div class="card-body">
       <div class="card-title py-1">
-        <h3>Informations de la PME</h3>
+        <h3 class="my-2">Informations de la PME</h3>
       </div>
 
       <div class="card">
@@ -12,10 +12,16 @@
             <h5 class="bloc-title">
               -- Information sur l'entreprise --
             </h5>
+            <p *ngIf="demande != null" class="font-weight-bolder my-4" style="color: #006a25; font-size: 1.2rem">Statut demande : {{demande.libelleStatut}}</p>
           </div>
           <hr>
 
           <div class="mt-2">
+            <!--<div *ngIf="demande != null" class="font-weight-bolder" style="font-size: 1.2rem">
+              <label class="mr-2">Statut demande: </label>{{entreprise?.raisonSociale}}
+              <hr class="mt-lg-n2">
+            </div>-->
+
             <label class="mr-2">Raison sociale: </label>{{entreprise?.raisonSociale}}
             <hr class="mt-lg-n2">
 
@@ -49,7 +55,7 @@
 
       <div class="card mt-4">
         <div class="card-body">
-          <h5 class="bloc-title">-- Information sur le dirigeant --</h5>
+          <h5 class="bloc-title my-4">-- Information sur le dirigeant --</h5>
           <hr>
 
           <div class="mt-2">
@@ -94,7 +100,7 @@
 
       <div *ngIf="listRatio" class="card mt-4">
         <div class="card-body">
-          <h5 class="bloc-title">-- Score financier de l'entreprise --</h5>
+          <h5 class="bloc-title my-4">-- Score financier de l'entreprise --</h5>
           <hr>
 
           <div class="mt-2">
@@ -123,7 +129,7 @@
 
       <div *ngIf="scores" class="card mt-4">
         <div class="card-body">
-          <h5 class="bloc-title">-- Score des Paramétres Qualitatifs de l'entreprise --</h5>
+          <h5 class="bloc-title my-4">-- Score des Paramétres Qualitatifs de l'entreprise --</h5>
           <hr>
 
           <div class="mt-2">
@@ -156,7 +162,7 @@
       </div>
       <div *ngIf="scores && scoreFinal" class="card mt-4">
         <div class="card-body">
-          <h5 class="bloc-title">-- Radar des scores de l'entreprise --</h5>
+          <h5 class="bloc-title my-4">-- Radar des scores de l'entreprise --</h5>
           <hr>
 
           <div class="mt-2">

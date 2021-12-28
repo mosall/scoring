@@ -5,6 +5,7 @@ import {ActivatedRoute} from "@angular/router";
 import { QualitatifService } from 'src/app/services/qualitatif.service';
 import { IndicateursService } from 'src/app/services/indicateurs.service';
 import { DemandeService } from 'src/app/services/demande.service';
+import {CiPmeService} from "../../../services/ci-pme.service";
 
 @Component({
   selector: 'app-accueil',
@@ -36,7 +37,8 @@ export class AccueilComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private qualitatifService: QualitatifService,
     private indicateursService: IndicateursService,
-    private demandeService: DemandeService
+    private demandeService: DemandeService,
+    private ciPmeService: CiPmeService,
     ) { }
 
   ngOnInit(): void {
@@ -152,7 +154,7 @@ export class AccueilComponent implements OnInit {
     this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
       (data: any) => {
         this.demande = data;
-        console.log("Demande::: ", data);
+        console.log(this.demande)
         if(this.demande == null){
           this.getLastClosedDemande(idEntreprise);
         }
@@ -162,9 +164,10 @@ export class AccueilComponent implements OnInit {
           this.getRatio(this.demande?.id);
         }
       },
-      err => console.log(err)      
+      err => console.log(err)
     );
   }
+
 
   getLastClosedDemande(idEntreprise: any){
     this.demandeService.getLastClosedDemande(idEntreprise).subscribe(
@@ -175,7 +178,7 @@ export class AccueilComponent implements OnInit {
         this.getRatio(this.demande?.id);
         console.log('Last ::', data);
       },
-      err => console.log(err)      
+      err => console.log(err)
     );
   }
 
@@ -184,7 +187,7 @@ export class AccueilComponent implements OnInit {
       (data: any) => {
         this.successMsgBox("La demande de scoring a été bien réceptionné.")
       },
-      err => console.log(err)      
+      err => console.log(err)
     );
   }
 
@@ -197,7 +200,7 @@ export class AccueilComponent implements OnInit {
         this.motifRejet = '';
         this.successMsgBox('La demande a été bien rejeté.');
       },
-      err => console.log(err)      
+      err => console.log(err)
     );
   }
 
