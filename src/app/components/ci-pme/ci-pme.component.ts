@@ -66,8 +66,13 @@ export class CiPmeComponent implements OnInit {
         sessionStorage.setItem('connectedUserData', JSON.stringify(data));
         this.user = data;
         if(this.user?.profil.code == 'ROLE_ENTR'){
+          if(this.user?.entrepriseId){
             this.idEntreprise = this.user?.entrepriseId;
             this.getEntreprise()
+          }
+          else{
+            this.router.navigate(['/ci-pme/identification'])
+          }
         }
 
         if(this.user?.profil?.code == 'ROLE_EXP_PME' && !this.idEntreprise){
