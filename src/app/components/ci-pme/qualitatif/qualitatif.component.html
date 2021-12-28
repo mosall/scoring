@@ -111,7 +111,7 @@
                 [colors]="lineChartColors"
                 ></canvas>
                 <div class="btn-report">
-                  <button *ngIf="demande?.status == 3 && connectedUser?.profil?.code == 'ROLE_EXP_PME'" type="button" class="btn bgc-secondary" data-toggle="modal" data-target="#exampleModal" >
+                  <button *ngIf="[3, 5].includes(demande?.status) && connectedUser?.profil?.code == 'ROLE_EXP_PME'" type="button" class="btn bgc-secondary" data-toggle="modal" data-target="#exampleModal" >
                     <i class="far fa-file-pdf"></i>
                     <span>Générer le rapport</span>
                    </button>

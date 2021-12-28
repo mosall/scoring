@@ -233,6 +233,7 @@ export class IndicateursComponent implements OnInit {
           this.ciPmeService.getDemandeNonCloturer(this.entreprise?.id).subscribe(
             data => {
               this.demandeNonCloturee = data;
+              this.demande = data;
               this.ratioEnabled = this.demandeNonCloturee?.indicateurAjoute && [3, 5].includes(this.demandeNonCloturee.status);
 
               console.log("Non cloture :: ", data);
@@ -499,8 +500,8 @@ export class IndicateursComponent implements OnInit {
   sendDemande(){
     this.demandeService.sendDemande(this.demande?.id).subscribe(
       data => {
-        this.successMsgBox('Votre demande de scoring a été bien envoyée.');
-        window.location.reload();
+        this.successMsgBox2('Votre demande de scoring a été bien envoyée.', true);
+        // window.location.reload();
       },
       err => console.log(err)      
     );
@@ -521,6 +522,20 @@ export class IndicateursComponent implements OnInit {
           if (msg.startsWith('Le')){
             window.location.reload();
           }
+      }
+    );
+  }
+  successMsgBox2(msg: any, reload: boolean = false){
+    Swal.fire({
+      icon: 'success',
+      text: msg,
+      showConfirmButton: false,
+      timer: 5000
+    }).then(
+      ()=> {
+        if(reload){
+          window.location.reload();
+        }
       }
     );
   }

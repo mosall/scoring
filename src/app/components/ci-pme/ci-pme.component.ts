@@ -69,6 +69,11 @@ export class CiPmeComponent implements OnInit {
             this.idEntreprise = this.user?.entrepriseId;
             this.getEntreprise()
         }
+
+        if(this.user?.profil?.code == 'ROLE_EXP_PME' && !this.idEntreprise){
+          this.router.navigate(['/ci-pme/liste-pme'])
+        }
+
         console.log('User ::', data, 'ID ::', this.idEntreprise);
         
       }
