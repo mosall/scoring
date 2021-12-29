@@ -517,11 +517,7 @@ export class IndicateursComponent implements OnInit {
       showConfirmButton: false,
       timer: 5000
     }).then(
-      ()=> {
-          if (msg.startsWith('Le')){
-            window.location.reload();
-          }
-      }
+      ()=> {}
     );
   }
   successMsgBox2(msg: any, reload: boolean = false){
