@@ -14,6 +14,6 @@ export class CiPmeService {
   }
 
   getListPme(){
-    return this.http.get("http://217.182.185.176:4000/scoring/api/entreprises/demandes/envoyees", AppSettings.httpOptions);
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL+"/api/entreprises/demandes/envoyees", AppSettings.httpOptions);
   }
 }
