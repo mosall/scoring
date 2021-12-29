@@ -118,15 +118,15 @@ export class IndicateursComponent implements OnInit {
   constructor(private indicateursService: IndicateursService,
               private sanitizer: DomSanitizer,
               private authService: AuthService, private ciPmeService: CiPmeService,
-              private identificationService: IdentificationService, 
+              private identificationService: IdentificationService,
               private demandeService: DemandeService,
               private activatedRoute: ActivatedRoute
               ) { }
-            
+
 
   ngOnInit(): void {
     this.getListYear();
-    
+
     this.authService.getUserInfos().subscribe(
       (data: any) => {
         sessionStorage.setItem('connectedUserData', JSON.stringify(data));
@@ -148,13 +148,13 @@ export class IndicateursComponent implements OnInit {
       (data: any) => {
         this.demande = data;
         console.log('Demande indicateur ::', data);
-        
+
         if(this.demande?.indicateurAjoute){
             this.getIndicateurs();
-            this.getRatio();
+            // this.getRatio();
           }
       },
-      err => console.log(err)      
+      err => console.log(err)
     );
   }
 
@@ -237,13 +237,9 @@ export class IndicateursComponent implements OnInit {
               this.ratioEnabled = this.demandeNonCloturee?.indicateurAjoute && [3, 5].includes(this.demandeNonCloturee.status);
 
               console.log("Non cloture :: ", data);
-              
+
               if(this.demandeNonCloturee?.indicateurAjoute){
                 this.getIndicateurs();
-
-                if ([3, 5].includes(this.demandeNonCloturee?.status)){
-                  this.getRatio();
-                }
               }
             }
           );
@@ -253,13 +249,16 @@ export class IndicateursComponent implements OnInit {
   }
 
   getRatio(){
-    this.indicateursService.getRatio(this.demandeNonCloturee?.id).subscribe(
-      data => {
-        // @ts-ignore
-        data.listValeurRatioDTO.sort((a: any, b: any) => a.idRatio > b.idRatio);
-        this.listRatio = data;
-      }
-    )
+    if ([3, 5].includes(this.demandeNonCloturee?.status)){
+      this.indicateursService.getRatio(this.demandeNonCloturee?.id).subscribe(
+        data => {
+          // @ts-ignore
+          data.listValeurRatioDTO.sort((a: any, b: any) => a.idRatio > b.idRatio);
+          this.listRatio = data;
+          $('#ratioModal').modal('show');
+        }
+      );
+    }
   }
 
   getIndicateurs(){
@@ -503,7 +502,7 @@ export class IndicateursComponent implements OnInit {
         this.successMsgBox2('Votre demande de scoring a été bien envoyée.', true);
         // window.location.reload();
       },
-      err => console.log(err)      
+      err => console.log(err)
     );
   }
 
