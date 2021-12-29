@@ -10,6 +10,8 @@ import {MatCurrencyFormatModule} from "mat-currency-format";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import {PdfViewerModule} from "ng2-pdf-viewer";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatPaginatorIntl} from "@angular/material/paginator";
+import {getFrenchPaginatorIntl} from "../assets/locale/french.paginator-intl";
 
 
 @NgModule({
@@ -29,6 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       useClass: AuthInterceptor,
       multi   : true,
     },
+    { provide: MatPaginatorIntl, useValue: getFrenchPaginatorIntl() }
   ],
   bootstrap: [AppComponent]
 })
