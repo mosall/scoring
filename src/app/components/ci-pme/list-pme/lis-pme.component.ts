@@ -49,6 +49,13 @@ export class LisPmeComponent implements OnInit {
               this.listPmeTmp.push({pme, logo, demande})
 
               this.pageSlice = this.listPme.slice(0, 5);
+              
+            },
+            err => {
+              this.listPme.push({pme, logo: "logo", demande})
+              this.listPmeTmp.push({pme, logo: "logo", demande})
+  
+              this.pageSlice = this.listPme.slice(0, 5);
 
             }
           );
