@@ -7,6 +7,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {CiPmeService} from "../../../services/ci-pme.service";
 import { DemandeService } from 'src/app/services/demande.service';
 import { ActivatedRoute } from '@angular/router';
+import {CurrencyMaskInputMode} from "ngx-currency";
 
 declare var $: any;
 @Component({
@@ -114,6 +115,15 @@ export class IndicateursComponent implements OnInit {
   ratioEnabled = false;
   demandeNonCloturee: any = [];
   idEntreprise: any;
+
+  inputOptionsCurrency = {
+    prefix: ' ',
+    suffix: ' F CFA',
+    thousands: '.',
+    decimal: ',',
+    allowNegative: false,
+    inputMode: CurrencyMaskInputMode.NATURAL
+  };
 
   constructor(private indicateursService: IndicateursService,
               private sanitizer: DomSanitizer,
