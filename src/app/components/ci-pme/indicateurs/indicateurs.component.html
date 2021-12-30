@@ -91,34 +91,35 @@
 
                     <div class="card-body">
                       <p class="small font-italic text-success">Les formats acceptés sont: docx, xslx, pdf, png, jpg et jpeg</p>
-                      <p class="small text-muted" *ngIf="indicateurs[2].file?.nomPiece == ''">Aucun fichier disponible !</p>
-                      <div class="row" *ngIf="indicateurs[2].file?.nomPiece != ''">
-                        <div class="col-md-8">
-                          <span data-toggle="tooltip" data-placement="bottom" title="{{indicateurs[2].file.nomPiece}}" style="cursor: pointer;">
-                            {{indicateurs[2].file.nomPiece.length > 20 ? indicateurs[2].file.nomPiece.slice(0,20) + "..." : indicateurs[2].file.nomPiece}}
-                          </span>
-                        </div>
-                        <div class="col-md-4">
-                          <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Voir"
-                                  style="cursor: pointer; color: rgba(0, 0, 0, .7);" (click)="showFile(indicateurs[2].file.file[0])">
-                            <i class="fa fa-eye"></i>
-                          </button>
-                          <button class="btn btn-sm ml-lg-n2 text-primary" data-toggle="tooltip" data-placement="bottom" title="Télécharger"
-                                  style="cursor: pointer;" (click)="downloadFile(indicateurs[2].file.file[0])">
-                            <a [href]="fileToShow.href" [download]="fileToShow.name">
-                              <i class="fa fa-arrow-circle-down"></i>
-                            </a>
-                          </button>
-                          <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>-->
-                          <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
-                                  style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[2].file.file[0])">
-                            <i class="fas fa-trash"></i>
-                          </button>
+                      <p class="small text-muted" *ngIf="emptyFiles(2)">Aucun fichier disponible !</p>
+                      <div *ngIf="!emptyFiles(2)">
+                        <div class="row" *ngFor="let file of indicateurs[2].files">
+                          <div class="col-md-8">
+                            <span data-toggle="tooltip" data-placement="bottom" [title]="file.nomPiece" style="cursor: pointer;">
+                              {{file.nomPiece.length > 20 ? file.nomPiece.slice(0,20) + "..." : file.nomPiece}}
+                            </span>
+                          </div>
+                          <div class="col-md-4" *ngIf="file.isSaved">
+                            <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Voir"
+                                    style="cursor: pointer; color: rgba(0, 0, 0, .7);" (click)="showFile(file.file)">
+                              <i class="fa fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm ml-lg-n2 text-primary" data-toggle="tooltip" data-placement="bottom" title="Télécharger"
+                                    style="cursor: pointer;" (click)="downloadFile(file.file)">
+                              <a [href]="fileToShow.href" [download]="fileToShow.name">
+                                <i class="fa fa-arrow-circle-down"></i>
+                              </a>
+                            </button>
+                            <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
+                                    style="cursor: pointer; color: #dc3545;" (click)="deleteFile(file)">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <div class="card-footer" *ngIf="!indicateurs[2].hasFile">
+                    <div class="card-footer">
                       <div class="row">
                         <div class="col-md-6 text-center">
                           <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(2)">
@@ -180,34 +181,36 @@
 
                     <div class="card-body">
                       <p class="small font-italic text-success">Les formats acceptés sont: docx, xslx, pdf, png, jpg et jpeg</p>
-                      <p class="small text-muted" *ngIf="indicateurs[1].file?.nomPiece == ''">Aucun fichier disponible !</p>
-                      <div class="row" *ngIf="indicateurs[1].file?.nomPiece != ''">
-                        <div class="col-md-8">
-                          <span data-toggle="tooltip" data-placement="bottom" title="{{indicateurs[1].file.nomPiece}}" style="cursor: pointer;">
-                            {{indicateurs[1].file.nomPiece.length > 20 ? indicateurs[1].file.nomPiece.slice(0,20) + "..." : indicateurs[1].file.nomPiece}}
-                          </span>
-                        </div>
-                        <div class="col-md-4">
-                          <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Voir"
-                                  style="cursor: pointer; color: rgba(0, 0, 0, .7);" (click)="showFile(indicateurs[1].file.file[0])">
-                            <i class="fa fa-eye"></i>
-                          </button>
-                          <button class="btn btn-sm ml-lg-n2 text-primary" data-toggle="tooltip" data-placement="bottom" title="Télécharger"
-                                  style="cursor: pointer;" (click)="downloadFile(indicateurs[1].file.file[0])">
-                            <a [href]="fileToShow.href" [download]="fileToShow.name">
-                              <i class="fa fa-arrow-circle-down"></i>
-                            </a>
-                          </button>
-                          <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>-->
-                          <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
-                                  style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[1].file.file[0])">
-                            <i class="fas fa-trash"></i>
-                          </button>
+                      <p class="small text-muted" *ngIf="emptyFiles(1)">Aucun fichier disponible !</p>
+                      <div *ngIf="!emptyFiles(1)">
+                        <div class="row" *ngFor="let file of indicateurs[1].files">
+                          <div class="col-md-8">
+                            <span data-toggle="tooltip" data-placement="bottom" [title]="file.nomPiece" style="cursor: pointer;">
+                              {{file.nomPiece.length > 20 ? file.nomPiece.slice(0,20) + "..." : file.nomPiece}}
+                            </span>
+                          </div>
+                          <div class="col-md-4" *ngIf="file.isSaved">
+                            <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Voir"
+                                    style="cursor: pointer; color: rgba(0, 0, 0, .7);" (click)="showFile(file.file)">
+                              <i class="fa fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm ml-lg-n2 text-primary" data-toggle="tooltip" data-placement="bottom" title="Télécharger"
+                                    style="cursor: pointer;" (click)="downloadFile(file.file)">
+                              <a [href]="fileToShow.href" [download]="fileToShow.name">
+                                <i class="fa fa-arrow-circle-down"></i>
+                              </a>
+                            </button>
+                            <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>-->
+                            <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
+                                    style="cursor: pointer; color: #dc3545;" (click)="deleteFile(file)">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <div class="card-footer" *ngIf="!indicateurs[1].hasFile">
+                    <div class="card-footer">
                       <div class="row">
                         <div class="col-md-6 text-center">
                           <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(1)">
@@ -270,34 +273,36 @@
 
                     <div class="card-body">
                       <p class="small font-italic text-success">Les formats acceptés sont: docx, xslx, pdf, png, jpg et jpeg</p>
-                      <p class="small text-muted" *ngIf="indicateurs[0].file?.nomPiece == ''">Aucun fichier disponible !</p>
-                      <div class="row" *ngIf="indicateurs[0].file?.nomPiece != ''">
-                        <div class="col-md-8">
-                          <span data-toggle="tooltip" data-placement="bottom" title="{{indicateurs[0].file.nomPiece}}" style="cursor: pointer;">
-                            {{indicateurs[0].file.nomPiece.length > 20 ? indicateurs[0].file.nomPiece.slice(0,20) + "..." : indicateurs[0].file.nomPiece}}
-                          </span>
-                        </div>
-                        <div class="col-md-4">
-                          <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Voir"
-                                  style="cursor: pointer; color: rgba(0, 0, 0, .7);" (click)="showFile(indicateurs[0].file.file[0])">
-                            <i class="fa fa-eye"></i>
-                          </button>
-                          <button class="btn btn-sm ml-lg-n2 text-primary" data-toggle="tooltip" data-placement="bottom" title="Télécharger"
-                                  style="cursor: pointer;" (click)="downloadFile(indicateurs[0].file.file[0])">
-                            <a [href]="fileToShow.href" [download]="fileToShow.name">
-                              <i class="fa fa-arrow-circle-down"></i>
-                            </a>
-                          </button>
-                          <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>-->
-                          <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
-                                  style="cursor: pointer; color: #dc3545;" (click)="deleteFile(indicateurs[0].file.file[0])">
-                            <i class="fas fa-trash"></i>
-                          </button>
+                      <p class="small text-muted" *ngIf="emptyFiles(0)">Aucun fichier disponible !</p>
+                      <div *ngIf="!emptyFiles(0)">
+                        <div class="row" *ngFor="let file of indicateurs[0].files">
+                          <div class="col-md-8">
+                            <span data-toggle="tooltip" data-placement="bottom" [title]="file.nomPiece" style="cursor: pointer;">
+                              {{file.nomPiece.length > 20 ? file.nomPiece.slice(0,20) + "..." : file.nomPiece}}
+                            </span>
+                          </div>
+                          <div class="col-md-4" *ngIf="file.isSaved">
+                            <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Voir"
+                                    style="cursor: pointer; color: rgba(0, 0, 0, .7);" (click)="showFile(file.file)">
+                              <i class="fa fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm ml-lg-n2 text-primary" data-toggle="tooltip" data-placement="bottom" title="Télécharger"
+                                    style="cursor: pointer;" (click)="downloadFile(file.file)">
+                              <a [href]="fileToShow.href" [download]="fileToShow.name">
+                                <i class="fa fa-arrow-circle-down"></i>
+                              </a>
+                            </button>
+                            <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>-->
+                            <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
+                                    style="cursor: pointer; color: #dc3545;" (click)="deleteFile(file)">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <div class="card-footer" *ngIf="!indicateurs[0].hasFile">
+                    <div class="card-footer">
                       <div class="row">
                         <div class="col-md-6 text-center">
                           <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(0)">

@@ -46,6 +46,7 @@ export class IndicateursComponent implements OnInit {
         {code: 'RS', nom: 'Impôt sur le résultat', source: 'Compte de résultat', value: ''},
       ],
       file: {nomPiece: '', file: ''},
+      files: [{nomPiece: '', file: '', isSaved: false}],
       hasFile: false
     },
     {
@@ -73,6 +74,7 @@ export class IndicateursComponent implements OnInit {
         {code: 'RS', nom: 'Impôt sur le résultat', source: 'Compte de résultat', value: ''},
       ],
       file: {nomPiece: '', file: ''},
+      files: [{nomPiece: '', file: '', isSaved: false}],
       hasFile: false
     },
     {
@@ -100,6 +102,7 @@ export class IndicateursComponent implements OnInit {
         {code: 'RS', nom: 'Impôt sur le résultat', source: 'Compte de résultat', value: ''},
       ],
       file: {nomPiece: '', file: ''},
+      files: [{nomPiece: '', file: '', isSaved: false}],
       hasFile: false
     }
   ];
@@ -157,7 +160,7 @@ export class IndicateursComponent implements OnInit {
     this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
       (data: any) => {
         this.demande = data;
-        console.log('Demande indicateur ::', data);
+        // console.log('Demande indicateur ::', data);
 
         if(this.demande?.indicateurAjoute){
             this.getIndicateurs();
@@ -212,7 +215,11 @@ export class IndicateursComponent implements OnInit {
         data => {
           // @ts-ignore
           this.indicateurs[year].id = data.id;
-          if (this.indicateurs[year].file.file != '' && !this.indicateurs[year].hasFile){
+          /*if (this.indicateurs[year].file.file != '' && !this.indicateurs[year].hasFile){
+            this.saveFiles(year);
+          }*/
+
+          if (this.indicateurs[year].files.length != 0 && !this.indicateurs[year].hasFile){
             this.saveFiles(year);
           }
 
@@ -246,7 +253,7 @@ export class IndicateursComponent implements OnInit {
               this.demande = data;
               this.ratioEnabled = this.demandeNonCloturee?.indicateurAjoute && [3, 5].includes(this.demandeNonCloturee.status);
 
-              console.log("Non cloture :: ", data);
+              // console.log("Non cloture :: ", data);
 
               if(this.demandeNonCloturee?.indicateurAjoute){
                 this.getIndicateurs();
@@ -285,6 +292,11 @@ export class IndicateursComponent implements OnInit {
   }
 
   setIndicateur(index: any, data: any){
+    // @ts-ignore
+    this.indicateurs[index].file = {nomPiece: '', file: '', isSaved: false};
+    this.indicateurs[index].files = [];
+    this.indicateurs[index].hasFile = false;
+
     if (data[index]){
       this.indicateurs[index].id = data[index].id;
       this.indicateurs[index].indicateurs = [
@@ -311,16 +323,17 @@ export class IndicateursComponent implements OnInit {
       ];
       this.indicateursService.getIndicateurFiles(this.indicateurs[index]?.id).subscribe(
         data => {
+          this.indicateurs[index].files = [];
+          console.log(index)
           // @ts-ignore
           if (data.length != 0){
             // @ts-ignore
-            this.indicateurs[index].file = {nomPiece: data[0].nomPiece, file: data};
+            // this.indicateurs[index].file = {nomPiece: data[0].nomPiece, file: data};
+            for(let file of data){
+              // @ts-ignore
+              this.indicateurs[index].files.push({nomPiece: file.nomPiece, file, isSaved: true});
+            }
             this.indicateurs[index].hasFile = true;
-          }
-          else {
-            // @ts-ignore
-            this.indicateurs[index].file = {nomPiece: '', file: ''};
-            this.indicateurs[index].hasFile = false;
           }
         }
       );
@@ -342,7 +355,7 @@ export class IndicateursComponent implements OnInit {
     const fileInputValue = fileInput.files[0];
 
     // @ts-ignore
-    let existing = this.indicateurs[index].file.nomPiece == null ? undefined : (this.indicateurs[index].file.nomPiece == fileInputValue.name ? this.indicateurs[index].file : undefined);
+    /*let existing = this.indicateurs[index].file.nomPiece == null ? undefined : (this.indicateurs[index].file.nomPiece == fileInputValue.name ? this.indicateurs[index].file : undefined);
 
     if (existing != undefined){
       this.errorMsgBox('Ce fichier a été déjà ajouté.');
@@ -350,8 +363,25 @@ export class IndicateursComponent implements OnInit {
     }
 
     // @ts-ignore
-    this.indicateurs[index].file = {nomPiece: fileInputValue.name, file: fileInputValue};
-    console.log(this.indicateurs[index].file);
+    this.indicateurs[index].file = {nomPiece: fileInputValue.name, file: fileInputValue};*/
+
+    let existFile = 0;
+
+    for(let file of this.indicateurs[index].files){
+      // @ts-ignore
+      if(file.nomPiece == fileInputValue.name) {
+        existFile++;
+      }
+    }
+
+    if(existFile != 0){
+      this.errorMsgBox('Le nom du fichier exite déja.');
+      return;
+    }
+
+    // @ts-ignore
+    this.indicateurs[index].files.push({nomPiece: this.formatFilename(fileInputValue.name), file: fileInputValue, isSaved: false});
+    console.log(this.indicateurs[index].files);
   }
 
   deleteFileToFileList(id: any, index: any){
@@ -362,11 +392,18 @@ export class IndicateursComponent implements OnInit {
 
   saveFiles(index: any){
     const formData = new FormData();
-    formData.append('files', this.indicateurs[index].file.file, this.indicateurs[index].file.nomPiece);
+    for (let file of this.indicateurs[index].files){
+      // @ts-ignore
+      if(!file.isSaved){
+        formData.append('files', file.file, file.nomPiece);
+      }
+    }
+
     if (this.indicateurs[index].id != null){
       this.indicateursService.saveIndicateurFile(this.indicateurs[index].id, formData).subscribe(
         data => {
-          this.successMsgBox('Le fichier a été enregistré !')
+          this.successMsgBox('Le fichier a été enregistré !');
+          this.getIndicateurs();
         },
         error => {
           this.errorMsgBox('Enregistrement fichier échoué, veuillez réesssayer !')
@@ -379,6 +416,7 @@ export class IndicateursComponent implements OnInit {
   }
 
   showFile(file: any){
+    console.log(file)
     this.fileToShow.name  =  file.nomPiece;
     this.fileToShow.ext   =  file.nomPiece.split('.')[1];
     this.fileToShow.href   =  <string>this.createDownloadFileLink(file.contenu, file.nomPiece.split('.')[1]);
@@ -428,7 +466,6 @@ export class IndicateursComponent implements OnInit {
   }
 
   deleteFile(file: any){
-    const idFile = file.id;
     Swal.fire({
       title: 'Suppression',
       text: 'Êtes vous sûr de vouloir supprimer le fichier ?',
@@ -441,7 +478,7 @@ export class IndicateursComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         // tslint:disable-next-line:triple-equals
-        this.indicateursService.deleteIndicateurFile(file.indicateur.id, idFile).subscribe(
+        this.indicateursService.deleteIndicateurFile(file.file.indicateur.id, file.file.id).subscribe(
           (resp) => {
             Swal.fire({
               icon: 'success',
@@ -553,6 +590,23 @@ export class IndicateursComponent implements OnInit {
       showConfirmButton: false,
       timer: 5000
     });
+  }
+
+  emptyFiles(index: any){
+    let isEmpty = true;
+
+    if(this.indicateurs[index].files.length != 0 && this.indicateurs[index].files[0].nomPiece != ''){
+      isEmpty = !isEmpty;
+    }
+    else {
+      isEmpty = true;
+    }
+
+    return isEmpty;
+  }
+
+  formatFilename(filename: any){
+    return filename.replace(/[#_-]/g,' ');
   }
 
 }

@@ -79,12 +79,12 @@ export class CiPmeComponent implements OnInit {
           this.router.navigate(['/ci-pme/liste-pme'])
         }
 
-        console.log('User ::', data, 'ID ::', this.idEntreprise);
-        
+        // console.log('User ::', data, 'ID ::', this.idEntreprise);
+
       }
     );
 
-    
+
   }
 
   logout(){
@@ -100,19 +100,19 @@ export class CiPmeComponent implements OnInit {
     this.identificationService.getEntreprise(this.idEntreprise).subscribe(
       data => {
         this.entreprise = data;
-        console.log('Entreprise ci :: ', data);
-        
+        // console.log('Entreprise ci :: ', data);
+
         this.getDemandeEnCours(this.entreprise?.id);
       }
     );
   }
-  
+
   getDemandeEnCours(idEntreprise: any){
     this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
       (data: any) => {
         this.demande = data;
-        console.log("Demande ci ::", data);
-        
+        // console.log("Demande ci ::", data);
+
         // @ts-ignore
         this.canActivateEligibility = data && data?.status != 6;
 
@@ -126,7 +126,7 @@ export class CiPmeComponent implements OnInit {
           this.router.navigate(['/ci-pme/liste-pme'])
         }
       },
-      err => console.log(err)      
+      err => console.log(err)
     );
   }
 
@@ -135,7 +135,7 @@ export class CiPmeComponent implements OnInit {
       data => {
         this.successMsgBox('Une demande de scoring a été bien créée.');
       },
-      err => console.log(err)      
+      err => console.log(err)
     );
   }
 
