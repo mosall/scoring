@@ -6,7 +6,7 @@
         <!-- <div class="card-body"> -->
           <div class="mt-2 d-flex justify-content-end">
              <button *ngIf="demande?.status == 2 && connectedUser?.profil.code == 'ROLE_EXP_PME'" class="btn btn-sm mr-2" style="color: #ffffff; background-color: #006a25" (click)="receiveDemande()">Réceptionner demande</button>
-            <button *ngIf="demande?.status == 3 && connectedUser?.profil.code == 'ROLE_EXP_PME'" class="btn btn-sm" style="color: #ffffff; background-color:  #f78300" data-toggle="modal" data-toggle="modal" data-target="#ratioModal">Rejetter demande </button>
+            <button *ngIf="demande?.status == 3 && connectedUser?.profil.code == 'ROLE_EXP_PME'" class="btn btn-sm" style="color: #ffffff; background-color:  #f78300" data-toggle="modal" data-toggle="modal" data-target="#ratioModal">Rejeter demande </button>
           </div>
         <!-- </div> -->
       </div>
@@ -137,7 +137,7 @@
         </div>
       </div>
 
-      <div *ngIf="listRatio && demande" class="card mt-4">
+      <div *ngIf="displayRatio" class="card mt-4">
         <div class="card-body">
           <h5 class="bloc-title my-4">-- Score financier de l'entreprise --</h5>
           <hr>
@@ -166,7 +166,7 @@
         </div>
       </div>
 
-      <div *ngIf="scores && demande" class="card mt-4">
+      <div *ngIf="displayScoreQualitatif" class="card mt-4">
         <div class="card-body">
           <h5 class="bloc-title my-4">-- Score des Paramétres Qualitatifs de l'entreprise --</h5>
           <hr>
@@ -200,7 +200,7 @@
         </div>
       </div>
 
-      <div *ngIf="scores && scoreFinal && demande" class="card mt-4">
+      <div *ngIf="displayRadar" class="card mt-4">
         <div class="card-body">
           <h5 class="bloc-title my-4">-- Radar des scores de l'entreprise --</h5>
           <hr>
