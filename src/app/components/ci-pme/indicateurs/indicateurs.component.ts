@@ -224,7 +224,7 @@ export class IndicateursComponent implements OnInit {
     }
   }
 
-    getEntreprise(){
+  getEntreprise(){
     if (this.idEntreprise != null){
       this.identificationService.getEntreprise(this.idEntreprise).subscribe(
         data => {
@@ -520,6 +520,7 @@ export class IndicateursComponent implements OnInit {
       ()=> {}
     );
   }
+
   successMsgBox2(msg: any, reload: boolean = false){
     Swal.fire({
       icon: 'success',

@@ -70,11 +70,16 @@
                       <td>{{indicateur.nom}}</td>
                       <td>{{indicateur.source}}</td>
                       <td>
-                        <input type="text" class="form-control" style="height: 30px; text-align: right"
+                        <!--<input type="text" class="form-control" style="height: 30px; text-align: right"
                                matInput type="text" mvndrMatCurrencyFormat
                                [allowNegative]="true"
                                [currencyCode]="' '"
-                               [(ngModel)]="indicateur.value">
+                               [(ngModel)]="indicateur.value">-->
+
+                        <input currencyMask class="form-control" style="height: 30px;"
+                               [(ngModel)]="indicateur.value"
+                               [options]="{ prefix: ' ', suffix: ' F CFA', thousands: '.', decimal: ',', allowNegative: false }"/>
+
                       </td>
                     </tr>
                     </tbody>
@@ -155,11 +160,15 @@
                       <td>{{indicateur.source}}</td>
                       <td>{{indicateur.nom}}</td>
                       <td>
-                        <input class="form-control" style="height: 30px; text-align: right"
+                        <!--<input class="form-control" style="height: 30px; text-align: right"
                                matInput type="text" mvndrMatCurrencyFormat
                                [allowNegative]="true"
                                [currencyCode]="' '"
-                               [(ngModel)]="indicateur.value">
+                               [(ngModel)]="indicateur.value">-->
+
+                        <input currencyMask class="form-control" style="height: 30px;"
+                               [(ngModel)]="indicateur.value"
+                               [options]="{ prefix: ' ', suffix: ' F CFA', thousands: '.', decimal: ',', allowNegative: false }"/>
                       </td>
                     </tr>
                     </tbody>
@@ -241,11 +250,15 @@
                       <td>{{indicateur.nom}}</td>
                       <td>{{indicateur.source}}</td>
                       <td>
-                        <input class="form-control" style="height: 30px; text-align: right"
+                        <!--<input class="form-control" style="height: 30px; text-align: right"
                                matInput type="text" mvndrMatCurrencyFormat
                                [allowNegative]="true"
-                               [currencyCode]="' '"
-                               [(ngModel)]="indicateur.value">
+                               [currencyCode]="'XOF'"
+                               [(ngModel)]="indicateur.value">-->
+
+                        <input currencyMask class="form-control" style="height: 30px;"
+                               [(ngModel)]="indicateur.value"
+                               [options]="{ prefix: ' ', suffix: ' F CFA', thousands: '.', decimal: ',', allowNegative: false }"/>
                       </td>
                     </tr>
                     </tbody>
