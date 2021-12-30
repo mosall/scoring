@@ -161,7 +161,9 @@ export class IndicateursComponent implements OnInit {
 
         if(this.demande?.indicateurAjoute){
             this.getIndicateurs();
-            // this.getRatio();
+            if([3, 5].includes(this.demande?.status)){
+              // this.getRatio();
+            }
           }
       },
       err => console.log(err)
@@ -250,6 +252,9 @@ export class IndicateursComponent implements OnInit {
 
               if(this.demandeNonCloturee?.indicateurAjoute){
                 this.getIndicateurs();
+                if ([3, 5].includes(this.demandeNonCloturee?.status)){
+                  // this.getRatio();
+                }
               }
             }
           );
@@ -269,6 +274,17 @@ export class IndicateursComponent implements OnInit {
         }
       );
     }
+  }
+  
+  calculRatio(){
+    this.indicateursService.calculRatio(this.demandeNonCloturee?.id).subscribe(
+      data => {
+        // @ts-ignore
+        data.listValeurRatioDTO.sort((a: any, b: any) => a.idRatio > b.idRatio);
+        this.listRatio = data;
+        $('#ratioModal').modal('show');
+      }
+    );
   }
 
   getIndicateurs(){
