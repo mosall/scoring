@@ -17,10 +17,14 @@ export class IndicateursService {
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + `/api/indicateurs/${id}/demande`, AppSettings.httpOptions);
   }
 
-  getRatio(id: any){
+  calculRatio(id: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/score/financier/' + id, AppSettings.httpOptions);
   }
-
+  
+  getRatio(id: any){
+    return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/score/financier-ratios/' + id, AppSettings.httpOptions);
+  }
+  
   getIndicateurFiles(id: any){
     return this.http.get(AppSettings.CIPME_SCORING_API_URL + `/api/indicateurs/${id}/attachments`, AppSettings.httpOptions);
   }

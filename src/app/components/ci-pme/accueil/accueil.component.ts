@@ -39,6 +39,10 @@ export class AccueilComponent implements OnInit {
     'Provisoire',
     'Cloturée'
   ];
+  displayScoreQualitatif: boolean = false;
+  displayRatio: boolean = false;
+  displayRadar: boolean = false;
+  parametres: any[] = [];
 
   constructor(
     private identificationService: IdentificationService,
@@ -52,10 +56,17 @@ export class AccueilComponent implements OnInit {
   ngOnInit(): void {
     this.idEntreprise = this.activatedRoute.snapshot.paramMap.get('idEntreprise');
     this.getEntreprise();
+    this.getParametre();
     // this.getScore(this.idEntreprise);
     // this.getScoreQualitatif(this.idEntreprise);
     // this.getRatio(this.idEntreprise);
     // this.getRadarData();
+  }
+  getParametre() {
+    this.qualitatifService.getParameter().subscribe(
+      (data: any) => { this.parametres = data},
+      err => console.log(err)
+    );
   }
 
   getScore(id: any){
@@ -71,6 +82,7 @@ export class AccueilComponent implements OnInit {
     this.qualitatifService.getScoreQualitatif(id).subscribe(
       (data: any) => {
         this.scores = data;
+        this.displayScoreQualitatif = this.demande && this.demande?.repQuali && this.scores.length == this.parametres.length;
         this.getRadarData();
       },
       err => console.log(err)
@@ -80,9 +92,12 @@ export class AccueilComponent implements OnInit {
   getRatio(id: any){
     this.indicateursService.getRatio(id).subscribe(
       data => {
+        console.log('Ratio :: ', data);
+        
         // @ts-ignore
         data.listValeurRatioDTO.sort((a: any, b: any) => a.idRatio > b.idRatio);
         this.listRatio = data;
+        this.displayRatio = this.demande && this.demande?.indicateurAjoute && this.listRatio?.listValeurRatioDTO?.length > 0 && this.listRatio?.scoreDTO;
       }
     )
   }
@@ -100,6 +115,7 @@ export class AccueilComponent implements OnInit {
       label: 'Score qualitatif'
     }];
     this.chartLibelles = labels;
+    this.displayRadar = this.scoreFinal?.score_financier && this.scores.length == this.parametres.length && this.demande;
   }
 
   getEntreprise(){
@@ -168,9 +184,15 @@ export class AccueilComponent implements OnInit {
           this.getLastClosedDemande(idEntreprise);
         }
         else if (this.demande != null){
-          this.getScore(this.demande?.id);
-          this.getScoreQualitatif(this.demande?.id);
-          this.getRatio(this.demande?.id);
+          if( this.demande?.indicateurAjoute && this.demande?.repQuali){
+            this.getScore(this.demande?.id);
+          }
+          if(this.demande?.repQuali){
+            this.getScoreQualitatif(this.demande?.id);
+          }
+          if([3, 5].includes(this.demande?.status)){
+            this.getRatio(this.demande?.id);
+          }
         }
       },
       err => console.log(err)
@@ -183,9 +205,15 @@ export class AccueilComponent implements OnInit {
       (data: any) => {
         this.demande = data;
         if(this.demande != null){
-          this.getScore(this.demande?.id);
-          this.getScoreQualitatif(this.demande?.id);
-          this.getRatio(this.demande?.id);
+          if( this.demande?.indicateurAjoute && this.demande?.repQuali){
+            this.getScore(this.demande?.id);
+          }
+          if(this.demande?.repQuali){
+            this.getScoreQualitatif(this.demande?.id);
+          }
+          if([3, 5].includes(this.demande?.status)){
+            this.getRatio(this.demande?.id);
+          }
           console.log('Last ::', data);
         }
       },

@@ -23,7 +23,8 @@
                 <button *ngIf="demande?.status == 1 && demande?.indicateurAjoute && connectedUser?.profil?.code == 'ROLE_ENTR'" class="btn btn-sm mr-2" style="font-size: .75rem; color: #ffffff; background-color: #f78300" (click)="sendDemande()">Envoyer la demande</button>
               </div>
               <div class="col-md-6">
-                <button *ngIf="ratioEnabled" class="btn btn-sm" style="font-size: .75rem; color: #ffffff; background-color: #006a25" data-toggle="modal" data-target="#ratioModal">Calculer le ratio</button>
+                <!-- <button *ngIf="ratioEnabled" class="btn btn-sm" style="font-size: .75rem; color: #ffffff; background-color: #006a25" data-toggle="modal" data-target="#ratioModal">Calculer le ratio</button> -->
+                <button *ngIf="ratioEnabled" class="btn btn-sm" style="font-size: .75rem; color: #ffffff; background-color: #006a25" (click)="calculRatio()">Calculer le ratio</button>
               </div>
             </div>
           </div>
