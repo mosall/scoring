@@ -6,7 +6,7 @@
         <!-- <div class="card-body"> -->
           <div class="mt-2 d-flex justify-content-end">
              <button *ngIf="demande?.status == 2 && connectedUser?.profil.code == 'ROLE_EXP_PME'" class="btn btn-sm mr-2" style="color: #ffffff; background-color: #006a25" (click)="receiveDemande()">Réceptionner demande</button>
-            <button *ngIf="demande?.status == 3 && connectedUser?.profil.code == 'ROLE_EXP_PME'" class="btn btn-sm" style="color: #ffffff; background-color:  #f78300" data-toggle="modal" data-toggle="modal" data-target="#ratioModal">Rejetter demande </button>
+            <button *ngIf="demande?.status == 3 && connectedUser?.profil.code == 'ROLE_EXP_PME'" class="btn btn-sm" style="color: #ffffff; background-color:  #f78300" data-toggle="modal" data-toggle="modal" data-target="#ratioModal">Rejeter demande </button>
           </div>
         <!-- </div> -->
       </div>

@@ -139,6 +139,17 @@ export class CiPmeComponent implements OnInit {
     );
   }
 
+  goTo(path: string, param: number = 0){
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>{
+      if(param == 0){
+        this.router.navigate([path])
+      }
+      else{
+        this.router.navigate([path, param != 0? param : '']);
+      }
+    });
+  }
+
   successMsgBox(msg: any){
     Swal.fire({
       icon: 'success',
