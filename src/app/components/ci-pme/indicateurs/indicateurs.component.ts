@@ -225,11 +225,12 @@ export class IndicateursComponent implements OnInit {
             this.saveFiles(year);
           }
 
+          this.successMsgBox('Indicateurs enregistrés avec succès !');
+
           if(year != 0){
             $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
           }
           else {
-            this.successMsgBox('Indicateurs enregistrés avec succès !');
             window.location.reload();
           }
         },
@@ -282,7 +283,7 @@ export class IndicateursComponent implements OnInit {
       );
     }
   }
-  
+
   calculRatio(){
     this.indicateursService.calculRatio(this.demandeNonCloturee?.id).subscribe(
       data => {
@@ -309,7 +310,7 @@ export class IndicateursComponent implements OnInit {
 
   setIndicateur(index: any, data: any){
     // @ts-ignore
-    this.indicateurs[index].file = {nomPiece: '', file: '', isSaved: false};
+    console.log(data)
     this.indicateurs[index].files = [];
     this.indicateurs[index].hasFile = false;
 
@@ -344,12 +345,15 @@ export class IndicateursComponent implements OnInit {
           // @ts-ignore
           if (data.length != 0){
             // @ts-ignore
-            // this.indicateurs[index].file = {nomPiece: data[0].nomPiece, file: data};
             for(let file of data){
               // @ts-ignore
               this.indicateurs[index].files.push({nomPiece: file.nomPiece, file, isSaved: true});
             }
             this.indicateurs[index].hasFile = true;
+          }
+          else {
+            this.indicateurs[index].files = [];
+            this.indicateurs[index].hasFile = false;
           }
         }
       );
@@ -385,7 +389,7 @@ export class IndicateursComponent implements OnInit {
 
     for(let file of this.indicateurs[index].files){
       // @ts-ignore
-      if(file.nomPiece == fileInputValue.name) {
+      if(file.nomPiece == this.formatFilename(fileInputValue.name)) {
         existFile++;
       }
     }
