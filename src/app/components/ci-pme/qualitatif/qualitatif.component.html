@@ -63,7 +63,7 @@
               <div *ngIf="scoreParametre">Score : {{ scoreParametre?.score}}</div> 
                 <button class="btn previous-btn" *ngIf="tabIndex != 0" (click)="activeTab('previous')" style="background-color: #f78300; color: #ffffff">Précédent</button>
                 <button class="btn" style="background-color: #006a25; color: #ffffff"  (click)="submitQuestionnaireByParametre(p.id)">Valider</button>
-                <button class="btn" style="background-color: #f78300; color: #ffffff" *ngIf="tabIndex != 6 && p.score != 0" (click)="activeTab('next')">Suivant</button>
+                <button class="btn" style="background-color: #f78300; color: #ffffff" *ngIf="tabIndex != 6" (click)="activeTab('next')">Suivant</button>
               </div>
           </div>
         </div>
