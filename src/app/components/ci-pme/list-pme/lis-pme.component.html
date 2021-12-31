@@ -31,7 +31,7 @@
         </div>
 
         <div class="col-lg-9">
-          <div class="row">
+          <div class="row" *ngIf="listPme.length != 0">
             <div class="col-lg-4 col-md-6" *ngFor="let pme of pageSlice">
               <div class="list-grid-item mt-4">
                 <div class="grid-item-content p-2">
@@ -71,8 +71,8 @@
               </div>
             </div>
 
-            <p class="mt-4" *ngIf="listPme.length == 0">La liste des entreprises est vide !</p>
           </div>
+          <p class="mt-4" *ngIf="listPme.length == []">La liste des entreprises est vide !</p>
         </div>
       </div>
     </div>
