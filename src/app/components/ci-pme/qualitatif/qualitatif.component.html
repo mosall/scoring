@@ -29,6 +29,19 @@
                         {{q.question?.libelle}}
                         <div *ngIf="q.chosen" class="chosen-answer blockquote-footer">{{ q.chosen }} </div>
                       </button>
+                      <div class="row">
+                        <div class="col-md-8"></div>
+                        <div class="col-md-4">
+                          <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" aria-label="Ne sais pas" id="ne_sais_pas" name="no-answer-{{q.question?.id}}" value="240" [ngModel]="q.reponse+''" (change)="onSelectReponse($event, q)">
+                            <label class="form-check-label fs-1" for="ne_sais_pas">Ne sais pas</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" aria-label="Ne s'applique pas" id="ne_sapplique_pas" name="no-answer-{{q.question?.id}}" value="241" [ngModel]="q.reponse+''" (change)="onSelectReponse($event, q)">
+                            <label class="form-check-label fs-1" for="ne_sapplique_pas">Ne s'applique pas</label>
+                          </div>
+                        </div>
+                      </div>
                     </h5>
                   </div>
 

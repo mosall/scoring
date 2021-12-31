@@ -145,3 +145,16 @@ button{
   margin-left: 1rem;
   font-style: italic;
 }
+
+.no-answer{
+  display: block;
+  font-size: 80%;
+}
+
+.fs-1{
+  font-size: 0.875rem !important;
+}
+.oneline{
+  display: flex;
+  justify-content: space-between;
+}
