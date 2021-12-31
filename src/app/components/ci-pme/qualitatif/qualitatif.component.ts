@@ -154,9 +154,9 @@ export class QualitatifComponent implements OnInit {
       this.fillReponses(idEntreprise)
   }
 
-  fillReponses(id: any){
+  fillReponses(id: any){    
     this.qualitatifService.getReponseParPME(id).subscribe(
-        (rep: any) => {
+        (rep: any) => {          
           for(let p of this.listParameters){
             for(let q of p.questions){
               rep.forEach((r: any) => {
@@ -164,12 +164,18 @@ export class QualitatifComponent implements OnInit {
                   q.reponse = r.id_reponse_quali;
                 }
               });
-
-              for(let r of q.question.listReponsesDTO){
-                if(r.id == q.reponse){
-                  q.chosen = r.libelle;
-                }
+              
+              if(q.reponse == 240 ){
+                q.chosen = 'Ne sais pas';
               }
+              else if(q.reponse == 241 ){
+                q.chosen = 'Ne s\'applique pas';
+              }
+              for(let r of q.question.listReponsesDTO){   
+                if(q.reponse == r.id) {
+                  q.chosen = r.libelle;  
+                }            
+              } 
             }
           }
           this.listParameters.sort((a: any, b: any) => a.id - b.id);
@@ -250,7 +256,7 @@ export class QualitatifComponent implements OnInit {
         idQuestion: q.question.id, reponse: parseInt(q.reponse)
       });
     }
-
+        
     this.qualitatifService.saveQualitatifByParametre(id, payload).subscribe(
       data => {
         this.successMsgBox('Réponses enregistrées avec succés !');
@@ -261,13 +267,20 @@ export class QualitatifComponent implements OnInit {
   }
 
   onSelectReponse(event: any, question: any){
-    const reponse = event.target.value;
+    const reponse = event?.target?.value;
+    
     for(let p of this.listParameters){
       for(let q of p.questions){
         for(let r of q.question.listReponsesDTO){
           if(r.id == reponse){
             q.chosen = r.libelle;
           }
+        }
+        if(reponse == 240 && q.question.id == question.question.id){
+          q.chosen = 'Ne sais pas';
+        }
+        else if(reponse == 241 && q.question.id == question.question.id){
+          q.chosen = 'Ne s\'applique pas';
         }
       }
     }
@@ -326,7 +339,7 @@ export class QualitatifComponent implements OnInit {
         if(p.id == s.parametre.id){
           p.score = this.formatNumber(s.score, 1);
         }
-        if(p.score != 0 && p.id == s.parametre.id ){
+        if(p.id == s.parametre.id ){
           this.answeredParams++;
         }
       }
