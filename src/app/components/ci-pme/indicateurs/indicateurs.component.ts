@@ -309,8 +309,6 @@ export class IndicateursComponent implements OnInit {
   }
 
   setIndicateur(index: any, data: any){
-    // @ts-ignore
-    console.log(data)
     this.indicateurs[index].files = [];
     this.indicateurs[index].hasFile = false;
 
@@ -341,7 +339,6 @@ export class IndicateursComponent implements OnInit {
       this.indicateursService.getIndicateurFiles(this.indicateurs[index]?.id).subscribe(
         data => {
           this.indicateurs[index].files = [];
-          console.log(index)
           // @ts-ignore
           if (data.length != 0){
             // @ts-ignore
@@ -374,17 +371,6 @@ export class IndicateursComponent implements OnInit {
     // @ts-ignore
     const fileInputValue = fileInput.files[0];
 
-    // @ts-ignore
-    /*let existing = this.indicateurs[index].file.nomPiece == null ? undefined : (this.indicateurs[index].file.nomPiece == fileInputValue.name ? this.indicateurs[index].file : undefined);
-
-    if (existing != undefined){
-      this.errorMsgBox('Ce fichier a été déjà ajouté.');
-      return;
-    }
-
-    // @ts-ignore
-    this.indicateurs[index].file = {nomPiece: fileInputValue.name, file: fileInputValue};*/
-
     let existFile = 0;
 
     for(let file of this.indicateurs[index].files){
@@ -404,10 +390,10 @@ export class IndicateursComponent implements OnInit {
     console.log(this.indicateurs[index].files);
   }
 
-  deleteFileToFileList(id: any, index: any){
-    // tslint:disable-next-line:triple-equals
+  deleteFileToFileList(index: any, file: any){
     // @ts-ignore
-    this.fileList.splice(index, 1);
+    const fileIndex = this.indicateurs[2].files.indexOf(this.indicateurs[index].files.find(f => f.nomPiece == file.nomPiece));
+    this.indicateurs[2].files.splice(fileIndex, 1);
   }
 
   saveFiles(index: any){
@@ -422,7 +408,7 @@ export class IndicateursComponent implements OnInit {
     if (this.indicateurs[index].id != null){
       this.indicateursService.saveIndicateurFile(this.indicateurs[index].id, formData).subscribe(
         data => {
-          this.successMsgBox('Le fichier a été enregistré !');
+          this.successMsgBox('Fichier(s) enregistré(s) !');
           this.getIndicateurs();
         },
         error => {

@@ -117,6 +117,12 @@
                               <i class="fas fa-trash"></i>
                             </button>
                           </div>
+                          <div class="col-md-4" *ngIf="!file.isSaved">
+                            <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
+                                    style="cursor: pointer; color: #dc3545;" (click)="deleteFileToFileList(2, file)">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
