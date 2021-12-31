@@ -387,7 +387,6 @@ export class IndicateursComponent implements OnInit {
 
     // @ts-ignore
     this.indicateurs[index].files.push({nomPiece: this.formatFilename(fileInputValue.name), file: fileInputValue, isSaved: false});
-    console.log(this.indicateurs[index].files);
   }
 
   deleteFileToFileList(index: any, file: any){
