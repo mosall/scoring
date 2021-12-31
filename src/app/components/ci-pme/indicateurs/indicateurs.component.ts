@@ -391,32 +391,37 @@ export class IndicateursComponent implements OnInit {
 
   deleteFileToFileList(index: any, file: any){
     // @ts-ignore
-    const fileIndex = this.indicateurs[2].files.indexOf(this.indicateurs[index].files.find(f => f.nomPiece == file.nomPiece));
-    this.indicateurs[2].files.splice(fileIndex, 1);
+    const fileIndex = this.indicateurs[index].files.indexOf(this.indicateurs[index].files.find(f => f.nomPiece == file.nomPiece));
+    this.indicateurs[index].files.splice(fileIndex, 1);
   }
 
   saveFiles(index: any){
-    const formData = new FormData();
-    for (let file of this.indicateurs[index].files){
-      // @ts-ignore
-      if(!file.isSaved){
-        formData.append('files', file.file, file.nomPiece);
+    if (this.indicateurs[index].files.length != 0){
+      const formData = new FormData();
+      for (let file of this.indicateurs[index].files){
+        // @ts-ignore
+        if(!file.isSaved){
+          formData.append('files', file.file, file.nomPiece);
+        }
+      }
+
+      if (this.indicateurs[index].id != null){
+        this.indicateursService.saveIndicateurFile(this.indicateurs[index].id, formData).subscribe(
+          data => {
+            this.successMsgBox('Fichier(s) enregistré(s) !');
+            this.getIndicateurs();
+          },
+          error => {
+            this.errorMsgBox('Enregistrement fichier échoué, veuillez réesssayer !')
+          }
+        );
+      }
+      else {
+        this.errorMsgBox('Veuillez d\'abord enregistrer les indicateurs.')
       }
     }
-
-    if (this.indicateurs[index].id != null){
-      this.indicateursService.saveIndicateurFile(this.indicateurs[index].id, formData).subscribe(
-        data => {
-          this.successMsgBox('Fichier(s) enregistré(s) !');
-          this.getIndicateurs();
-        },
-        error => {
-          this.errorMsgBox('Enregistrement fichier échoué, veuillez réesssayer !')
-        }
-      );
-    }
     else {
-      this.errorMsgBox('Veuillez d\'abord enregistrer les indicateurs.')
+      this.errorMsgBox('Veuillez sélectionner un fichier.')
     }
   }
 
