@@ -48,14 +48,14 @@ export class LisPmeComponent implements OnInit {
               this.listPme.push({pme, logo, demande});
               this.listPmeTmp.push({pme, logo, demande});
 
-              this.pageSlice = this.listPme.slice(0, 5);
+              this.pageSlice = this.listPme.slice(0, 6);
 
             },
             err => {
               this.listPme.push({pme, logo: "logo", demande});
               this.listPmeTmp.push({pme, logo: "logo", demande});
 
-              this.pageSlice = this.listPme.slice(0, 5);
+              this.pageSlice = this.listPme.slice(0, 6);
 
             }
           );
@@ -76,13 +76,13 @@ export class LisPmeComponent implements OnInit {
     this.listPme = [];
     if (event.target.value == 0){
       this.listPme = this.listPmeTmp;
-      this.pageSlice = this.listPme.slice(0, 5);
+      this.pageSlice = this.listPme.slice(0, 6);
     }
     else{
       for (let pme of this.listPmeTmp){
         if(pme.pme.secteurs[0].id == event.target.value){
           this.listPme.push(pme);
-          this.pageSlice = this.listPme.slice(0, 5);
+          this.pageSlice = this.listPme.slice(0, 6);
         }
       }
     }

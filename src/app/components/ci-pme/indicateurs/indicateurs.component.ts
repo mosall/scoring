@@ -183,6 +183,7 @@ export class IndicateursComponent implements OnInit {
   saveIndicateur(year: any){
     let payload = {
       annee: this.financialYear - year,
+      derniereAnnee: this.financialYear,
       entreprise: this.idEntreprise,
       idDemande: this.demandeNonCloturee?.id,
       bkActifCirculant: this.indicateurs[year].indicateurs[0].value,
@@ -217,9 +218,6 @@ export class IndicateursComponent implements OnInit {
         data => {
           // @ts-ignore
           this.indicateurs[year].id = data.id;
-          /*if (this.indicateurs[year].file.file != '' && !this.indicateurs[year].hasFile){
-            this.saveFiles(year);
-          }*/
 
           if (this.indicateurs[year].files.length != 0 && !this.indicateurs[year].hasFile){
             this.saveFiles(year);
@@ -231,7 +229,9 @@ export class IndicateursComponent implements OnInit {
             $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
           }
           else {
-            window.location.reload();
+            if (this.indicateurs[year].files.length == 0){
+              window.location.reload();
+            }
           }
         },
         error => {
@@ -298,10 +298,25 @@ export class IndicateursComponent implements OnInit {
   getIndicateurs(){
     this.indicateursService.getIndicateurs(this.demandeNonCloturee?.id).subscribe(
       data => {
-        this.reponsesIndicateur = data;
-        this.reponsesIndicateur.sort((a: any, b: any) => a.annee < b.annee);
+        // @ts-ignore
+        if(data[0] != null){
+          // @ts-ignore
+          this.financialYear = data[0]?.derniereAnnee;
+        }
 
-        this.financialYear = this.reponsesIndicateur[0]?.annee;
+        // @ts-ignore
+        let indicateur0 = data.find(indidcateur => indidcateur.annee == this.financialYear);
+        // @ts-ignore
+        let indicateur1 = data.find(indidcateur => indidcateur.annee == this.financialYear - 1);
+        // @ts-ignore
+        let indicateur2 = data.find(indidcateur => indidcateur.annee == this.financialYear - 2);
+
+        this.reponsesIndicateur = [];
+
+        this.reponsesIndicateur.push(indicateur0 ? indicateur0 : null);
+        this.reponsesIndicateur.push(indicateur1 ? indicateur1 : null);
+        this.reponsesIndicateur.push(indicateur2 ? indicateur2 : null);
+
         this.disableYear = this.financialYear != null;
         [0,1,2].forEach(i => this.setIndicateur(i, this.reponsesIndicateur));
       }
@@ -309,11 +324,10 @@ export class IndicateursComponent implements OnInit {
   }
 
   setIndicateur(index: any, data: any){
-    console.log(data);
     this.indicateurs[index].files = [];
     this.indicateurs[index].hasFile = false;
 
-    if (data[index]){
+    if (data[index] != null){
       this.indicateurs[index].id = data[index].id;
       this.indicateurs[index].indicateurs = [
         {code: 'BK', nom: 'Actif circulant', source: 'Bilan actif', value: data[index]?.bkActifCirculant},
@@ -411,7 +425,7 @@ export class IndicateursComponent implements OnInit {
       if (this.indicateurs[index].id != null){
         this.indicateursService.saveIndicateurFile(this.indicateurs[index].id, formData).subscribe(
           data => {
-            this.successMsgBox('Fichier(s) enregistré(s) !');
+            index == 0 ? this.successMsgBox2('Fichier(s) enregistré(s) !', true) : this.successMsgBox2('Fichier(s) enregistré(s) !');
             this.getIndicateurs();
           },
           error => {
