@@ -229,7 +229,7 @@ export class IndicateursComponent implements OnInit {
             $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
           }
           else {
-            if (this.indicateurs[year].files.length == 0){
+            if (this.indicateurs[year].files.length == 0 && this.indicateurs[year].hasFile == false){
               window.location.reload();
             }
           }
