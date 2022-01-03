@@ -224,7 +224,7 @@ export class AccueilComponent implements OnInit {
   receiveDemande(){
     this.demandeService.receiveDemande(this.demande?.id).subscribe(
       (data: any) => {
-        this.successMsgBox("La demande de scoring a été bien réceptionné.")
+        this.successMsgBox("La demande de scoring a été bien réceptionnée.")
       },
       err => console.log(err)
     );
