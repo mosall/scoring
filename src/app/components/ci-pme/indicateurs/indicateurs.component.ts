@@ -309,6 +309,7 @@ export class IndicateursComponent implements OnInit {
   }
 
   setIndicateur(index: any, data: any){
+    console.log(data);
     this.indicateurs[index].files = [];
     this.indicateurs[index].hasFile = false;
 
@@ -401,7 +402,9 @@ export class IndicateursComponent implements OnInit {
       for (let file of this.indicateurs[index].files){
         // @ts-ignore
         if(!file.isSaved){
-          formData.append('files', file.file, file.nomPiece);
+          if (file.nomPiece != ''){
+            formData.append('files', file.file, file.nomPiece);
+          }
         }
       }
 
@@ -604,12 +607,16 @@ export class IndicateursComponent implements OnInit {
 
   emptyFiles(index: any){
     let isEmpty = true;
+    const length = this.indicateurs[index].files.length;
 
-    if(this.indicateurs[index].files.length != 0 && this.indicateurs[index].files[0].nomPiece != ''){
-      isEmpty = !isEmpty;
+    if(length == 0){
+      isEmpty = true;
+    }
+    else if(length == 1){
+      isEmpty = this.indicateurs[index].files[0].nomPiece == '';
     }
     else {
-      isEmpty = true;
+      isEmpty = false;
     }
 
     return isEmpty;
