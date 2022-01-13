@@ -174,8 +174,12 @@ export class IndicateursComponent implements OnInit {
   }
 
   getListYear(){
-    const currentYear = new Date().getFullYear();
-    for (let i = currentYear-1; i >= currentYear-5; i--){
+    let currentYear = new Date().getFullYear();
+    const  currentMonth: number = new Date().getMonth() + 1;
+    if(currentMonth < 3){
+      currentYear--;
+    }
+    for (let i = currentYear; i >= currentYear-2; i--){
       if(this.entreprise.annee <= i){
         this.listYear.push(i);
       }
