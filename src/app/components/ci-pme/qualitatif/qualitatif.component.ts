@@ -357,6 +357,11 @@ export class QualitatifComponent implements OnInit {
     );
   }
 
+  getQuestionSymbol(index: number){
+    const alpha: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    return alpha[index];
+  }
+
   formatNumber(num:any, digits: any){
     var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
         m = num.toString().match(re);
