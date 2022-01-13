@@ -138,7 +138,7 @@ export class IndicateursComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getListYear();
+    // this.getListYear();
 
     this.authService.getUserInfos().subscribe(
       (data: any) => {
@@ -176,7 +176,9 @@ export class IndicateursComponent implements OnInit {
   getListYear(){
     const currentYear = new Date().getFullYear();
     for (let i = currentYear-1; i >= currentYear-5; i--){
-      this.listYear.push(i);
+      if(this.entreprise.annee <= i){
+        this.listYear.push(i);
+      }
     }
   }
 
@@ -266,6 +268,7 @@ export class IndicateursComponent implements OnInit {
               }
             }
           );
+          this.getListYear();
         }
       )
     }
