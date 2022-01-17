@@ -158,3 +158,12 @@ button{
   display: flex;
   justify-content: space-between;
 }
+
+.h-10{
+  height: 10rem !important;
+}
+
+// Select options break word 
+.opt-ws{
+  white-space: normal !important;
+}
