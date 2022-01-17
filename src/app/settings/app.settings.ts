@@ -12,7 +12,7 @@ export class AppSettings {
   public static UM_TOKEN_URL = AppSettings.BACK_IP+":3000/administration/oauth/token";
 
 
-  public static UM_HOME = AppSettings.BACK_IP+"/administration-awi";
+  public static UM_HOME = AppSettings.BACK_IP+"/administration-awi/login";
 
   public static httpOptions = {
     headers: new HttpHeaders({

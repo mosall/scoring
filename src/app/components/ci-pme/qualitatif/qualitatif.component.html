@@ -47,8 +47,8 @@
 
                   <div id="{{q.question?.code}}" class="collapse" [attr.aria-labelledby]="q.question?.id" [attr.data-parent]="'#accordion'+p.id">
                     <div class="card-body">
-                      <select class="form-control custom-select px-4 py-2" size="{{q.question?.listReponsesDTO?.length}}" [(ngModel)]="q.reponse" (change)="onSelectReponse($event, q)">
-                        <option *ngFor="let r of q.question?.listReponsesDTO; let index = index" [value]="r.id">{{index+1}})
+                      <select class="form-control custom-select px-4 py-2 h-10" size="{{q.question?.listReponsesDTO?.length}}" [(ngModel)]="q.reponse" (change)="onSelectReponse($event, q)">
+                        <option *ngFor="let r of q.question?.listReponsesDTO; let index = index" [value]="r.id" class="opt-ws">{{index+1}})
                           <!--<span *ngIf="r.libelle.length <= 100">{{r.libelle}}</span>
                           <span *ngIf="r.libelle.length > 100">{{r.libelle.slice(0,110)}} <br> {{r.libelle.slice(110, r.libelle.length-1)}}</span>-->
                           {{r.libelle}}
