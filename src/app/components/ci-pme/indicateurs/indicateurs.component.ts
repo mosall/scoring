@@ -647,4 +647,10 @@ export class IndicateursComponent implements OnInit {
     return filename.replace(/[#_-]/g,' ');
   }
 
+  nextTab(year: number){
+    if(year != 0){
+      $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
+    }
+  }
+
 }
