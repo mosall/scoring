@@ -34,3 +34,10 @@ label {
   background: #f78300;
   font-weight: bold;
 }
+
+.line{
+  display: flex;
+}
+.line span{
+  width: 80%;
+}

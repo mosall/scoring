@@ -20,22 +20,42 @@
             <div class="card-body mb-6">
               <div class="mt-2">
                 <div>
-                  <label class="mr-2">Status Demande : </label>{{status[demande?.status - 1]}}
+                  <div class="line">
+                    <label class="mr-2">Status Demande : </label>
+                    <span> {{status[demande?.status - 1]}}</span>
+                  </div>
+                  <hr class="mt-lg-n2">
+                </div>
+                
+                <div *ngIf="demande?.motif_rejet">
+                  <div class="line">
+                    <label class="mr-2">Motif rejet : </label>
+                    <span> {{demande?.motif_rejet }}</span>
+                  </div>
                   <hr class="mt-lg-n2">
                 </div>
 
                 <div *ngIf="demande?.dateCreation">
-                  <label class="mr-2">Date de création : </label>{{formatDate(demande?.dateCreation)}}
+                  <div class="line">
+                    <label class="mr-2">Date de création : </label>
+                    <span> {{formatDate(demande?.dateCreation)}}</span>
+                  </div>
                   <hr class="mt-lg-n2">
                 </div>
 
                 <div *ngIf="demande?.dateEnvoie">
-                  <label class="mr-2">Date d'envoi: </label>{{formatDate(demande?.dateEnvoie)}}
+                  <div class="line">
+                    <label class="mr-2">Date d'envoi: </label>
+                    <span> {{formatDate(demande?.dateEnvoie)}}</span>
+                  </div>
                   <hr class="mt-lg-n2">
                 </div>
 
                 <div *ngIf="demande?.dateReception">
-                  <label class="mr-2">Date de reception: </label>{{formatDate(demande?.dateReception)}}
+                  <div class="line">
+                    <label class="mr-2">Date de reception: </label>
+                    <span> {{formatDate(demande?.dateReception)}}</span>
+                  </div>
                   <hr class="mt-lg-n2">
                 </div>
 
@@ -61,32 +81,60 @@
 
           <div class="mt-2">
 
-            <label class="mr-2">Raison sociale: </label>{{entreprise?.raisonSociale}}
+            <div class="line">
+              <label class="mr-2">Raison sociale: </label>
+              <span> {{entreprise?.raisonSociale}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Année de création: </label>{{entreprise?.annee}}
+            <div class="line">
+              <label class="mr-2">Année de création: </label>
+              <span> {{entreprise?.annee}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Forme Juridique: </label>{{entreprise?.formeJur?.libelle}}
+            <div class="line">
+              <label class="mr-2">Forme Juridique: </label>
+              <span> {{entreprise?.formeJur?.libelle}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Capital social: </label><span *ngIf="entreprise?.capital">{{formatNumber(entreprise?.capital)}}</span>
+            <div class="line">
+              <label class="mr-2">Capital social: </label><span *ngIf="entreprise?.capital">
+                <span> {{formatNumber(entreprise?.capital)}}</span></span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Secteurs d'activités: </label>
-            <span *ngFor="let secteur of secteur">{{secteur.libelle}}, </span>
+            <div class="line">
+              <label class="mr-2">Secteurs d'activités: </label>
+              <span *ngFor="let secteur of secteur">
+                <span> {{secteur.libelle}}, </span>
+              </span>
+            </div>
             <hr class="mt-lg-n1">
 
-            <label class="mr-2">Régime d'imposition: </label>{{entreprise?.regime}}
+            <div class="line">
+              <label class="mr-2">Régime d'imposition: </label>
+              <span> {{entreprise?.regime}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Adresse: </label>{{entreprise?.adresse}}
+            <div class="line">
+              <label class="mr-2">Adresse: </label>
+              <span> {{entreprise?.adresse}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Site web: </label>{{entreprise?.siteWeb}}
+            <div class="line">
+              <label class="mr-2">Site web: </label>
+              <span> {{entreprise?.siteWeb}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Description: </label>{{entreprise?.description}}
+            <div class="line">
+              <label class="mr-2">Description: </label>
+              <span> {{entreprise?.description}}</span>
+            </div>
             <hr class="mt-lg-n2">
           </div>
         </div>
@@ -98,40 +146,76 @@
           <hr>
 
           <div class="mt-2">
-            <label class="mr-2">Nom: </label>{{dirigeant?.nom}}
+            <div class="line">
+              <label class="mr-2">Nom: </label>
+              <span> {{dirigeant?.nom}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Prénom: </label>{{dirigeant?.prenom}}
+            <div class="line">
+              <label class="mr-2">Prénom: </label>
+              <span> {{dirigeant?.prenom}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Téléphone: </label>{{dirigeant?.mobile}}
+            <div class="line">
+              <label class="mr-2">Téléphone: </label>
+              <span> {{dirigeant?.mobile}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Email: </label>{{dirigeant?.email}}
+            <div class="line">
+              <label class="mr-2">Email: </label>
+              <span> {{dirigeant?.email}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Niveau d'éducation: </label>{{dirigeant?.niveau}}
+            <div class="line">
+              <label class="mr-2">Niveau d'éducation: </label>
+              <span> {{dirigeant?.niveau}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Adresse: </label>{{dirigeant?.adresse}}
+            <div class="line">
+              <label class="mr-2">Adresse: </label>
+              <span> {{dirigeant?.adresse}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Nationalité: </label>{{dirigeant?.nationalite}}
+            <div class="line">
+              <label class="mr-2">Nationalité: </label>
+              <span> {{dirigeant?.nationalite}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Type pièce: </label>{{dirigeant?.typePiece}}
+            <div class="line">
+              <label class="mr-2">Type pièce: </label>
+              <span> {{dirigeant?.typePiece}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Numéro CI: </label>{{dirigeant?.numeroCI}}
+            <div class="line">
+              <label class="mr-2">Numéro CI: </label>
+              <span> {{dirigeant?.numeroCI}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Sexe: </label>{{dirigeant?.sexe}}
+            <div class="line">
+              <label class="mr-2">Sexe: </label>
+              <span> {{dirigeant?.sexe}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Date de naissance: </label>{{formatDate(dirigeant?.date)}}
+            <div class="line">
+              <label class="mr-2">Date de naissance: </label>
+              <span> {{formatDate(dirigeant?.date)}}</span>
+            </div>
             <hr class="mt-lg-n2">
 
-            <label class="mr-2">Lieu de naissance: </label>{{dirigeant?.lieu}}
+            <div class="line">
+              <label class="mr-2">Lieu de naissance: </label>
+              <span> {{dirigeant?.lieu}}</span>
+            </div>
             <hr class="mt-lg-n2">
           </div>
         </div>
@@ -239,3 +323,4 @@
     </div>
   </div>
 </div>
+
