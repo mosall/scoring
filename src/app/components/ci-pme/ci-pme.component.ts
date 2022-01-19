@@ -65,22 +65,9 @@ export class CiPmeComponent implements OnInit {
       data => {
         sessionStorage.setItem('connectedUserData', JSON.stringify(data));
         this.user = data;
-        if(this.user?.profil.code == 'ROLE_ENTR'){
-          if(this.user?.entrepriseId){
-            this.idEntreprise = this.user?.entrepriseId;
-            this.getEntreprise()
-          }
-          else{
-            this.router.navigate(['/ci-pme/identification'])
-          }
-        }
-
-        if(this.user?.profil?.code == 'ROLE_EXP_PME' && !this.idEntreprise){
-          this.router.navigate(['/ci-pme/liste-pme'])
-        }
-
-        // console.log('User ::', data, 'ID ::', this.idEntreprise);
-
+        this.idEntreprise = this.user?.entrepriseId;
+        this.getEntreprise()
+        
       }
     );
 
@@ -119,12 +106,6 @@ export class CiPmeComponent implements OnInit {
         // @ts-ignore
         this.canActivateIndicateur = data && data?.status != 6;
 
-        if(!this.demande && this.user?.profil?.code == 'ROLE_ENTR'){
-          this.router.navigate(['/ci-pme/accueil'])
-        }
-        else if(!this.demande && this.user?.profil?.code == 'ROLE_EXP_PME'){
-          this.router.navigate(['/ci-pme/liste-pme'])
-        }
       },
       err => console.log(err)
     );
