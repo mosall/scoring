@@ -148,8 +148,8 @@
               </div>
 
               <div class="modal-footer border-0">
-                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(2)" *ngIf="demande?.status != 4">Suivant</button>
-                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="nextTab(2)" *ngIf="demande?.status == 4">Suivant</button>
+                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(2)" *ngIf="canEdit">Suivant</button>
+                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="nextTab(2)" *ngIf="!canEdit">Suivant</button>
               </div>
 
             </div>
@@ -249,8 +249,8 @@
 
               <div class="modal-footer border-0">
                 <button class="btn previous-btn" (click)="nextAndPreviousCtrl()" style="background-color: #f78300; color: #ffffff">Précédent</button>
-                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(1)" *ngIf="demande?.status != 4">Suivant</button>
-                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="nextTab(2)" *ngIf="demande?.status == 4">Suivant</button>
+                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(1)" *ngIf="canEdit">Suivant</button>
+                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="nextTab(2)" *ngIf="!canEdit">Suivant</button>
               </div>
 
             </div>
@@ -350,7 +350,7 @@
 
               <div class="modal-footer border-0">
                 <button class="btn previous-btn" (click)="nextAndPreviousCtrl()" style="background-color: #f78300; color: #ffffff">Précédent</button>
-                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(0)" *ngIf="demande?.status != 4">Valider</button>
+                <button class="btn" style="background-color: #006a25; color: #ffffff" (click)="saveIndicateur(0)" *ngIf="canEdit">Valider</button>
               </div>
 
             </div>

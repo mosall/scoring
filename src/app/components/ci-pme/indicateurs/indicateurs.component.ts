@@ -127,6 +127,7 @@ export class IndicateursComponent implements OnInit {
     allowNegative: false,
     inputMode: CurrencyMaskInputMode.NATURAL
   };
+  canEdit: boolean = false;
 
   constructor(private indicateursService: IndicateursService,
               private sanitizer: DomSanitizer,
@@ -160,7 +161,7 @@ export class IndicateursComponent implements OnInit {
     this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
       (data: any) => {
         this.demande = data;
-        // console.log('Demande indicateur ::', data);
+        console.log('Demande indicateur ::', data);
 
         if(this.demande?.indicateurAjoute){
             this.getIndicateurs();
@@ -270,6 +271,9 @@ export class IndicateursComponent implements OnInit {
                   // this.getRatio();
                 }
               }
+
+              this.canEdit = (this.demande?.status == 1 && this.connectedUser?.profil.code == 'ROLE_ENTR') 
+              || (this.demande?.status >= 2 && this.connectedUser?.profil.code == 'ROLE_EXP_PME');
             }
           );
           this.getListYear();

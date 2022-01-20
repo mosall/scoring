@@ -8,6 +8,7 @@ import {Nationalities} from "../../../utils/nationalities";
 declare var $: any;
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import {HttpClient} from "@angular/common/http";
+import { DemandeService } from 'src/app/services/demande.service';
 
 @Component({
   selector: 'app-identification',
@@ -70,10 +71,16 @@ export class IdentificationComponent implements OnInit {
   images: any = null;
 
   formData = new FormData();
+  demande: any;
+  canEdit: boolean = false;
 
   constructor(private identificationService: IdentificationService,
-              private referentielService: ReferentielService, private authService: AuthService,
-              private router: Router, private http: HttpClient) { }
+              private referentielService: ReferentielService, 
+              private authService: AuthService,
+              private router: Router, 
+              private http: HttpClient,
+              private demandeService: DemandeService
+              ) { }
 
   ngOnInit(): void {
     this.getEntreprise();
@@ -138,6 +145,10 @@ export class IdentificationComponent implements OnInit {
     );
   }
 
+  nextTab(){
+    $('.nav-pills > .active').next('a').trigger('click');
+  }
+
   getEntreprise(){
     if (this.connectedUser?.entrepriseId != null){
       this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
@@ -174,6 +185,15 @@ export class IdentificationComponent implements OnInit {
                 this.logo = "data:image/png;base64,"+data1[0].contenu;
               }
             }
+          );
+
+          this.demandeService.getDemandeOuverte(this.idEntreprise).subscribe(
+            (data: any) => {
+              this.demande = data;
+              this.canEdit = (this.demande?.status == 1 && this.connectedUser?.profil.code == 'ROLE_ENTR') 
+              
+            },
+            err => console.log(err)            
           );
         }
       )
