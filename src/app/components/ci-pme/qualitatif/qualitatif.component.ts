@@ -69,20 +69,24 @@ export class QualitatifComponent implements OnInit {
     private ref: ReferentielService,
     private demandeService: DemandeService,
     private activatedRoute: ActivatedRoute
-  ) { }
-
-  ngOnInit(): void {
+  ) { 
     if(this.connectedUser?.profil.code == 'ROLE_EXP_PME'){
       this.idEntreprise = this.activatedRoute.snapshot.paramMap.get('idEntreprise');
     }
     else if(this.connectedUser?.profil.code == 'ROLE_ENTR'){
       this.idEntreprise = this.connectedUser?.entrepriseId;
     }
-    this.getParameter();
+  }
 
+  ngOnInit(): void {
+    this.getParameter();
+    console.log('IdEntre :: ', this.idEntreprise);
+    
     if(this.idEntreprise){
       this.idService.getEntreprise(this.idEntreprise).subscribe(
         (data: any) =>{
+          console.log('Entreprise quali :: ', data);
+          
           this.entreprise = data;
 
           this.getDemandeEnCours(data?.id);          
@@ -108,25 +112,9 @@ export class QualitatifComponent implements OnInit {
                   data: tab,
                   label: 'Score qualitatif '
                 }];
-              
+                
                 // score final
-                this.qualitatifService.getScoreFinal(this.demande?.id).subscribe(
-                  (data:any) => {
-
-                    this.total = this.formatNumber((data?.score_final), 1);
-                    this.scoreFinancier.score_financier = this.formatNumber((data?.score_financier), 1);
-                    this.scoreFinancier.score_final = this.formatNumber((data?.score_final), 1);
-
-                    const values: any = this.chartValues[0];
-                    values.data.unshift(data?.score_financier? data?.score_financier : 0);
-                  },
-                  err => {
-                    this.scoreFinancier.score_financier = '0.0';
-                    const values: any = this.chartValues[0];
-                    values.data.unshift(0);
-                    console.log(err);
-                  }
-                );
+                this.setScoreFinal();
 
                 this.fillReponses(this.demande?.id);
 
@@ -134,6 +122,27 @@ export class QualitatifComponent implements OnInit {
               err => console.log(err)
             );
           }
+    }
+
+    setScoreFinal(){
+      this.qualitatifService.getScoreFinal(this.demande?.id).subscribe(
+        (data:any) => {
+          console.log('Final :: ', data);
+          
+          this.total = this.formatNumber((data?.score_final), 1);
+          this.scoreFinancier.score_financier = this.formatNumber((data?.score_financier), 1);
+          this.scoreFinancier.score_final = this.formatNumber((data?.score_final), 1);
+
+          const values: any = this.chartValues[0];
+          values.data.unshift(data?.score_financier? data?.score_financier : 0);
+        },
+        err => {
+          this.scoreFinancier.score_financier = '0.0';
+          const values: any = this.chartValues[0];
+          values.data.unshift(0);
+          console.log(err);
+        }
+      );
     }
 
     getDemandeEnCours(idEntreprise: any){
@@ -290,7 +299,7 @@ export class QualitatifComponent implements OnInit {
   activeTab(direction: any){
     const elt = $('a[class="nav-link active"][role="tab"][data-toggle="pill"] > span[class*="badge"]');
     elt.parent().removeClass('active');
-    const i = parseInt(elt[0].innerText)
+    const i = parseInt(elt[0]?.innerText)
     $("#P"+i).removeClass('active');
     if(direction === 'next'){
       const index = i + 1;
