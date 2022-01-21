@@ -107,8 +107,10 @@
 
             <div class="line">
               <label class="mr-2">Secteurs d'activités: </label>
-              <span *ngFor="let secteur of secteur">
-                <span> {{secteur.libelle}}, </span>
+              <span>
+                <span *ngFor="let secteur of secteur">
+                  <span> {{secteur.libelle}}, </span>
+                </span>
               </span>
             </div>
             <hr class="mt-lg-n1">
