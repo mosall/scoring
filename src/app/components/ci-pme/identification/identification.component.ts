@@ -154,6 +154,7 @@ export class IdentificationComponent implements OnInit {
       this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
         data => {
           this.entreprise = data;
+                    
           // @ts-ignore
           this.idEntreprise = data?.id;
           // @ts-ignore
@@ -175,6 +176,11 @@ export class IdentificationComponent implements OnInit {
           // @ts-ignore
           this.adresse = data?.adresse;
 
+          let tmpSelectedItems: any = [];
+
+          this.entreprise?.secteurs?.forEach((d: any) => tmpSelectedItems.push({item_id: d.id, item_text: d.libelle}));
+          this.selectedSecteurs = tmpSelectedItems;
+
           this.getDirigeant();
 
           this.identificationService.getLogo(this.connectedUser?.entrepriseId).subscribe(
@@ -190,8 +196,7 @@ export class IdentificationComponent implements OnInit {
           this.demandeService.getDemandeOuverte(this.idEntreprise).subscribe(
             (data: any) => {
               this.demande = data;
-              this.canEdit = (this.demande?.status == 1 && this.connectedUser?.profil.code == 'ROLE_ENTR') 
-              
+              this.canEdit = !this.demande || (this.demande?.status == 1 && this.connectedUser?.profil.code == 'ROLE_ENTR') 
             },
             err => console.log(err)            
           );
@@ -308,8 +313,8 @@ export class IdentificationComponent implements OnInit {
 
         if (this.entreprise != []){
           // @ts-ignore
-          this.entreprise?.secteurs?.forEach(d => tmpSelectedItems.push({item_id: d.id, item_text: d.libelle}));
-          this.selectedSecteurs = tmpSelectedItems;
+          // this.entreprise?.secteurs?.forEach(d => tmpSelectedItems.push({item_id: d.id, item_text: d.libelle}));
+          // this.selectedSecteurs = tmpSelectedItems;
         }
 
       }
