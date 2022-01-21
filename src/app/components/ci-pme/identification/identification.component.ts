@@ -154,6 +154,7 @@ export class IdentificationComponent implements OnInit {
       this.identificationService.getEntreprise(this.connectedUser?.entrepriseId).subscribe(
         data => {
           this.entreprise = data;
+                    
           // @ts-ignore
           this.idEntreprise = data?.id;
           // @ts-ignore
@@ -174,6 +175,11 @@ export class IdentificationComponent implements OnInit {
           this.description = data?.description;
           // @ts-ignore
           this.adresse = data?.adresse;
+
+          let tmpSelectedItems: any = [];
+
+          this.entreprise?.secteurs?.forEach((d: any) => tmpSelectedItems.push({item_id: d.id, item_text: d.libelle}));
+          this.selectedSecteurs = tmpSelectedItems;
 
           this.getDirigeant();
 
@@ -308,8 +314,8 @@ export class IdentificationComponent implements OnInit {
 
         if (this.entreprise != []){
           // @ts-ignore
-          this.entreprise?.secteurs?.forEach(d => tmpSelectedItems.push({item_id: d.id, item_text: d.libelle}));
-          this.selectedSecteurs = tmpSelectedItems;
+          // this.entreprise?.secteurs?.forEach(d => tmpSelectedItems.push({item_id: d.id, item_text: d.libelle}));
+          // this.selectedSecteurs = tmpSelectedItems;
         }
 
       }
