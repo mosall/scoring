@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {QualitatifService} from "../../../services/qualitatif.service";
 import Swal from "sweetalert2";
 import { IdentificationService } from 'src/app/services/identification.service';
@@ -68,7 +68,8 @@ export class QualitatifComponent implements OnInit {
     private idService: IdentificationService,
     private ref: ReferentielService,
     private demandeService: DemandeService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { 
     if(this.connectedUser?.profil.code == 'ROLE_EXP_PME'){
       this.idEntreprise = this.activatedRoute.snapshot.paramMap.get('idEntreprise');
@@ -360,7 +361,9 @@ export class QualitatifComponent implements OnInit {
       (data: any) => {
         this.successMsgBox('La demande de scoring a été bien cloturée.', false);
         this.generateReport();
-
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then( () => {
+          this.router.navigate(['/ci-pme/accueil/', this.entreprise.id]);
+        }); 
       },
       err => console.log(err)      
     );

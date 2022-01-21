@@ -6,7 +6,7 @@
           <h5 class="font-weight-bold text-white">Pour renseigner vos indicateurs financiers, merci de préciser votre dernière année d'exercice comptable.</h5>
         </div>
         <div class="col-md-2">
-          <select class="form-control custom-select small" [disabled]="disableYear" [(ngModel)]="financialYear">
+          <select class="form-control custom-select small" [disabled]="disableYear" [disabled]="!canEdit" [(ngModel)]="financialYear">
             <option *ngFor="let year of listYear" value="{{year}}">{{year}}</option>
           </select>
         </div>
@@ -76,10 +76,10 @@
                                matInput type="text" mvndrMatCurrencyFormat
                                [allowNegative]="true"
                                [currencyCode]="' '"
-                               [(ngModel)]="indicateur.value">-->
+                               [disabled]="!canEdit" [(ngModel)]="indicateur.value">-->
 
                         <input currencyMask class="form-control" style="height: 30px;"
-                               [(ngModel)]="indicateur.value"
+                               [disabled]="!canEdit" [(ngModel)]="indicateur.value"
                                [options]="inputOptionsCurrency"/>
 
                       </td>
@@ -114,7 +114,7 @@
                                 </a>
                               </button>
                               <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
-                                      style="cursor: pointer; color: #dc3545;" (click)="deleteFile(file)">
+                                      style="cursor: pointer; color: #dc3545;" (click)="deleteFile(file)" [disabled]="!canEdit">
                                 <i class="fas fa-trash"></i>
                               </button>
                             </div>
@@ -132,14 +132,14 @@
                     <div class="card-footer">
                       <div class="row">
                         <div class="col-md-6 text-center">
-                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(2)">
+                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(2)" [disabled]="!canEdit">
                             Choisir un fichier
-                            <input type="file" hidden  id="file2" [(ngModel)]="fileToAdd" (ngModelChange)="addFileToList(2)"
+                            <input type="file" hidden  id="file2" [disabled]="!canEdit" [(ngModel)]="fileToAdd"[disabled]="!canEdit"  (ngModelChange)="addFileToList(2)"
                                    accept="image/png, image/jpeg, image/jpg, .doc, .docx, .pdf, .xlsx">
                           </button>
                         </div>
                         <div class="col-md-6 text-center" *ngIf="indicateurs[2].id != null">
-                          <button class="btn btn-sm text-white" (click)="saveFiles(2)" style="background-color: #006a25; font-size: 13px">Sauvegarder</button>
+                          <button class="btn btn-sm text-white" (click)="saveFiles(2)" style="background-color: #006a25; font-size: 13px" [disabled]="!canEdit" >Sauvegarder</button>
                         </div>
                       </div>
                     </div>
@@ -176,10 +176,10 @@
                                matInput type="text" mvndrMatCurrencyFormat
                                [allowNegative]="true"
                                [currencyCode]="' '"
-                               [(ngModel)]="indicateur.value">-->
+                               [disabled]="!canEdit" [(ngModel)]="indicateur.value">-->
 
                         <input currencyMask class="form-control" style="height: 30px;"
-                               [(ngModel)]="indicateur.value"
+                               [disabled]="!canEdit" [(ngModel)]="indicateur.value"
                                [options]="inputOptionsCurrency"/>
                       </td>
                     </tr>
@@ -214,7 +214,7 @@
                               </button>
                               <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>-->
                               <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
-                                      style="cursor: pointer; color: #dc3545;" (click)="deleteFile(file)">
+                                      style="cursor: pointer; color: #dc3545;" (click)="deleteFile(file)" [disabled]="!canEdit">
                                 <i class="fas fa-trash"></i>
                               </button>
                             </div>
@@ -232,14 +232,14 @@
                     <div class="card-footer">
                       <div class="row">
                         <div class="col-md-6 text-center">
-                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(1)">
+                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(1)" [disabled]="!canEdit">
                             Choisir un fichier
-                            <input type="file" hidden  id="file1" [(ngModel)]="fileToAdd" (ngModelChange)="addFileToList(1)"
+                            <input type="file" hidden  id="file1" [disabled]="!canEdit" [(ngModel)]="fileToAdd"[disabled]="!canEdit"  (ngModelChange)="addFileToList(1)"
                                    accept="image/png, image/jpeg, image/jpg, .doc, .docx, .pdf, .xlsx">
                           </button>
                         </div>
                         <div class="col-md-6 text-center" *ngIf="indicateurs[1].id != null">
-                          <button class="btn btn-sm text-white" (click)="saveFiles(1)" style="background-color: #006a25; font-size: 13px">Sauvegarder</button>
+                          <button class="btn btn-sm text-white" (click)="saveFiles(1)" style="background-color: #006a25; font-size: 13px" [disabled]="!canEdit" >Sauvegarder</button>
                         </div>
                       </div>
                     </div>
@@ -277,10 +277,10 @@
                                matInput type="text" mvndrMatCurrencyFormat
                                [allowNegative]="true"
                                [currencyCode]="'XOF'"
-                               [(ngModel)]="indicateur.value">-->
+                               [disabled]="!canEdit" [(ngModel)]="indicateur.value">-->
 
                         <input currencyMask class="form-control" style="height: 30px;"
-                               [(ngModel)]="indicateur.value"
+                               [disabled]="!canEdit" [(ngModel)]="indicateur.value"
                                [options]="inputOptionsCurrency"/>
                       </td>
                     </tr>
@@ -315,7 +315,7 @@
                               </button>
                               <!--<em class="fa fa-edit small mr-3 text-warning" (click)="editFileName(1, '')"></em>-->
                               <button class="btn btn-sm ml-lg-n2" data-toggle="tooltip" data-placement="bottom" title="Supprimer"
-                                      style="cursor: pointer; color: #dc3545;" (click)="deleteFile(file)">
+                                      style="cursor: pointer; color: #dc3545;" (click)="deleteFile(file)" [disabled]="!canEdit">
                                 <i class="fas fa-trash"></i>
                               </button>
                             </div>
@@ -333,14 +333,14 @@
                     <div class="card-footer">
                       <div class="row">
                         <div class="col-md-6 text-center">
-                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(0)">
+                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(0)" [disabled]="!canEdit">
                             Choisir un fichier
-                            <input type="file" hidden  id="file0" [(ngModel)]="fileToAdd" (ngModelChange)="addFileToList(0)"
+                            <input type="file" hidden  id="file0" [disabled]="!canEdit" [(ngModel)]="fileToAdd"[disabled]="!canEdit"  (ngModelChange)="addFileToList(0)"
                                    accept="image/png, image/jpeg, image/jpg, .doc, .docx, .pdf, .xlsx">
                           </button>
                         </div>
                         <div class="col-md-6 text-center" *ngIf="indicateurs[0].id != null">
-                          <button class="btn btn-sm text-white" (click)="saveFiles(0)" style="background-color: #006a25; font-size: 13px">Sauvegarder</button>
+                          <button class="btn btn-sm text-white" (click)="saveFiles(0)" style="background-color: #006a25; font-size: 13px" [disabled]="!canEdit" >Sauvegarder</button>
                         </div>
                       </div>
                     </div>
