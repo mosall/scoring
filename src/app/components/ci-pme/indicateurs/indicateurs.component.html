@@ -132,10 +132,11 @@
                     <div class="card-footer">
                       <div class="row">
                         <div class="col-md-6 text-center">
-                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(2)" [disabled]="!canEdit">
+                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(2)" [disabled]="!canEdit"
+                          data-toggle="tooltip" data-placement="top" title="Veuillez joindre uniquement le bilan actif, passif et le compte de résultat !">
                             Choisir un fichier
                             <input type="file" hidden  id="file2" [disabled]="!canEdit" [(ngModel)]="fileToAdd"[disabled]="!canEdit"  (ngModelChange)="addFileToList(2)"
-                                   accept="image/png, image/jpeg, image/jpg, .doc, .docx, .pdf, .xlsx">
+                                   accept=".doc, .docx, .pdf, .xlsx">
                           </button>
                         </div>
                         <div class="col-md-6 text-center" *ngIf="indicateurs[2].id != null">
@@ -232,10 +233,11 @@
                     <div class="card-footer">
                       <div class="row">
                         <div class="col-md-6 text-center">
-                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(1)" [disabled]="!canEdit">
+                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(1)" [disabled]="!canEdit"
+                          data-toggle="tooltip" data-placement="top" title="Veuillez joindre uniquement le bilan actif, passif et le compte de résultat !">
                             Choisir un fichier
                             <input type="file" hidden  id="file1" [disabled]="!canEdit" [(ngModel)]="fileToAdd"[disabled]="!canEdit"  (ngModelChange)="addFileToList(1)"
-                                   accept="image/png, image/jpeg, image/jpg, .doc, .docx, .pdf, .xlsx">
+                                   accept=".doc, .docx, .pdf, .xlsx">
                           </button>
                         </div>
                         <div class="col-md-6 text-center" *ngIf="indicateurs[1].id != null">
@@ -333,10 +335,11 @@
                     <div class="card-footer">
                       <div class="row">
                         <div class="col-md-6 text-center">
-                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(0)" [disabled]="!canEdit">
+                          <button class="btn btn-sm text-white" style="background-color: #006a25; font-size: 13px" (click)="triggerClick(0)" [disabled]="!canEdit"
+                          data-toggle="tooltip" data-placement="top" title="Veuillez joindre uniquement le bilan actif, passif et le compte de résultat !">
                             Choisir un fichier
                             <input type="file" hidden  id="file0" [disabled]="!canEdit" [(ngModel)]="fileToAdd"[disabled]="!canEdit"  (ngModelChange)="addFileToList(0)"
-                                   accept="image/png, image/jpeg, image/jpg, .doc, .docx, .pdf, .xlsx">
+                                   accept=".doc, .docx, .pdf, .xlsx">
                           </button>
                         </div>
                         <div class="col-md-6 text-center" *ngIf="indicateurs[0].id != null">

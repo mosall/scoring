@@ -72,7 +72,7 @@ export class IdentificationComponent implements OnInit {
 
   formData = new FormData();
   demande: any;
-  canEdit: boolean = false;
+  canEdit: boolean = true;
 
   constructor(private identificationService: IdentificationService,
               private referentielService: ReferentielService, 
