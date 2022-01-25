@@ -92,7 +92,7 @@
                     <div class="card-header" style="background-color: #f78300"><h6><i class="fa fa-file"></i> Etats financiers</h6></div>
 
                     <div class="card-body">
-                      <p class="small font-italic text-success">Les formats acceptés sont: docx, xslx, pdf, png, jpg et jpeg</p>
+                      <p class="small font-italic text-success">Les formats acceptés sont: docx, xslx, pdf</p>
                       <p class="small text-muted" *ngIf="emptyFiles(2)">Aucun fichier disponible !</p>
                       <div *ngIf="!emptyFiles(2)">
                         <ng-template ngFor let-file [ngForOf]="indicateurs[2].files">
@@ -192,7 +192,7 @@
                     <div class="card-header" style="background-color: #f78300"><h6><i class="fa fa-file"></i> Etats financiers</h6></div>
 
                     <div class="card-body">
-                      <p class="small font-italic text-success">Les formats acceptés sont: docx, xslx, pdf, png, jpg et jpeg</p>
+                      <p class="small font-italic text-success">Les formats acceptés sont: docx, xslx, pdf</p>
                       <p class="small text-muted" *ngIf="emptyFiles(1)">Aucun fichier disponible !</p>
                       <div *ngIf="!emptyFiles(1)">
                         <ng-template ngFor let-file [ngForOf]="indicateurs[1].files">
@@ -294,7 +294,7 @@
                     <div class="card-header" style="background-color: #f78300"><h6><i class="fa fa-file"></i> Etats financiers</h6></div>
 
                     <div class="card-body">
-                      <p class="small font-italic text-success">Les formats acceptés sont: docx, xslx, pdf, png, jpg et jpeg</p>
+                      <p class="small font-italic text-success">Les formats acceptés sont: docx, xslx, pdf</p>
                       <p class="small text-muted" *ngIf="emptyFiles(0)">Aucun fichier disponible !</p>
                       <div *ngIf="!emptyFiles(0)">
                         <ng-template ngFor let-file [ngForOf]="indicateurs[0].files">
