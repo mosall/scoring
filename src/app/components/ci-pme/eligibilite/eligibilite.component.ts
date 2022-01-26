@@ -6,6 +6,7 @@ import {IdentificationService} from "../../../services/identification.service";
 import {AuthService} from "../../../services/auth.service";
 import {CiPmeService} from "../../../services/ci-pme.service";
 import { DemandeService } from 'src/app/services/demande.service';
+import { Router } from '@angular/router';
 declare var $: any;
 @Component({
   selector: 'app-eligibilite',
@@ -20,10 +21,13 @@ export class EligibiliteComponent implements OnInit {
   demande: any = [];
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
 
-  constructor(private eligibilityService: EligibiliteService, private authService: AuthService, private ciPmeService: CiPmeService,
-              private identificationService: IdentificationService,
-              private demandeService: DemandeService
-              ) { }
+  constructor(private eligibilityService: EligibiliteService, 
+    private authService: AuthService, 
+    private ciPmeService: CiPmeService,
+    private identificationService: IdentificationService,
+    private demandeService: DemandeService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getEntreprise();
@@ -143,7 +147,17 @@ export class EligibiliteComponent implements OnInit {
       text: msg,
       showConfirmButton: false,
       timer: 5000
-    }).then(() => window.location.reload());
+    }).then(() => {
+      if(this.demande?.status != 7){
+        window.location.reload()
+      }
+      else{
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>{
+          this.router.navigate(['/ci-pme/accueil'])
+        });
+          
+      }
+    });
   }
 
 }
