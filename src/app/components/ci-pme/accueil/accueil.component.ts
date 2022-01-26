@@ -31,14 +31,6 @@ export class AccueilComponent implements OnInit {
   demande: any;
   motifRejet: any = '';
 
-  status: any = [
-    'Brouillon',
-    'Envoyée',
-    'Réceptionnée',
-    'Rejetée',
-    'Provisoire',
-    'Cloturée'
-  ];
   displayScoreQualitatif: boolean = false;
   displayRatio: boolean = false;
   displayRadar: boolean = false;
