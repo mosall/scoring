@@ -177,7 +177,12 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Niveau d'éducation*</label>
-                  <input type="text" class="form-control" [disabled]="!canEdit" [(ngModel)]="niveau">
+                  <!-- <input type="text" class="form-control" [disabled]="!canEdit" [(ngModel)]="niveau"> -->
+                  <select class="form-control custom-select" [disabled]="!canEdit" [(ngModel)]="niveau">
+                    <option *ngFor="let niveau of listNiveauEtude" value="{{niveau.libelle}}">
+                      {{niveau.libelle}}
+                    </option>
+                  </select>
                 </div>
               </div>
               <div class="col-md-6">
