@@ -73,6 +73,7 @@ export class IdentificationComponent implements OnInit {
   formData = new FormData();
   demande: any;
   canEdit: boolean = true;
+  listNiveauEtude: any;
 
   constructor(private identificationService: IdentificationService,
               private referentielService: ReferentielService, 
@@ -90,6 +91,7 @@ export class IdentificationComponent implements OnInit {
     this.getListYear();
     this.getListSecteur();
     this.getListFormJuridique();
+    this.getNiveauEtude();
   }
 
   nextAndPreviousCtrl(){
@@ -324,6 +326,12 @@ export class IdentificationComponent implements OnInit {
   getListFormJuridique(){
     this.referentielService.getListFormJuridique().subscribe(
       data => this.listFormJurique = data
+    );
+  }
+
+  getNiveauEtude(){
+    this.referentielService.getNiveauEtude().subscribe(
+      data => this.listNiveauEtude = data
     );
   }
 
