@@ -20,4 +20,8 @@ export class ReferentielService {
   getPonderations(){
     return this.http.get(AppSettings.CIPME_ADMINISTRATION_API_URL + '/api/ponderations', AppSettings.httpOptions);    
   }
+  
+  getNiveauEtude(){
+    return this.http.get(AppSettings.CIPME_ADMINISTRATION_API_URL + '/api/referentiel/niveaux-etudes', AppSettings.httpOptions);    
+  }
 }
