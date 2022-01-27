@@ -258,15 +258,26 @@ export class QualitatifComponent implements OnInit {
       idDemande: this.demande?.id
     };
 
-    for (let q of this.listQuestions){
-      console.log(q);
-
-      payload.listReponse.push({
-        // @ts-ignore
-        idQuestion: q.question.id, reponse: parseInt(q.reponse)
-      });
+    const p = this.listParameters.find( (p: any) => p.id == id);
+    for(let q of p.questions){
+      //@ts-ignore
+      payload.listReponse.push({idQuestion: q.question.id, reponse: 240})
     }
-        
+    
+    for(let r of payload.listReponse){
+      for (let q of this.listQuestions){
+        //@ts-ignore
+        if( r.idQuestion == q.question.id){
+          //@ts-ignore
+          r.reponse = parseInt(q.reponse)
+          // payload.listReponse.push({
+          //   // @ts-ignore
+          //   idQuestion: q.question.id, reponse: parseInt(q.reponse)
+          // });
+        }
+      }
+    }
+       
     this.qualitatifService.saveQualitatifByParametre(id, payload).subscribe(
       data => {
         this.successMsgBox('Réponses enregistrées avec succés !');

@@ -82,7 +82,6 @@ export class EligibiliteComponent implements OnInit {
                 this.successMsgBox('Votre PME est éligible !');
               }
               else {
-                this.getDemandeEnCours(this.connectedUser?.entrepriseId)
                 this.errorMsgBox('Votre PME n\'est pas éligible !');
               }
             },
@@ -93,7 +92,7 @@ export class EligibiliteComponent implements OnInit {
       );
     }
     else {
-      this.errorMsgBox('Veuillez identifier l\'entreprise avant de répondre au questionnaire.')
+      this.errorMsgBox('Veuillez identifier l\'entreprise avant de répondre au questionnaire.', false)
     }
   }
 
@@ -142,14 +141,14 @@ export class EligibiliteComponent implements OnInit {
     }).then(()=> window.location.reload());
   }
 
-  errorMsgBox(msg: any){
+  errorMsgBox(msg: any, noneligible = true){
     Swal.fire({
       icon: 'warning',
       text: msg,
       showConfirmButton: false,
       timer: 5000
     }).then(() => {
-      if(this.demande?.status != 7){
+      if(!noneligible){
         window.location.reload()
       }
       else{
