@@ -82,6 +82,7 @@ export class EligibiliteComponent implements OnInit {
                 this.successMsgBox('Votre PME est éligible !');
               }
               else {
+                this.getDemandeEnCours(this.connectedUser?.entrepriseId)
                 this.errorMsgBox('Votre PME n\'est pas éligible !');
               }
             },
