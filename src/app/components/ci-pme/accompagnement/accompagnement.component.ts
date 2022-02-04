@@ -134,11 +134,23 @@ export class AccompagnementComponent  implements OnInit{
 	cancelAccompagnement(){
 		this.accompagnementService.cancelAccompagnement(this.demandeAccompagnement?.id).subscribe(
 			data => {
-				this.successMsgBox('La demande d\'accompagnement a été annulée.');
+				this.successMsgBoxWithoutReload('La demande d\'accompagnement a été annulée.');
+				this.goTo('/ci-pme/accueil');
 			},
 			err => console.log(err)
 		);
 	}
+
+	goTo(path: string, param: number = 0){
+		this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>{
+		  if(param == 0){
+			this.router.navigate([path])
+		  }
+		  else{
+			this.router.navigate([path, param != 0? param : '']);
+		  }
+		});
+	  }
 
 	successMsgBox(msg: any){
 		Swal.fire({
@@ -149,9 +161,18 @@ export class AccompagnementComponent  implements OnInit{
 		}).then(
 			()=> window.location.reload()
 		);
-	  }
+	}
+
+	successMsgBoxWithoutReload(msg: any){
+		Swal.fire({
+		  icon: 'success',
+		  text: msg,
+		  showConfirmButton: false,
+		  timer: 5000
+		});
+	}
 	
-	  errorMsgBox(msg: any, noneligible = true){
+	errorMsgBox(msg: any, noneligible = true){
 		Swal.fire({
 		  icon: 'warning',
 		  text: msg,
@@ -168,5 +189,5 @@ export class AccompagnementComponent  implements OnInit{
 			  
 		  }
 		});
-	  }
+	}
 }
