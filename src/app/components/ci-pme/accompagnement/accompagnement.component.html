@@ -1,0 +1,64 @@
+<div class="px-5 parent">
+	<div class="card animate__animated animate__backInUp" style="border-radius: 10px">
+	  <div class="row" style="height: auto" >
+	
+		<div class="col-md-12 p-5" style="background-color: #f8f8f8">
+		  <div class="tab-content" id="v-pills-tabContent">
+			<div  class="tab-pane fade show active py-2 " id="questions">
+				<div class="d-flex align-items-center">
+					<h3 class="card-title font-weight-bold">
+					  Comment pouvons-nous vous accompagner ?
+					</h3> 
+					<div class="ml-auto">
+						<a  class="btn btn-link bgc-secondary  mr-2" 
+						  *ngIf="user?.profil?.code == 'ROLE_ENTR' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && [1, 4].includes(demandeAccompagnement?.status) && lastDemande?.status == 7 "
+						  (click)="sendAccompagnement()" >Envoyer demande d'accompagnement</a>
+						
+						  <a  class="btn btn-link bgc-secondary  mr-2" 
+						  *ngIf="user?.profil?.code == 'ROLE_EXP_PME' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && demandeAccompagnement?.status == 2 && lastDemande?.status == 7 "
+						  (click)="receiveAccompagnement()" >Réceptionner demande d'accompagnement</a>
+						  
+						  <a  class="btn btn-link bgc-primary  mr-2" 
+						  *ngIf="user?.profil?.code == 'ROLE_ENTR' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && demandeAccompagnement?.status == 1 && lastDemande?.status == 7 "
+						  (click)="cancelAccompagnement()" >Annuler demande d'accompagnement</a>
+					</div>
+					
+				</div>
+			  <div>
+			  </div>
+			  <p class="medium text-muted">Veuillez répondre à toutes les questions !</p>
+  
+			  <div class="row pt-3">
+				<div id="accordion" class="w-100">
+				  <div class="card" *ngFor="let q of listeQuestionAvecReponseNon; let qIndex = index">
+					<div class="card-header" id="{{q.id}}">
+					  <h5 class="mb-0">
+						<button class="btn btn-link" style="text-align: left !important" data-toggle="collapse" [attr.data-target]="'#'+q.question?.code" aria-expanded="false" [attr.aria-controls]="q.question?.code">
+						  <!-- {{ getQuestionSymbol(qIndex) }})  -->
+						  {{q.question?.libelle}}
+						</button>
+					  </h5>
+					</div>
+  
+					<div id="{{q.question?.code}}" class="collapse" [attr.aria-labelledby]="q.question?.id" data-parent="#accordion" >
+					  <div class="card-body">
+						<textarea class="form-control" id="'accompagnement'+q.question?.id" rows="3" [(ngModel)]="q.accompagnement" [disabled]="demandeAccompagnement?.status > 1"></textarea>	
+					  </div>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			  <div class="modal-footer border-0"> 
+				  <button class="btn" style="background-color: #006a25; color: #ffffff"  
+				  *ngIf="demandeAccompagnement?.status == 1"
+				  (click)="submitQuestionnaire()">Valider</button>
+				</div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+  
+  
+  

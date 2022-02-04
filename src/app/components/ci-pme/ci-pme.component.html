@@ -12,9 +12,22 @@
       <a *ngIf="canActivateEligibility && user?.profil?.code == 'ROLE_ENTR'" class="nav-item nav-link" routerLinkActive="active" (click)="goTo('/ci-pme/questionnaire-eligibilite')">Questionnaire d'éligibilité</a>
       <a *ngIf="((entreprise?.eligible && user?.profil?.code == 'ROLE_ENTR') || user?.profil?.code == 'ROLE_EXP_PME') && canActivateIndicateur" class="nav-item nav-link" routerLinkActive="active" (click)="goTo('/ci-pme/indicateurs-financiers/', entreprise?.id)">Indicateurs financiers</a>
       <a *ngIf="entreprise?.eligible && user?.profil.code == 'ROLE_EXP_PME' && [3, 5].includes(demande?.status)" class="nav-item nav-link" routerLinkActive="active" (click)="goTo('/ci-pme/questionnaire-qualitatif/', entreprise?.id)">Questionnaire qualitatif</a>
+      
+      <a *ngIf="!entreprise?.eligible && 7 == lastDemande?.status && demandeAccompagnement" class="nav-item nav-link" routerLinkActive="active" (click)="goTo('/ci-pme/demandes-accompagnements/', lastDemande?.id)">Demande accompagnement</a>
     </div>
-    <div *ngIf="user?.profil.code == 'ROLE_ENTR' && !demande && entreprise?.id" class="ml-auto">
-      <a  class="nav-item nav-link btn btn-link bgc-secondary ml-auto" routerLinkActive="active" (click)="createDemande()" >Lancer demande de Scoring</a>
+    <div  class="d-flex flex-row justify-content-between">
+      <a  class="nav-item nav-link btn btn-link bgc-primary ml-auto mr-2" 
+          routerLinkActive="active"
+          *ngIf="user?.profil.code == 'ROLE_ENTR' && lastDemande && !demandeAccompagnement && lastDemande?.status == 7 && entreprise?.id"
+          (click)="createAccompagnement()" >Lancer demande d'accompagnement</a>
+      <a  class="nav-item nav-link btn btn-link bgc-secondary ml-auto mr-2" 
+          routerLinkActive="active" 
+          *ngIf="user?.profil.code == 'ROLE_ENTR' && !demande && entreprise?.id"
+          (click)="createDemande()" >Lancer demande de Scoring</a>
+      <!-- <a  class="nav-item nav-link btn btn-link bgc-primary ml-auto mr-2" 
+          routerLinkActive="active" 
+          *ngIf="user?.profil.code == 'ROLE_ENTR' && lastDemande && demandeAccompagnement && demandeAccompagnement?.status == 3 && lastDemande?.status == 7 && entreprise?.id"
+          (click)="relaunchDemande()" >Relancer demande de Scoring</a> -->
     </div>
     
     <div class="nav-item dropdown">
@@ -40,6 +53,97 @@
 
   <div class="footer small text-muted">
     Tous droits réservés <img src="/assets/img/Logo-Scoring-PME-01.png" alt="logo" style="width: 50px"> {{currentYear}}
+  </div>
+</div>
+
+<div class="modal fade" id="updatePwd" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #006a25; color: #ebeef2">
+        <h5 class="modal-title">Modification de mot de passe</h5>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updatePasswordForm" (ngSubmit)="onSubmit()">
+          <div class="modal-body">
+              <div id="form-msg">
+                  Veuillez remplir soigneusement le formulaire ci-dessous.
+              </div>
+                  <div class="row mb-4">
+                      <div class="col">
+                          <div class="form-outline">
+      
+                              <label class="form-label" for="form3Example1">Mot de passe courant <span style="color: red;">*</span></label>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fas fa-key"></i>
+                                      </span>
+                                  </div>
+                                  <input type="password" id="current-password" class="form-control" placeholder="Mot de passe" formControlName="password" />
+                                  <div class="input-group-prepend" (click)="togglePasswordView('current-password')">
+                                      <span class="input-group-text">
+                                          <i class="fas fa-eye"></i>
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mb-4">
+                      <div class="col">
+                          <div class="form-outline">
+      
+                              <label class="form-label" for="form3Example2">Nouveau mot de passe <span style="color: red;">*</span></label>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fas fa-key"></i>
+                                      </span>
+                                  </div>
+                                  <input type="password" id="new-password" placeholder="Nouveau mot du passe" class="form-control" formControlName="newPassword" />
+                                  <div class="input-group-prepend" (click)="togglePasswordView('new-password')">
+                                      <span class="input-group-text">
+                                          <i class="fas fa-eye"></i>
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mb-4">
+                      <div class="col">
+                          <div class="form-outline">
+      
+                              <label class="form-label" for="form3Example2">Confirmation du nouveau mot du passe <span style="color: red;">*</span></label>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                          <i class="fas fa-key"></i>
+                                      </span>
+                                  </div>
+                                  <input type="password" id="confirm-password" placeholder="Confirmation du nouveau mot du passe" class="form-control" formControlName="newPasswordConfirm" />
+                                  <div class="input-group-prepend" (click)="togglePasswordView('confirm-password')">
+                                      <span class="input-group-text">
+                                          <i class="fas fa-eye"></i>
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+      
+      
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn bgc-secondary btn-lg" [disabled]="disableCloseModal" data-dismiss="modal">Annuler</button>
+                  <button type="submit" class="btn bgc-primary btn-lg">Envoyer</button>
+              </div>
+          </form>
+
+      </div>
+      <!-- <div class="modal-footer border-0">
+      </div> -->
+    </div>
   </div>
 </div>
 

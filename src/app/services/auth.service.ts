@@ -12,4 +12,8 @@ export class AuthService {
   getUserInfos(){
     return this.httpClient.get(AppSettings.UM_URL + '/me', AppSettings.httpOptions);
   }
+
+  updatePassword(id: number, data: any, cbs: any){
+    this.httpClient.patch(`${AppSettings.UM_URL}/users/${id}/update-password`, data, AppSettings.httpOptions).subscribe(...cbs);
+  }
 }

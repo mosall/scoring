@@ -7,6 +7,7 @@ import {IdentificationComponent} from "./identification/identification.component
 import {IndicateursComponent} from "./indicateurs/indicateurs.component";
 import {AccueilComponent} from "./accueil/accueil.component";
 import {LisPmeComponent} from "./list-pme/lis-pme.component";
+import { AccompagnementComponent } from './accompagnement/accompagnement.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
       {
         path: 'liste-pme',
         component: LisPmeComponent
+      },
+      {
+        path: 'demandes-accompagnements/:idDemandeScoring',
+        component: AccompagnementComponent
       },
     ]
   }
