@@ -22,7 +22,7 @@
           (click)="createAccompagnement()" >Lancer demande d'accompagnement</a>
       <a  class="nav-item nav-link btn btn-link bgc-secondary ml-auto mr-2" 
           routerLinkActive="active" 
-          *ngIf="user?.profil.code == 'ROLE_ENTR' && !demande && entreprise?.id"
+          *ngIf="user?.profil.code == 'ROLE_ENTR' && entreprise?.id && ((!demande && !demandeAccompagnement) || (lastDemande?.status == 7 && demandeAccompagnement?.status < 2))"
           (click)="createDemande()" >Lancer demande de Scoring</a>
       <!-- <a  class="nav-item nav-link btn btn-link bgc-primary ml-auto mr-2" 
           routerLinkActive="active" 
