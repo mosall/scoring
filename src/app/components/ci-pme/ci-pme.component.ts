@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { filter, map, switchMap } from 'rxjs/operators'
 import { FormBuilder, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AccompagnementService } from 'src/app/services/accompagnement.service';
 
 declare var $: any;
 @Component({
@@ -28,6 +29,8 @@ export class CiPmeComponent implements OnInit {
   idEntreprise: any;
   updatePasswordForm: any;
   disableCloseModal: boolean = false;
+  lastDemande: any;
+  demandeAccompagnement: any;
 
   // routePathParam: Observable<string|null>;
   // navigationEnd: Observable<NavigationEnd>;
@@ -39,7 +42,8 @@ export class CiPmeComponent implements OnInit {
       private identificationService: IdentificationService, 
       private demandeService: DemandeService,
       private activatedRoute: ActivatedRoute,
-      private fb: FormBuilder
+      private fb: FormBuilder,
+      private accompagnementService: AccompagnementService
   ) {
 
     this.router.events.pipe(
@@ -154,6 +158,33 @@ export class CiPmeComponent implements OnInit {
         // @ts-ignore
         this.canActivateIndicateur = data && data?.status != 6;
 
+        if(!this.demande){
+          this.getLastClosedDemande(idEntreprise);
+        }
+
+      },
+      err => console.log(err)
+    );
+  }
+
+  getLastClosedDemande(idEntreprise: any){
+    this.demandeService.getLastClosedDemande(idEntreprise).subscribe(
+      (data: any) => {
+        this.lastDemande = data;
+        console.log('Last closed ci ::', data); 
+        this.canActivateEligibility = data && data?.status == 7;
+        this.getDemandeAccompagnent(this.lastDemande?.id);       
+      },
+      err => console.log(err)
+    );
+  }
+
+  getDemandeAccompagnent(idDemandeScoring: number){
+    this.accompagnementService.getAccompagnementByDemandeScoring(idDemandeScoring).subscribe(
+      (data: any) => {
+        this.demandeAccompagnement = data;
+        console.log('Demande accomp. :: ', data);
+        
       },
       err => console.log(err)
     );
@@ -163,6 +194,16 @@ export class CiPmeComponent implements OnInit {
     this.demandeService.createDemande(this.user?.entrepriseId).subscribe(
       data => {
         this.successMsgBox('Une demande de scoring a été bien créée.');
+      },
+      err => console.log(err)
+    );
+  }
+  
+  createAccompagnement(){
+    this.accompagnementService.createAccompagnement(this.lastDemande?.id).subscribe(
+      data => {
+        this.successMsgBoxWithoutReload('Une demande d\'accompagnement a été bien créée.');
+        this.goTo('/ci-pme/demandes-accompagnements/', this.lastDemande?.id)
       },
       err => console.log(err)
     );
@@ -193,6 +234,14 @@ export class CiPmeComponent implements OnInit {
     }).then(
       ()=> window.location.reload()
     );
+  }
+  successMsgBoxWithoutReload(msg: any){
+    Swal.fire({
+      icon: 'success',
+      text: msg,
+      showConfirmButton: false,
+      timer: 5000
+    });
   }
 
   errorMsgBox(msg: any){

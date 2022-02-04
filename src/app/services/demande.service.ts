@@ -41,4 +41,8 @@ export class DemandeService {
 	getLastClosedDemande(idEntreprise: any) {
 		return this.http.get(this.baseUrl+'/'+idEntreprise+'/last-closed', AppSettings.httpOptions);
 	}
+	
+	getDemandeScoringById(idDemandeScoring: number){
+		return this.http.get(this.baseUrl+'/'+idDemandeScoring, AppSettings.httpOptions);
+	}
 }

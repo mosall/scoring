@@ -6,6 +6,7 @@ import { QualitatifService } from 'src/app/services/qualitatif.service';
 import { IndicateursService } from 'src/app/services/indicateurs.service';
 import { DemandeService } from 'src/app/services/demande.service';
 import {CiPmeService} from "../../../services/ci-pme.service";
+import { AccompagnementService } from 'src/app/services/accompagnement.service';
 
 @Component({
   selector: 'app-accueil',
@@ -35,6 +36,7 @@ export class AccueilComponent implements OnInit {
   displayRatio: boolean = false;
   displayRadar: boolean = false;
   parametres: any[] = [];
+  demandeAccompagnement: any;
 
   constructor(
     private identificationService: IdentificationService,
@@ -43,6 +45,7 @@ export class AccueilComponent implements OnInit {
     private indicateursService: IndicateursService,
     private demandeService: DemandeService,
     private ciPmeService: CiPmeService,
+    private accompagnementService: AccompagnementService
     ) { }
 
   ngOnInit(): void {
@@ -207,7 +210,19 @@ export class AccueilComponent implements OnInit {
             this.getRatio(this.demande?.id);
           }
           console.log('Last ::', data);
+          if(this.demande?.status == 7){
+            this.getDemandeAccompagnent(this.demande?.id);
+          }
         }
+      },
+      err => console.log(err)
+    );
+  }
+
+  getDemandeAccompagnent(idDemandeScoring: number){
+    this.accompagnementService.getAccompagnementByDemandeScoring(idDemandeScoring).subscribe(
+      (data: any) => {
+        this.demandeAccompagnement = data;
       },
       err => console.log(err)
     );

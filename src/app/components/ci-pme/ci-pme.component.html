@@ -12,9 +12,22 @@
       <a *ngIf="canActivateEligibility && user?.profil?.code == 'ROLE_ENTR'" class="nav-item nav-link" routerLinkActive="active" (click)="goTo('/ci-pme/questionnaire-eligibilite')">Questionnaire d'éligibilité</a>
       <a *ngIf="((entreprise?.eligible && user?.profil?.code == 'ROLE_ENTR') || user?.profil?.code == 'ROLE_EXP_PME') && canActivateIndicateur" class="nav-item nav-link" routerLinkActive="active" (click)="goTo('/ci-pme/indicateurs-financiers/', entreprise?.id)">Indicateurs financiers</a>
       <a *ngIf="entreprise?.eligible && user?.profil.code == 'ROLE_EXP_PME' && [3, 5].includes(demande?.status)" class="nav-item nav-link" routerLinkActive="active" (click)="goTo('/ci-pme/questionnaire-qualitatif/', entreprise?.id)">Questionnaire qualitatif</a>
+      
+      <a *ngIf="!entreprise?.eligible && user?.profil.code == 'ROLE_ENTR' && 7 == lastDemande?.status && demandeAccompagnement" class="nav-item nav-link" routerLinkActive="active" (click)="goTo('/ci-pme/demandes-accompagnements/', lastDemande?.id)">Demande accompagnement</a>
     </div>
-    <div *ngIf="user?.profil.code == 'ROLE_ENTR' && !demande && entreprise?.id" class="ml-auto">
-      <a  class="nav-item nav-link btn btn-link bgc-secondary ml-auto" routerLinkActive="active" (click)="createDemande()" >Lancer demande de Scoring</a>
+    <div  class="d-flex flex-row justify-content-between">
+      <a  class="nav-item nav-link btn btn-link bgc-primary ml-auto mr-2" 
+          routerLinkActive="active"
+          *ngIf="user?.profil.code == 'ROLE_ENTR' && lastDemande && !demandeAccompagnement && lastDemande?.status == 7 && entreprise?.id"
+          (click)="createAccompagnement()" >Lancer demande d'accompagnement</a>
+      <a  class="nav-item nav-link btn btn-link bgc-secondary ml-auto mr-2" 
+          routerLinkActive="active" 
+          *ngIf="user?.profil.code == 'ROLE_ENTR' && !demande && entreprise?.id"
+          (click)="createDemande()" >Lancer demande de Scoring</a>
+      <a  class="nav-item nav-link btn btn-link bgc-primary ml-auto mr-2" 
+          routerLinkActive="active" 
+          *ngIf="user?.profil.code == 'ROLE_ENTR' && lastDemande && demandeAccompagnement && demandeAccompagnement?.status == 3 && lastDemande?.status == 7 && entreprise?.id"
+          (click)="createDemande()" >Relancer demande de Scoring</a>
     </div>
     
     <div class="nav-item dropdown">

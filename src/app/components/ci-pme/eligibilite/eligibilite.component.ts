@@ -110,25 +110,39 @@ export class EligibiliteComponent implements OnInit {
               if(data?.repEli){
                 // @ts-ignore
                 this.getReponse(data?.id);
+                
+              }
+              if(!data){
+                this.getLastClosedDemande(this.entreprise?.id);
               }
             }
+            );
+          }
           );
         }
-      );
-    }
+      }
+      
+      getReponse(idDemande: any){
+        this.eligibilityService.getReponseEntreprise(idDemande).subscribe(
+          data => {
+            this.reponseQuestionnaire = data;
+            
+            for (let q of this.listQuestions){
+              // @ts-ignore
+              const question = data.find(_question => _question.idQuestion == q.id);
+              q.reponse = question.reponse_eligibilite;
+            }
+      }
+    );
   }
 
-  getReponse(idDemande: any){
-    this.eligibilityService.getReponseEntreprise(idDemande).subscribe(
-      data => {
-        this.reponseQuestionnaire = data;
-
-        for (let q of this.listQuestions){
-          // @ts-ignore
-          const question = data.find(_question => _question.idQuestion == q.id);
-          q.reponse = question.reponse_eligibilite;
-        }
-      }
+  getLastClosedDemande(idEntreprise: any){
+    this.demandeService.getLastClosedDemande(idEntreprise).subscribe(
+      (data: any) => {
+        this.demande = data;   
+        this.getReponse(data?.id);     
+      },
+      err => console.log(err)
     );
   }
 
