@@ -107,7 +107,7 @@ export class AccompagnementComponent  implements OnInit{
 
 		this.accompagnementService.saveReponseAccompagnement(payload).subscribe(
 			data => {
-				this.successMsgBox("Le questionnaire d'accompagnement a été envoyé avec succès:")
+				this.successMsgBox("Le questionnaire a été répondu avec succès.")
 			},
 			err => console.log()			
 		);
