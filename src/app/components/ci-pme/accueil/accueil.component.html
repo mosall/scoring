@@ -27,10 +27,11 @@
                   <hr class="mt-lg-n2">
                 </div>
                 
-                <div *ngIf="demande?.motif_rejet">
+                <div *ngIf="demande?.motif">
                   <div class="line">
-                    <label class="mr-2">Motif rejet : </label>
-                    <span> {{demande?.motif_rejet }}</span>
+                    <label class="mr-2" *ngIf="demande?.status == 4">Motif rejet : </label>
+                    <label class="mr-2" *ngIf="demande?.status == 7">Motif annulation : </label>
+                    <span> {{demande?.motif }}</span>
                   </div>
                   <hr class="mt-lg-n2">
                 </div>
@@ -65,10 +66,10 @@
         </div>
       </div>
 
-      <div class="card-title py-1" *ngIf="demandeAccompagnement">
+      <div class="card-title py-1" *ngIf="demandeAccompagnement && ((connectedUser?.profil?.code == 'ROLE_EXP_PME' && demandeAccompagnement?.status != 4) || connectedUser?.profil?.code == 'ROLE_ENTR')">
         <h3>Informations de la demande d'accompagnement en cours</h3>
       </div>
-      <div class="card" *ngIf="demande">
+      <div class="card" *ngIf="demandeAccompagnement">
         <div class="card-body">
           <div class="card">
             <div class="card-body mb-6">

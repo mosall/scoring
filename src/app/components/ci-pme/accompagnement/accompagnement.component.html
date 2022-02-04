@@ -9,9 +9,19 @@
 					<h3 class="card-title font-weight-bold">
 					  Comment pouvons-nous vous accompagner ?
 					</h3> 
-					<a  class="btn btn-link bgc-secondary ml-auto mr-2" 
-					  *ngIf="user?.profil?.code == 'ROLE_ENTR' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && demandeAccompagnement?.status == 1 && lastDemande?.status == 7 "
-					  (click)="sendAccompagnement()" >Envoyer demande d'accompagnement</a>
+					<div class="ml-auto">
+						<a  class="btn btn-link bgc-secondary  mr-2" 
+						  *ngIf="user?.profil?.code == 'ROLE_ENTR' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && [1, 4].includes(demandeAccompagnement?.status) && lastDemande?.status == 7 "
+						  (click)="sendAccompagnement()" >Envoyer demande d'accompagnement</a>
+						
+						  <a  class="btn btn-link bgc-secondary  mr-2" 
+						  *ngIf="user?.profil?.code == 'ROLE_EXP_PME' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && demandeAccompagnement?.status == 2 && lastDemande?.status == 7 "
+						  (click)="receiveAccompagnement()" >Réceptionner demande d'accompagnement</a>
+						  
+						  <a  class="btn btn-link bgc-primary  mr-2" 
+						  *ngIf="user?.profil?.code == 'ROLE_ENTR' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && demandeAccompagnement?.status == 1 && lastDemande?.status == 7 "
+						  (click)="cancelAccompagnement()" >Annuler demande d'accompagnement</a>
+					</div>
 					
 				</div>
 			  <div>

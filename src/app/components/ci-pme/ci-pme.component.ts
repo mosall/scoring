@@ -31,6 +31,7 @@ export class CiPmeComponent implements OnInit {
   disableCloseModal: boolean = false;
   lastDemande: any;
   demandeAccompagnement: any;
+  idDemandeScoring: number | null = null;
 
   // routePathParam: Observable<string|null>;
   // navigationEnd: Observable<NavigationEnd>;
@@ -57,15 +58,23 @@ export class CiPmeComponent implements OnInit {
        }),
        switchMap(route => {
         return route.paramMap.pipe(
-                      map(paramMap => paramMap.get('idEntreprise'))
+                      map(paramMap => (paramMap.get('idEntreprise') ? {id: paramMap.get('idEntreprise'), entreprise: true} :  {id: paramMap.get('idDemandeScoring'), entreprise: false}) )
                     );
        })
       )
       .subscribe(
         data => {
-          this.idEntreprise = data? +data : null;
-          if(this.idEntreprise){
-            this.getEntreprise();
+          console.log("Param :: ", data);
+          
+          if(data.entreprise){
+            this.idEntreprise = data?.id? +data?.id : 0;
+            if(this.idEntreprise){
+              this.getEntreprise(this.idEntreprise);
+            }
+          }
+          else{
+            this.idDemandeScoring = data?.id? +data?.id : 0;
+            this.getDemandeScoring(this.idDemandeScoring);
           }
         }
       )
@@ -78,7 +87,7 @@ export class CiPmeComponent implements OnInit {
         sessionStorage.setItem('connectedUserData', JSON.stringify(data));
         this.user = data;
         this.idEntreprise = this.user?.entrepriseId;
-        this.getEntreprise();
+        this.getEntreprise(this.idEntreprise);
         if(this.user?.actif == 0){
           $('#updatePwd').modal({
             backdrop: 'static',
@@ -135,8 +144,8 @@ export class CiPmeComponent implements OnInit {
     }
   }
 
-  getEntreprise(){
-    this.identificationService.getEntreprise(this.idEntreprise).subscribe(
+  getEntreprise(idEntreprise: number){
+    this.identificationService.getEntreprise(idEntreprise).subscribe(
       data => {
         this.entreprise = data;
         // console.log('Entreprise ci :: ', data);
@@ -190,10 +199,31 @@ export class CiPmeComponent implements OnInit {
     );
   }
 
+  getDemandeScoring(idDemandeScoring: number){
+		this.demandeService.getDemandeScoringById(idDemandeScoring).subscribe(
+			data => {
+				this.lastDemande = data;
+        console.log('CI Demande sc ::', data);
+        this.getEntreprise(this.lastDemande?.entrepriseDTO?.id);
+        
+			},
+			err => console.log(err)
+		);
+	}
+
   createDemande(){
     this.demandeService.createDemande(this.user?.entrepriseId).subscribe(
       data => {
         this.successMsgBox('Une demande de scoring a été bien créée.');
+      },
+      err => console.log(err)
+    );
+  }
+  
+  relaunchDemande(){
+    this.demandeService.relaunchDemande(this.lastDemande?.id).subscribe(
+      data => {
+        this.successMsgBox('Une demande de scoring a été bien relancée.');
       },
       err => console.log(err)
     );

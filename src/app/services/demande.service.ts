@@ -45,4 +45,8 @@ export class DemandeService {
 	getDemandeScoringById(idDemandeScoring: number){
 		return this.http.get(this.baseUrl+'/'+idDemandeScoring, AppSettings.httpOptions);
 	}
+
+	relaunchDemande(id: number){
+		return this.http.get(this.baseUrl+'/'+id+'/relancer', AppSettings.httpOptions);
+	}
 }

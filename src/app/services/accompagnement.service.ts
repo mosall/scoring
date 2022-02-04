@@ -41,6 +41,11 @@ export class AccompagnementService{
 		return this.http.patch(`${this.baseUrl}/api/demandes-accompagnements/${idDemandeAccompagnement}/receptionner`, null, AppSettings.httpOptions);
 	}
 	
+	cancelAccompagnement(idDemandeAccompagnement: any){
+		return this.http.patch(`${this.baseUrl}/api/demandes-accompagnements/${idDemandeAccompagnement}/annuler`, null, AppSettings.httpOptions);
+	}
+
+	
 	saveReponseAccompagnement(body: any){
 		return this.http.post(`${this.baseUrl}/api/traitement/questionnaire/accompagnement/`, body, AppSettings.httpOptions);
 	}

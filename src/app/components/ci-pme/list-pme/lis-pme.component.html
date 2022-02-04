@@ -17,7 +17,7 @@
                 </a>
                 <div id="collapsethree" class="collapse show" aria-labelledby="headingthree">
                   <div class="card-body p-0">
-                    <select class="form-control custom-select px-4 py-2" size="{{listSecteur.length + 1}}" (change)="filterPme($event)">
+                    <select class="form-control custom-select px-4 py-2" size="14" (change)="filterPme($event)">
                       <option value="0">Tout</option>
                       <option class="text-wrap" *ngFor="let r of listSecteur; let index = index" [value]="r.id">
                         {{r.libelle}}

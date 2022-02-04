@@ -13,7 +13,7 @@
       <a *ngIf="((entreprise?.eligible && user?.profil?.code == 'ROLE_ENTR') || user?.profil?.code == 'ROLE_EXP_PME') && canActivateIndicateur" class="nav-item nav-link" routerLinkActive="active" (click)="goTo('/ci-pme/indicateurs-financiers/', entreprise?.id)">Indicateurs financiers</a>
       <a *ngIf="entreprise?.eligible && user?.profil.code == 'ROLE_EXP_PME' && [3, 5].includes(demande?.status)" class="nav-item nav-link" routerLinkActive="active" (click)="goTo('/ci-pme/questionnaire-qualitatif/', entreprise?.id)">Questionnaire qualitatif</a>
       
-      <a *ngIf="!entreprise?.eligible && user?.profil.code == 'ROLE_ENTR' && 7 == lastDemande?.status && demandeAccompagnement" class="nav-item nav-link" routerLinkActive="active" (click)="goTo('/ci-pme/demandes-accompagnements/', lastDemande?.id)">Demande accompagnement</a>
+      <a *ngIf="!entreprise?.eligible && 7 == lastDemande?.status && demandeAccompagnement" class="nav-item nav-link" routerLinkActive="active" (click)="goTo('/ci-pme/demandes-accompagnements/', lastDemande?.id)">Demande accompagnement</a>
     </div>
     <div  class="d-flex flex-row justify-content-between">
       <a  class="nav-item nav-link btn btn-link bgc-primary ml-auto mr-2" 
@@ -24,10 +24,10 @@
           routerLinkActive="active" 
           *ngIf="user?.profil.code == 'ROLE_ENTR' && !demande && entreprise?.id"
           (click)="createDemande()" >Lancer demande de Scoring</a>
-      <a  class="nav-item nav-link btn btn-link bgc-primary ml-auto mr-2" 
+      <!-- <a  class="nav-item nav-link btn btn-link bgc-primary ml-auto mr-2" 
           routerLinkActive="active" 
           *ngIf="user?.profil.code == 'ROLE_ENTR' && lastDemande && demandeAccompagnement && demandeAccompagnement?.status == 3 && lastDemande?.status == 7 && entreprise?.id"
-          (click)="createDemande()" >Relancer demande de Scoring</a>
+          (click)="relaunchDemande()" >Relancer demande de Scoring</a> -->
     </div>
     
     <div class="nav-item dropdown">

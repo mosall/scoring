@@ -41,7 +41,6 @@ export class AccompagnementComponent  implements OnInit{
 			data => {
 				this.user = data;
 				console.log('User ::', data);
-				
 			},
 			err => console.log(err)
 		);
@@ -51,7 +50,7 @@ export class AccompagnementComponent  implements OnInit{
 		this.demandeScoringService.getDemandeScoringById(idDemandeScoring).subscribe(
 			data => {
 				this.lastDemande = data;
-				console.log('Demande :: ', data);
+				console.log('Demande scoring :: ', data);
 				
 			},
 			err => console.log(err)
@@ -118,6 +117,24 @@ export class AccompagnementComponent  implements OnInit{
 		this.accompagnementService.sendAccompagnement(this.demandeAccompagnement?.id).subscribe(
 			data => {
 				this.successMsgBox('La demande d\'accompagnement a été bien envoyée.');
+			},
+			err => console.log(err)
+		);
+	}
+		
+	receiveAccompagnement(){
+		this.accompagnementService.receiveAccompagnement(this.demandeAccompagnement?.id).subscribe(
+			data => {
+			this.successMsgBox('La demande d\'accompagnement a été bien réceptionnée.');
+			},
+			err => console.log(err)
+		);
+	}
+
+	cancelAccompagnement(){
+		this.accompagnementService.cancelAccompagnement(this.demandeAccompagnement?.id).subscribe(
+			data => {
+				this.successMsgBox('La demande d\'accompagnement a été annulée.');
 			},
 			err => console.log(err)
 		);
