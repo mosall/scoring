@@ -20,7 +20,7 @@
 						  
 						  <a  class="btn btn-link bgc-primary  mr-2" 
 						  *ngIf="user?.profil?.code == 'ROLE_ENTR' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && demandeAccompagnement?.status == 1 && lastDemande?.status == 7 "
-						  (click)="cancelAccompagnement()" >Annuler demande d'accompagnement</a>
+						  data-toggle="modal" data-target="#exampleModal3" >Annuler demande d'accompagnement</a>
 					</div>
 					
 				</div>
@@ -58,6 +58,26 @@
 		</div>
 	  </div>
 	</div>
+  </div>
+
+  <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Annulation demande accompagnement</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Voulez-vous annuler cett demande d'accompagnement?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn bgc-secondary" data-dismiss="modal">Non</button>
+          <button type="button" class="btn bgc-primary" (click)="cancelAccompagnement()" data-dismiss="modal">Oui</button>
+        </div>
+      </div>
+    </div>
   </div>
   
   

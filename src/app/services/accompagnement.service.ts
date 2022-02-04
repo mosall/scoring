@@ -42,7 +42,7 @@ export class AccompagnementService{
 	}
 	
 	cancelAccompagnement(idDemandeAccompagnement: any){
-		return this.http.patch(`${this.baseUrl}/api/demandes-accompagnements/${idDemandeAccompagnement}/annuler`, null, AppSettings.httpOptions);
+		return this.http.delete(`${this.baseUrl}/api/demandes-accompagnements/${idDemandeAccompagnement}`, AppSettings.httpOptions);
 	}
 
 	
