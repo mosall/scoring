@@ -5,29 +5,28 @@
 		<div class="col-md-12 p-5" style="background-color: #f8f8f8">
 		  <div class="tab-content" id="v-pills-tabContent">
 			<div  class="tab-pane fade show active py-2 " id="questions">
-				<div class="d-flex align-items-center">
-					<h3 class="card-title font-weight-bold">
-						Comment souhaiteriez-vous qu'on vous accompagne sus ces questions que vous avez répondu NON?
-					</h3> 
-					<div class="ml-auto">
-						<a  class="btn btn-link bgc-secondary  mr-2" 
-						  *ngIf="user?.profil?.code == 'ROLE_ENTR' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && [1, 4].includes(demandeAccompagnement?.status) && lastDemande?.status == 7 "
-						  (click)="sendAccompagnement()" >Envoyer demande d'accompagnement</a>
-						
-						  <a  class="btn btn-link bgc-secondary  mr-2" 
-						  *ngIf="user?.profil?.code == 'ROLE_EXP_PME' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && demandeAccompagnement?.status == 2 && lastDemande?.status == 7 "
-						  (click)="receiveAccompagnement()" >Réceptionner demande d'accompagnement</a>
-						  
-						  <a  class="btn btn-link bgc-primary  mr-2" 
-						  *ngIf="user?.profil?.code == 'ROLE_ENTR' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && demandeAccompagnement?.status == 1 && lastDemande?.status == 7 "
-						  data-toggle="modal" data-target="#exampleModal3" >Annuler demande d'accompagnement</a>
-					</div>
+				<h3 class="card-title font-weight-bold ">
+					Comment souhaiteriez-vous qu'on vous accompagne sur les questions où vous avez répondu NON?
+				</h3> 
 					
+				<div>
 				</div>
-			  <div>
-			  </div>
-			  <p class="medium text-muted">Veuillez répondre à toutes les questions !</p>
-  
+				<p class="medium text-muted">Veuillez répondre à toutes les questions !</p>
+				
+				<div class="text-right">
+					<a  class="btn btn-link bgc-secondary  mr-2" 
+					  *ngIf="user?.profil?.code == 'ROLE_ENTR' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && [1, 4].includes(demandeAccompagnement?.status) && lastDemande?.status == 7 "
+					  (click)="sendAccompagnement()" >Envoyer demande d'accompagnement</a>
+					
+					  <a  class="btn btn-link bgc-secondary  mr-2" 
+					  *ngIf="user?.profil?.code == 'ROLE_EXP_PME' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && demandeAccompagnement?.status == 2 && lastDemande?.status == 7 "
+					  (click)="receiveAccompagnement()" >Réceptionner demande d'accompagnement</a>
+					  
+					  <a  class="btn btn-link bgc-primary  mr-2" 
+					  *ngIf="user?.profil?.code == 'ROLE_ENTR' && lastDemande && demandeAccompagnement && demandeAccompagnement?.questionnaireAjoute && demandeAccompagnement?.status == 1 && lastDemande?.status == 7 "
+					  data-toggle="modal" data-target="#exampleModal3" >Annuler demande d'accompagnement</a>
+				</div>
+				
 			  <div class="row pt-3">
 				<div id="accordion" class="w-100">
 				  <div class="card" *ngFor="let q of listeQuestionAvecReponseNon; let qIndex = index">
