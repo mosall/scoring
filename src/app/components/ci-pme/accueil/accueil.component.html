@@ -5,8 +5,28 @@
       <div *ngIf="demande && demande?.status != 6 && connectedUser?.profil?.code == 'ROLE_EXP_PME'" class="mt-2 mb-4 ">
         <!-- <div class="card-body"> -->
           <div class="mt-2 d-flex justify-content-end">
-             <button *ngIf="demande?.status == 2 && connectedUser?.profil.code == 'ROLE_EXP_PME'" class="btn btn-sm mr-2" style="color: #ffffff; background-color: #006a25" (click)="receiveDemande()">Réceptionner demande</button>
-            <button *ngIf="demande?.status == 3 && connectedUser?.profil.code == 'ROLE_EXP_PME'" class="btn btn-sm" style="color: #ffffff; background-color:  #f78300" data-toggle="modal" data-toggle="modal" data-target="#ratioModal">Rejeter demande </button>
+            <button *ngIf="demande?.status == 2 && connectedUser?.profil.code == 'ROLE_EXP_PME'" 
+                class="btn btn-sm mr-2 bgc-secondary"  
+                (click)="receiveDemande()">
+                  Réceptionner demande de scoring
+            </button>
+            <button *ngIf="demande?.status == 3 && connectedUser?.profil.code == 'ROLE_EXP_PME'" 
+              class="btn btn-sm bgc-primary"  
+              data-toggle="modal" data-toggle="modal" data-target="#ratioModal">
+                Rejeter demande 
+            </button>
+          </div>
+        <!-- </div> -->
+      </div>
+      <div *ngIf="demande && demande?.status == 7 && connectedUser?.profil?.code == 'ROLE_EXP_PME'" class="mt-2 mb-4 ">
+        <!-- <div class="card-body"> -->
+          <div class="mt-2 d-flex justify-content-end">
+             <button *ngIf="demandeAccompagnement?.status == 2 && connectedUser?.profil.code == 'ROLE_EXP_PME'" 
+                class="btn btn-sm mr-2 bgc-secondary"  
+                (click)="receiveDemande()">
+                Réceptionner demande d'accompagnement
+              </button>
+            
           </div>
         <!-- </div> -->
       </div>
