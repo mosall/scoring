@@ -12,7 +12,7 @@
       </div>
 
       <div class="card-title py-1" *ngIf="demande">
-        <h3>Informations de la demande de scoring en cours</h3>
+        <h3>Informations de la demande de scoring</h3>
       </div>
       <div class="card" *ngIf="demande">
         <div class="card-body">
@@ -22,7 +22,10 @@
                 <div>
                   <div class="line">
                     <label class="mr-2">Statut Demande : </label>
-                    <span> {{ demande?.libelleStatut }}</span>
+                    <span [ngClass]="{'error-status': [7, 6].includes(demande?.status)}"
+                      *ngIf="[7, 6].includes(demande?.status)"> {{ demande?.libelleStatut }}</span>
+                    <span [ngClass]="{'success-status': ![7, 6].includes(demande?.status)}"
+                      *ngIf="![7, 6].includes(demande?.status)"> {{ demande?.libelleStatut }}</span>
                   </div>
                   <hr class="mt-lg-n2">
                 </div>
@@ -67,7 +70,7 @@
       </div>
 
       <div class="card-title py-1" *ngIf="demandeAccompagnement && ((connectedUser?.profil?.code == 'ROLE_EXP_PME' && demandeAccompagnement?.status != 4) || connectedUser?.profil?.code == 'ROLE_ENTR')">
-        <h3>Informations de la demande d'accompagnement en cours</h3>
+        <h3>Informations de la demande d'accompagnement</h3>
       </div>
       <div class="card" *ngIf="demandeAccompagnement">
         <div class="card-body">
@@ -77,7 +80,10 @@
                 <div>
                   <div class="line">
                     <label class="mr-2">Statut Demande : </label>
-                    <span> {{ demandeAccompagnement?.libelleStatut }}</span>
+                    <span [ngClass]="{'error-status': [7, 6].includes(demande?.status)}"
+                      *ngIf="[7, 6].includes(demande?.status)"> {{ demandeAccompagnement?.libelleStatut }}</span>
+                    <span [ngClass]="{'success-status': ![7, 6].includes(demande?.status)}"
+                      *ngIf="![7, 6].includes(demande?.status)"> {{ demandeAccompagnement?.libelleStatut }}</span>
                   </div>
                   <hr class="mt-lg-n2">
                 </div>

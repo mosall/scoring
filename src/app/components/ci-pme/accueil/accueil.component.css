@@ -41,3 +41,10 @@ label {
 .line span{
   width: 80%;
 }
+
+.error-status{
+  color: red !important;
+}
+.success-status{
+  color: #006a25 !important;
+}
