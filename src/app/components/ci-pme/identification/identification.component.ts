@@ -9,6 +9,7 @@ declare var $: any;
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import {HttpClient} from "@angular/common/http";
 import { DemandeService } from 'src/app/services/demande.service';
+import { AccompagnementService } from 'src/app/services/accompagnement.service';
 
 @Component({
   selector: 'app-identification',
@@ -74,13 +75,16 @@ export class IdentificationComponent implements OnInit {
   demande: any;
   canEdit: boolean = true;
   listNiveauEtude: any;
+  demandeAccompagnement: any;
+  lastDemande: any;
 
   constructor(private identificationService: IdentificationService,
               private referentielService: ReferentielService, 
               private authService: AuthService,
               private router: Router, 
               private http: HttpClient,
-              private demandeService: DemandeService
+              private demandeService: DemandeService,
+              private accompagnementService: AccompagnementService
               ) { }
 
   ngOnInit(): void {
@@ -194,18 +198,45 @@ export class IdentificationComponent implements OnInit {
               }
             }
           );
-
-          this.demandeService.getDemandeOuverte(this.idEntreprise).subscribe(
-            (data: any) => {
-              this.demande = data;
-              this.canEdit = !this.demande || (this.demande?.status == 1 && this.connectedUser?.profil.code == 'ROLE_ENTR') 
-            },
-            err => console.log(err)            
-          );
+          this.getDemandeScoring(this.entreprise?.id);
         }
       )
     }
   }
+
+  getDemandeScoring(idEntreprise: number){
+    this.demandeService.getDemandeOuverte(idEntreprise).subscribe(
+      (data: any) => {
+        this.demande = data;
+        this.canEdit = !this.demande || (this.demande?.status == 1 && this.connectedUser?.profil.code == 'ROLE_ENTR');
+        if(!this.demande){
+          this.getLastDemandeScoring(idEntreprise);
+        }
+      },
+      err => console.log(err)            
+    );
+  }
+
+  getLastDemandeScoring(idEntreprise: number){
+    this.demandeService.getLastClosedDemande(idEntreprise).subscribe(
+      (data: any) => {
+        this.lastDemande = data;
+        this.canEdit = (this.lastDemande?.status == 1 && this.connectedUser?.profil.code == 'ROLE_ENTR');
+          this.getDemandeAccompagnement(this.lastDemande?.id);
+      },
+      err => console.log(err)            
+    );
+  }
+
+  getDemandeAccompagnement(idDemandeScoring: number){
+    this.accompagnementService.getAccompagnementByDemandeScoring(idDemandeScoring).subscribe(
+      data => {
+        this.demandeAccompagnement = data;
+      },
+      err => console.log(err)      
+    );
+  }
+
 
   getDirigeant(){
     this.identificationService.getDirigeant(this.idEntreprise).subscribe(
