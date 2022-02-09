@@ -444,7 +444,7 @@ export class IndicateursComponent implements OnInit {
             this.getIndicateurs();
           },
           error => {
-            this.errorMsgBox('Enregistrement fichier échoué, veuillez réesssayer !')
+            this.errorMsgBox('Veuillez joindre le bilan actif, passif et le compte de résultat !')
           }
         );
       }
