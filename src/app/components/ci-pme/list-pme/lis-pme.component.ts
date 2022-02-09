@@ -16,6 +16,9 @@ export class LisPmeComponent implements OnInit {
   listPmeTmp: any = [];
   listSecteur: any = [];
   pageSlice: any;
+  filtreType: number = 0;
+  filtreStatut: number = 0;
+  connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
 
   constructor(private identificationService: IdentificationService,
               private referentielService: ReferentielService, private ciPmeService: CiPmeService,
@@ -32,7 +35,7 @@ export class LisPmeComponent implements OnInit {
         // @ts-ignore
         data.sort((a: { id: number; }, b: { id: number; }) => a.id > b.id);
         // @ts-ignore
-        console.log(data)
+        console.log('PME ::', data)
         // @ts-ignore
         for (let pme of data){
           let demande: any = [];
@@ -109,6 +112,33 @@ export class LisPmeComponent implements OnInit {
     }
 
     this.pageSlice = this.listPme.slice(startIndex, endIndex);
+  }
+
+  filterByType(type: number){
+    this.filtreType = type;
+    this.getListePMEByType(this.filtreType);
+    console.log('Filter '+ type+ " ::", this.pageSlice);
+    
+  }
+
+  getListePMEByType(type: number){
+    if(type == 1 ){
+      this.listPme = this.listPmeTmp.filter((pme: any) => pme?.pme?.demandeNonCloturee != null);
+      this.pageSlice = this.listPme.slice(0, 6);
+    }
+    else if(type == 2 ){
+      this.listPme = this.listPmeTmp.filter((pme: any) => pme?.pme?.demandeAccompagnement != null);
+      this.pageSlice = this.listPme.slice(0, 6);
+    }
+    else if(type == 0 ){
+      this.listPme = this.listPmeTmp
+      this.pageSlice = this.listPme.slice(0, 6);
+    }
+    else if(type == 3 ){
+      this.listPme = this.listPmeTmp.filter((pme: any) => pme?.pme?.demandeNonCloturee?.traiterPar == this.connectedUser?.id)
+      this.pageSlice = this.listPme.slice(0, 6);
+    }
+
   }
 
 }

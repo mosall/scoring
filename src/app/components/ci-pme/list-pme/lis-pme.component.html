@@ -31,6 +31,34 @@
         </div>
 
         <div class="col-lg-9">
+          <div class="row mt-4">
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="tout" name="customRadioInline" class="custom-control-input" [(ngModel)]="filtreType" value="0" (click)="filterByType(0)">
+              <label class="custom-control-label" for="tout">Tout</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="mes-demandes" name="customRadioInline" class="custom-control-input" [(ngModel)]="filtreType" value="3" (click)="filterByType(3)">
+              <label class="custom-control-label" for="mes-demandes">Mes demandes</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="scoring" name="customRadioInline" class="custom-control-input" [(ngModel)]="filtreType" value="1" (click)="filterByType(1)">
+              <label class="custom-control-label" for="scoring">Demandes de scoring</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="accompagnement" name="customRadioInline" class="custom-control-input" [(ngModel)]="filtreType" value="2" (click)="filterByType(2)">
+              <label class="custom-control-label" for="accompagnement">Demandes d'accompagnement</label>
+            </div>
+            <div class="form-group">
+              <!-- <label class="custom-control-label" for="customRadioInline2">Filtre par statut</label> -->
+              <select class="form-control">
+                <option selected>Filtrer par statut</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+
+          </div>
           <div class="row" *ngIf="listPme.length != 0">
             <div class="col-lg-4 col-md-6" *ngFor="let pme of pageSlice">
               <div class="list-grid-item mt-4">
@@ -40,10 +68,10 @@
                     <img *ngIf="pme.logo != ''" [src]="pme.logo" alt="logo" class="img-fluid mx-auto d-block ">
                   </div>
                   <div class="grid-list-desc text-center mt-4" style="cursor: pointer">
-                    <h5 class="mb-1">{{pme.pme.raisonSociale}} {{pme.pme.id}}</h5>
-                    <p class="text-muted f-10 mb-0 small">Statut de la demande: {{pme.pme.demandeNonCloturee.libelleStatut}}</p>
+                    <h5 class="mb-1">{{pme?.pme?.raisonSociale}} {{pme?.pme?.id}}</h5>
+                    <p class="text-muted f-10 mb-0 small">Statut de la demande: {{pme?.pme?.demandeNonCloturee?.libelleStatut}}</p>
                     <p class="text-muted f-14 mb-0"><span class="iconify" data-icon="el:map-marker"></span> {{pme.pme.adresse}}</p>
-                    <ul class="employers-icons list-inline mb-1" *ngIf="pme.pme.demandeNonCloturee.scoreFinal == 0">
+                    <ul class="employers-icons list-inline mb-1" *ngIf="pme?.pme?.demandeNonCloturee?.scoreFinal == 0">
                         <li class="list-inline-item"><a href="#" class="text-black-50"><i class="fas fa-star f-19"></i></a></li>
                         <li class="list-inline-item"><a href="#" class="text-black-50"><i class="fas fa-star f-19"></i></a></li>
                         <li class="list-inline-item"><a href="#" class="text-black-50"><i class="fas fa-star f-19"></i></a></li>
@@ -51,12 +79,12 @@
                         <li class="list-inline-item"><a href="#" class="text-black-50"><i class="fas fa-star f-19"></i></a></li>
                     </ul>
 
-                    <ul class="employers-icons list-inline mb-1" *ngIf="pme.pme.demandeNonCloturee.scoreFinal != 0">
-                      <li *ngFor="let in of counter(pme.pme.demandeNonCloturee.scoreFinal)" class="list-inline-item">
+                    <ul class="employers-icons list-inline mb-1" *ngIf="pme?.pme?.demandeNonCloturee?.scoreFinal != 0">
+                      <li *ngFor="let in of counter(pme?.pme?.demandeNonCloturee?.scoreFinal ?? 5)" class="list-inline-item">
                         <a href="#" class="text-warning"><i class="fas fa-star f-19"></i></a>
                       </li>
 
-                      <li *ngFor="let in of counter(5 - parseToInt(pme.pme.demandeNonCloturee.scoreFinal))" class="list-inline-item">
+                      <li *ngFor="let in of counter(5 - parseToInt(pme?.pme?.demandeNonCloturee?.scoreFinal ?? 5))" class="list-inline-item">
                         <a href="#" class="text-black-50"><i class="fas fa-star f-19"></i></a>
                       </li>
                     </ul>
