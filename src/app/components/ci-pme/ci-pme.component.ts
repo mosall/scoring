@@ -249,6 +249,11 @@ export class CiPmeComponent implements OnInit {
       }
     });
   }
+  goToAccueil(){
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>{
+      this.router.navigate(['/ci-pme/accueil', this.demande?.entrepriseDTO?.id ? this.demande?.entrepriseDTO?.id : this.lastDemande?.entrepriseDTO?.id]);
+    });
+  }
 
   togglePasswordView(id: string) {
     const passInput = document.getElementById(id) as HTMLInputElement;
