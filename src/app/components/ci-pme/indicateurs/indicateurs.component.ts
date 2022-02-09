@@ -188,6 +188,10 @@ export class IndicateursComponent implements OnInit {
   }
 
   saveIndicateur(year: any){
+    if(this.indicateurs[year].files.length == 0){
+      this.errorMsgBox("Veuillez joindre le bilan actif, passif et le compte de résultat !");
+      return;
+    }
     let payload = {
       annee: this.financialYear - year,
       derniereAnnee: this.financialYear,
