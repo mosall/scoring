@@ -3,7 +3,6 @@ import {IdentificationService} from "../../../services/identification.service";
 import {Router} from "@angular/router";
 import {ReferentielService} from "../../../services/referentiel.service";
 import {CiPmeService} from "../../../services/ci-pme.service";
-import {catchError} from "rxjs/operators";
 import {PageEvent} from "@angular/material/paginator";
 
 @Component({
@@ -117,11 +116,12 @@ export class LisPmeComponent implements OnInit {
     this.pageSlice = this.listPme.slice(startIndex, endIndex);
   }
 
-  filterByType(type: number){
-    this.filtreType = type;
+  filterByType(event: any){
+    this.filtreType = event.target.value;
     this.getListePMEByType(this.filtreType);
-    console.log('Filter '+ type+ " ::", this.pageSlice); 
+    console.log('Filter '+ this.filtreType+ " ::", this.pageSlice); 
   }
+
   filterByStatus(event: any){
     this.filtreStatut = event.target.value;
     if(this.filtreStatut == 0){
