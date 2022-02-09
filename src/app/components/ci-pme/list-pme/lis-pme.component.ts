@@ -19,6 +19,7 @@ export class LisPmeComponent implements OnInit {
   filtreType: number = 0;
   filtreStatut: number = 0;
   connectedUser:any = JSON.parse(<string>sessionStorage.getItem('connectedUserData'));
+  pageSliceTmp: any;
 
   constructor(private identificationService: IdentificationService,
               private referentielService: ReferentielService, private ciPmeService: CiPmeService,
@@ -35,7 +36,6 @@ export class LisPmeComponent implements OnInit {
         // @ts-ignore
         data.sort((a: { id: number; }, b: { id: number; }) => a.id > b.id);
         // @ts-ignore
-        console.log('PME ::', data)
         // @ts-ignore
         for (let pme of data){
           let demande: any = [];
@@ -47,11 +47,13 @@ export class LisPmeComponent implements OnInit {
                 // @ts-ignore
                 logo = "data:image/png;base64,"+data1[0].contenu;
               }
-
+              
               this.listPme.push({pme, logo, demande});
               this.listPmeTmp.push({pme, logo, demande});
-
+              
               this.pageSlice = this.listPme.slice(0, 6);
+              this.pageSliceTmp = this.pageSlice;
+              console.log('PME ::', this.listPmeTmp)
 
             },
             err => {
@@ -59,6 +61,7 @@ export class LisPmeComponent implements OnInit {
               this.listPmeTmp.push({pme, logo: "logo", demande});
 
               this.pageSlice = this.listPme.slice(0, 6);
+              this.pageSliceTmp = this.pageSlice;
 
             }
           );
@@ -117,26 +120,38 @@ export class LisPmeComponent implements OnInit {
   filterByType(type: number){
     this.filtreType = type;
     this.getListePMEByType(this.filtreType);
-    console.log('Filter '+ type+ " ::", this.pageSlice);
-    
+    console.log('Filter '+ type+ " ::", this.pageSlice); 
+  }
+  filterByStatus(event: any){
+    this.filtreStatut = event.target.value;
+    if(this.filtreStatut == 0){
+      this.pageSlice = this.pageSliceTmp;
+    }
+    else{
+      this.pageSlice = this.pageSliceTmp.filter((pme: any) => pme?.pme?.demandeNonCloturee?.status == this.filtreStatut || pme?.pme?.demandeAccompagnement?.status == this.filtreStatut);  
+    }
   }
 
   getListePMEByType(type: number){
     if(type == 1 ){
       this.listPme = this.listPmeTmp.filter((pme: any) => pme?.pme?.demandeNonCloturee != null);
       this.pageSlice = this.listPme.slice(0, 6);
+      this.pageSliceTmp = this.pageSlice;
     }
     else if(type == 2 ){
       this.listPme = this.listPmeTmp.filter((pme: any) => pme?.pme?.demandeAccompagnement != null);
       this.pageSlice = this.listPme.slice(0, 6);
+      this.pageSliceTmp = this.pageSlice;
     }
     else if(type == 0 ){
       this.listPme = this.listPmeTmp
       this.pageSlice = this.listPme.slice(0, 6);
+      this.pageSliceTmp = this.pageSlice;
     }
     else if(type == 3 ){
       this.listPme = this.listPmeTmp.filter((pme: any) => pme?.pme?.demandeNonCloturee?.traiterPar == this.connectedUser?.id)
       this.pageSlice = this.listPme.slice(0, 6);
+      this.pageSliceTmp = this.pageSlice;
     }
 
   }
