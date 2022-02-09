@@ -250,6 +250,14 @@ export class AccueilComponent implements OnInit {
     );
   }
 
+  receiveAccompagnement(){
+		this.accompagnementService.receiveAccompagnement(this.demandeAccompagnement?.id).subscribe(
+			data => {
+			this.successMsgBox('La demande d\'accompagnement a été bien réceptionnée.');
+			},
+			err => console.log(err)
+		);
+	}
 
   formatNumber(num: any){
     return Number(num.toFixed(0)).toLocaleString("fr-FR");

@@ -33,19 +33,19 @@
         <div class="col-lg-9">
           <div class="row mt-4">
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="tout" name="customRadioInline" class="custom-control-input" [(ngModel)]="filtreType" value="0" (click)="filterByType(0)">
+              <input type="radio" id="tout" name="customRadioInline" class="custom-control-input" [ngModel]="filtreType" value="0" (click)="filterByType(0)">
               <label class="custom-control-label" for="tout">Tout</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="mes-demandes" name="customRadioInline" class="custom-control-input" [(ngModel)]="filtreType" value="3" (click)="filterByType(3)">
+              <input type="radio" id="mes-demandes" name="customRadioInline" class="custom-control-input" [ngModel]="filtreType" value="3" (click)="filterByType(3)">
               <label class="custom-control-label" for="mes-demandes">Mes demandes</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="scoring" name="customRadioInline" class="custom-control-input" [(ngModel)]="filtreType" value="1" (click)="filterByType(1)">
+              <input type="radio" id="scoring" name="customRadioInline" class="custom-control-input" [ngModel]="filtreType" value="1" (click)="filterByType(1)">
               <label class="custom-control-label" for="scoring">Demandes de scoring</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="accompagnement" name="customRadioInline" class="custom-control-input" [(ngModel)]="filtreType" value="2" (click)="filterByType(2)">
+              <input type="radio" id="accompagnement" name="customRadioInline" class="custom-control-input" [ngModel]="filtreType" value="2" (click)="filterByType(2)">
               <label class="custom-control-label" for="accompagnement">Demandes d'accompagnement</label>
             </div>
             <div class="form-group">
@@ -71,7 +71,8 @@
                   </div>
                   <div class="grid-list-desc text-center mt-4" style="cursor: pointer">
                     <h5 class="mb-1">{{pme?.pme?.raisonSociale}} {{pme?.pme?.id}}</h5>
-                    <p class="text-muted f-10 mb-0 small">Statut de la demande: {{pme?.pme?.demandeNonCloturee?.libelleStatut}}</p>
+                    <p class="text-muted f-10 mb-0 small" *ngIf="pme?.pme?.demandeNonCloturee">Statut de la demande scoring : {{pme?.pme?.demandeNonCloturee?.libelleStatut}}</p>
+                    <p class="text-muted f-10 mb-0 small" *ngIf="pme?.pme?.demandeAccompagnement">Statut de la demande accompagnement : {{pme?.pme?.demandeAccompagnement?.libelleStatut}}</p>
                     <p class="text-muted f-14 mb-0"><span class="iconify" data-icon="el:map-marker"></span> {{pme.pme.adresse}}</p>
                     <ul class="employers-icons list-inline mb-1" *ngIf="pme?.pme?.demandeNonCloturee?.scoreFinal == 0">
                         <li class="list-inline-item"><a href="#" class="text-black-50"><i class="fas fa-star f-19"></i></a></li>
