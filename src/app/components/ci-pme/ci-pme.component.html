@@ -22,18 +22,17 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav mr-auto">
         <a
+          class="nav-item nav-link"
+          routerLinkActive="active"
+          (click)="goToAccueil()"
+          >Accueil</a
+        >
+        <a
           *ngIf="user?.profil.code == 'ROLE_EXP_PME'"
           class="nav-item nav-link"
           routerLinkActive="active"
           (click)="goTo('/ci-pme/liste-pme')"
           >Liste des entreprises</a
-        >
-        <!-- *ngIf="user?.entrepriseId != null" -->
-        <a
-          class="nav-item nav-link"
-          routerLinkActive="active"
-          (click)="goToAccueil()"
-          >Accueil</a
         >
         <a
           *ngIf="user?.profil.code == 'ROLE_ENTR'"
