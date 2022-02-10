@@ -118,8 +118,8 @@ export class LisPmeComponent implements OnInit {
 
   filterByType(event: any){
     this.filtreType = event.target.value;
-    this.getListePMEByType(this.filtreType);
-    console.log('Filter '+ this.filtreType+ " ::", this.pageSlice); 
+    this.filtreStatut = 0;
+    this.getListePMEByType(this.filtreType); 
   }
 
   filterByStatus(event: any){

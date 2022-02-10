@@ -182,7 +182,9 @@ export class CiPmeComponent implements OnInit {
         this.lastDemande = data;
         console.log('Last closed ci ::', data); 
         this.canActivateEligibility = data && data?.status == 7;
-        this.getDemandeAccompagnent(this.lastDemande?.id);       
+        if(this.lastDemande?.status == 7){
+          this.getDemandeAccompagnent(this.lastDemande?.id);       
+        }
       },
       err => console.log(err)
     );
