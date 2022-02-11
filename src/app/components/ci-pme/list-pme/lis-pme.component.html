@@ -33,19 +33,19 @@
         <div class="col-lg-9">
           <div class="row mt-4">
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="tout" name="customRadioInline" class="custom-control-input" [ngModel]="filtreType" value="0" (change)="filterByType($event)">
+              <input type="radio" id="tout" name="customRadioInline" class="custom-control-input" [checked]="filtreType == 0" value="0"  (change)="filterByType($event)">
               <label class="custom-control-label" for="tout">Tout</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="mes-demandes" name="customRadioInline" class="custom-control-input" [ngModel]="filtreType" value="3" (change)="filterByType($event)">
+              <input type="radio" id="mes-demandes" name="customRadioInline" class="custom-control-input" [checked]="filtreType == 3" value="3" (change)="filterByType($event)">
               <label class="custom-control-label" for="mes-demandes">Mes demandes</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="scoring" name="customRadioInline" class="custom-control-input" [ngModel]="filtreType" value="1" (change)="filterByType($event)">
+              <input type="radio" id="scoring" name="customRadioInline" class="custom-control-input" [checked]="filtreType == 1" value="1" (change)="filterByType($event)">
               <label class="custom-control-label" for="scoring">Demandes de scoring</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="accompagnement" name="customRadioInline" class="custom-control-input" [ngModel]="filtreType" value="2" (change)="filterByType($event)">
+              <input type="radio" id="accompagnement" name="customRadioInline" class="custom-control-input" [checked]="filtreType == 2" value="2" (change)="filterByType($event)">
               <label class="custom-control-label" for="accompagnement">Demandes d'accompagnement</label>
             </div>
             <div class="form-group">

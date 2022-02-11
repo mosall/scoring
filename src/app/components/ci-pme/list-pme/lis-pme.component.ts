@@ -30,6 +30,7 @@ export class LisPmeComponent implements OnInit {
   }
 
   getListPme(){
+    this.filtreType = 0;
     this.ciPmeService.getListPme().subscribe(
       data => {
         // @ts-ignore
@@ -52,7 +53,6 @@ export class LisPmeComponent implements OnInit {
               
               this.pageSlice = this.listPme.slice(0, 6);
               this.pageSliceTmp = this.pageSlice;
-              console.log('PME ::', this.listPmeTmp)
 
             },
             err => {
@@ -148,22 +148,22 @@ export class LisPmeComponent implements OnInit {
     if(type == 1 ){
       this.listPme = this.listPmeTmp.filter((pme: any) => pme?.pme?.demandeNonCloturee != null);
       this.pageSlice = this.listPme.slice(0, 6);
-      this.pageSliceTmp = this.pageSlice;
+      this.pageSliceTmp = this.listPme;
     }
     else if(type == 2 ){
       this.listPme = this.listPmeTmp.filter((pme: any) => pme?.pme?.demandeAccompagnement != null);
       this.pageSlice = this.listPme.slice(0, 6);
-      this.pageSliceTmp = this.pageSlice;
+      this.pageSliceTmp = this.listPme;
     }
     else if(type == 0 ){
       this.listPme = this.listPmeTmp
       this.pageSlice = this.listPme.slice(0, 6);
-      this.pageSliceTmp = this.pageSlice;
+      this.pageSliceTmp = this.listPme;
     }
     else if(type == 3 ){
       this.listPme = this.listPmeTmp.filter((pme: any) => pme?.pme?.demandeNonCloturee?.traiterPar == this.connectedUser?.id)
       this.pageSlice = this.listPme.slice(0, 6);
-      this.pageSliceTmp = this.pageSlice;
+      this.pageSliceTmp = this.listPme;
     }
 
   }
