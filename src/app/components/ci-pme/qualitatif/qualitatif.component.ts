@@ -63,6 +63,7 @@ export class QualitatifComponent implements OnInit {
   answeredParams: number = 0;
   demande: any;
   idEntreprise: any;
+  listReponse: any = [];
 
   constructor(
     private qualitatifService: QualitatifService,
@@ -185,6 +186,7 @@ export class QualitatifComponent implements OnInit {
             rep.forEach((r: any) => {
               if (q.question.id === r.idQuestion) {
                 q.reponse = r.id_reponse_quali;
+                this.listReponse.push({ idQuestion: q?.question?.id, reponse: r?.id_reponse_quali});
               }
             });
 
@@ -243,10 +245,23 @@ export class QualitatifComponent implements OnInit {
       idDemande: this.demande?.id,
     };
 
+    
     const p = this.listParameters.find((p: any) => p.id == id);
     for (let q of p.questions) {
-      //@ts-ignore
-      payload.listReponse.push({ idQuestion: q.question.id, reponse: 240 });
+      for(let r of this.listQuestions){
+        if(q.question.id == r.reponse && !q.reponse){
+          //@ts-ignore
+          payload.listReponse.push({ idQuestion: q.question.id, reponse: 240 });
+        }
+      }
+      if(q.reponse){
+        //@ts-ignore
+        payload.listReponse.push({ idQuestion: q.question.id, reponse: parseInt(q.reponse) });
+      }
+      else{
+        //@ts-ignore
+        payload.listReponse.push({ idQuestion: q.question.id, reponse: 240 });
+      }
     }
 
     for (let r of payload.listReponse) {
@@ -280,7 +295,11 @@ export class QualitatifComponent implements OnInit {
         for (let r of q.question.listReponsesDTO) {
           if (r.id == reponse) {
             q.chosen = r.libelle;
+            // this.listReponse.push({idQuestion: q.question.id, reponse: r.reponse });
           }
+          // else{
+          //   this.listReponse.push({idQuestion: q.question.id, reponse: '' });
+          // }
         }
         if (reponse == 240 && q.question.id == question.question.id) {
           q.chosen = 'Ne sais pas';
