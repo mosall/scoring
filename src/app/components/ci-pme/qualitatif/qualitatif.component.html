@@ -3,7 +3,7 @@
     <div class="row" style="height: auto" *ngIf="!demande?.repQuali || edit || answeredParams != 7">
       <div class="col-md-3 px-3 py-5">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-          <a *ngFor="let p of listParameters; let index = index" [ngClass]="{'active': p.id == 1, 'link-disabled': !p?.score }" class="nav-link" 
+          <a *ngFor="let p of listParameters" [ngClass]="{'active': p.id == answeredParams, 'link-disabled': !p?.score && p?.id > (answeredParams + 1) }" class="nav-link" 
              data-toggle="pill" href="#{{p.code}}"  role="tab" aria-controls="v-pills-home" aria-selected="true" (click)="activeTab(p.code)">
             <span class="badge badge-light rounded-circle mt-n2 font-weight-bolder">{{p.id}}</span> {{p.libelle}}
           </a>
