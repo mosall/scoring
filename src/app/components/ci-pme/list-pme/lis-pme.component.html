@@ -53,8 +53,8 @@
               <select class="form-control" [(ngModel)]="filtreStatut" (change)="filterByStatus($event)">
                 <option selected value="0">Filtrer par statut</option>
                 <option value="2">Envoyée</option>
-                <option *ngIf="filtreType != 2"value="3">En cours</option>
-                <option *ngIf="filtreType == 2 || filtreType == 0" value="3">Réceptionné</option>
+                <option *ngIf="filtreType != 2"value="30">En cours</option>
+                <option *ngIf="filtreType == 2 || filtreType == 0" value="31">Réceptionné</option>
                 <option *ngIf="filtreType != 2" value="4">Rejetée</option>
                 <option *ngIf="filtreType != 2" value="5">Provisoire</option>
               </select>

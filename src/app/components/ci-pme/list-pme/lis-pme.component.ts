@@ -114,6 +114,8 @@ export class LisPmeComponent implements OnInit {
     }
 
     this.pageSlice = this.listPme.slice(startIndex, endIndex);
+    this.pageSliceTmp = this.pageSlice;
+    this.filtreStatut = 0;
   }
 
   filterByType(event: any){
@@ -124,7 +126,17 @@ export class LisPmeComponent implements OnInit {
 
   filterByStatus(event: any){
     this.filtreStatut = event.target.value;
-    if(this.filtreStatut == 0){
+    console.log('slice', this.pageSliceTmp);
+    
+    if(this.filtreStatut == 30){
+      this.pageSlice = this.pageSliceTmp.filter((pme: any) => pme?.pme?.demandeNonCloturee?.status == 3);  
+      console.log('En cours', this.pageSlice);
+    }
+    else if(this.filtreStatut == 31){
+      this.pageSlice = this.pageSliceTmp.filter((pme: any) =>  pme?.pme?.demandeAccompagnement?.status == 3);  
+      console.log('Recep', this.pageSlice);
+    }
+    else if(this.filtreStatut == 0){
       this.pageSlice = this.pageSliceTmp;
     }
     else{
