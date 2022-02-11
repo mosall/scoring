@@ -124,8 +124,8 @@ export class IndicateursComponent implements OnInit {
     suffix: ' F CFA',
     thousands: '.',
     decimal: ',',
-    allowNegative: false,
-    inputMode: CurrencyMaskInputMode.NATURAL
+    allowNegative: true,
+    inputMode: CurrencyMaskInputMode.NATURAL,
   };
   canEdit: boolean = false;
 
