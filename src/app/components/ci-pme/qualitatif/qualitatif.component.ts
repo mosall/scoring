@@ -83,12 +83,10 @@ export class QualitatifComponent implements OnInit {
 
   ngOnInit(): void {
     this.getParameter();
-    console.log('IdEntre :: ', this.idEntreprise);
 
     if (this.idEntreprise) {
       this.idService.getEntreprise(this.idEntreprise).subscribe(
         (data: any) => {
-          console.log('Entreprise quali :: ', data);
 
           this.entreprise = data;
 
@@ -97,6 +95,7 @@ export class QualitatifComponent implements OnInit {
         (err) => console.log(err)
       );
     }
+       
   }
 
   fillData(demande: any) {

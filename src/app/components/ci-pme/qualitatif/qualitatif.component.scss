@@ -167,3 +167,7 @@ button{
 .opt-ws{
   white-space: normal !important;
 }
+
+.link-disabled{
+  pointer-events: none;
+}
