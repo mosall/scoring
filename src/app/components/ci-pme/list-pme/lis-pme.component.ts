@@ -36,7 +36,6 @@ export class LisPmeComponent implements OnInit {
         // @ts-ignore
         data.sort((a: { id: number; }, b: { id: number; }) => a.id > b.id);
         // @ts-ignore
-        // @ts-ignore
         for (let pme of data){
           let demande: any = [];
           this.identificationService.getLogo(pme.id).subscribe(
