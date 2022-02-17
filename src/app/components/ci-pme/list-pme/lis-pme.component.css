@@ -25,6 +25,7 @@ body{
 
 .employers-list-img img {
   max-width: 80px;
+  max-height: 80px;
 }
 
 .employers-icons li {

@@ -128,6 +128,7 @@ export class IndicateursComponent implements OnInit {
     inputMode: CurrencyMaskInputMode.NATURAL,
   };
   canEdit: boolean = false;
+  fileSaved: boolean = false;
 
   constructor(private indicateursService: IndicateursService,
               private sanitizer: DomSanitizer,
@@ -199,26 +200,26 @@ export class IndicateursComponent implements OnInit {
       idDemande: this.demandeNonCloturee?.id,
       bkActifCirculant: this.indicateurs[year].indicateurs[0].value,
       btTresorerieActif: this.indicateurs[year].indicateurs[1].value,
-      dpPassifCirculant: this.indicateurs[year].indicateurs[2].value,
-      dtTresoreriePassif: this.indicateurs[year].indicateurs[3].value,
-      xiResultatNet: this.indicateurs[year].indicateurs[4].value,
-      xbChiffresDaffaires: this.indicateurs[year].indicateurs[5].value,
-      biCreanceClient: this.indicateurs[year].indicateurs[6].value,
-      caCapitauxPropres: this.indicateurs[year].indicateurs[7].value,
-      dfTotalRessources: this.indicateurs[year].indicateurs[8].value,
-      djDettesFournisseurs: this.indicateurs[year].indicateurs[9].value,
-      raAchats: this.indicateurs[year].indicateurs[10].value,
-      xdExcedentBrutExploit: this.indicateurs[year].indicateurs[11].value,
-      rmChargesFinancieres: this.indicateurs[year].indicateurs[12].value,
-      daEmpruntsDettes: this.indicateurs[year].indicateurs[13].value,
-      dbDettesAcquisitions: this.indicateurs[year].indicateurs[14].value,
+      biCreanceClient: this.indicateurs[year].indicateurs[2].value,
+      dpPassifCirculant: this.indicateurs[year].indicateurs[3].value,
+      dtTresoreriePassif: this.indicateurs[year].indicateurs[4].value,
+      caCapitauxPropres: this.indicateurs[year].indicateurs[5].value,
+      dfTotalRessources: this.indicateurs[year].indicateurs[6].value,
+      djDettesFournisseurs: this.indicateurs[year].indicateurs[7].value,
+      daEmpruntsDettes: this.indicateurs[year].indicateurs[8].value,
+      dbDettesAcquisitions: this.indicateurs[year].indicateurs[9].value,
+      xiResultatNet: this.indicateurs[year].indicateurs[10].value,
+      xbChiffresDaffaires: this.indicateurs[year].indicateurs[11].value,
+      raAchats: this.indicateurs[year].indicateurs[12].value,
+      xdExcedentBrutExploit: this.indicateurs[year].indicateurs[13].value,
+      rmChargesFinancieres: this.indicateurs[year].indicateurs[14].value,
       tkRevenusFinanciers: this.indicateurs[year].indicateurs[15].value,
       tlReprisesDepreciations: this.indicateurs[year].indicateurs[16].value,
       tmTransfertCharges: this.indicateurs[year].indicateurs[17].value,
       rqParticipations: this.indicateurs[year].indicateurs[18].value,
       rsImpot: this.indicateurs[year].indicateurs[19].value,
     }
-
+    
     if(this.demandeNonCloturee?.indicateurAjoute && this.reponsesIndicateur[year]){
       // @ts-ignore
       payload.id = this.reponsesIndicateur[year].id;
@@ -236,7 +237,7 @@ export class IndicateursComponent implements OnInit {
 
           this.successMsgBox('Indicateurs enregistrés avec succès !');
 
-          if(year != 0){
+          if(year != 0 && this.fileList){
             $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
           }
           else {
@@ -441,6 +442,7 @@ export class IndicateursComponent implements OnInit {
         this.indicateursService.saveIndicateurFile(this.indicateurs[index].id, formData).subscribe(
           data => {
             index == 0 ? this.successMsgBox2('Fichier(s) enregistré(s) !', true) : this.successMsgBox2('Fichier(s) enregistré(s) !');
+            this.fileSaved = true;
             this.getIndicateurs();
           },
           error => {
