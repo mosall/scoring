@@ -160,7 +160,7 @@ export class LisPmeComponent implements OnInit {
       this.pageSliceTmp = this.listPme;
     }
     else if(type == 3 ){
-      this.listPme = this.listPmeTmp.filter((pme: any) => pme?.pme?.demandeNonCloturee?.traiterPar == this.connectedUser?.id)
+      this.listPme = this.listPmeTmp.filter((pme: any) => pme?.pme?.demandeNonCloturee?.traiterPar == this.connectedUser?.id || pme?.pme?.demandeAccompagnement?.traiterPar == this.connectedUser?.id)
       this.pageSlice = this.listPme.slice(0, 6);
       this.pageSliceTmp = this.listPme;
     }
