@@ -209,6 +209,8 @@ export class IdentificationComponent implements OnInit {
       (data: any) => {
         this.demande = data;
         this.canEdit = !this.demande || (this.demande?.status == 1 && this.connectedUser?.profil.code == 'ROLE_ENTR');
+        console.log('Edit 1 :: ', this.canEdit);
+        
         if(!this.demande){
           this.getLastDemandeScoring(idEntreprise);
         }
@@ -221,8 +223,9 @@ export class IdentificationComponent implements OnInit {
     this.demandeService.getLastClosedDemande(idEntreprise).subscribe(
       (data: any) => {
         this.lastDemande = data;
-        this.canEdit = (this.lastDemande?.status == 1 && this.connectedUser?.profil.code == 'ROLE_ENTR');
-          this.getDemandeAccompagnement(this.lastDemande?.id);
+        this.canEdit = !this.lastDemande || (this.lastDemande?.status > 1 && this.connectedUser?.profil.code == 'ROLE_ENTR');
+        console.log('Edit 2 :: ', this.canEdit);
+        this.getDemandeAccompagnement(this.lastDemande?.id);
       },
       err => console.log(err)            
     );
