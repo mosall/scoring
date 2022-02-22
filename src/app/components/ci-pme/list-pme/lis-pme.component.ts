@@ -93,7 +93,9 @@ export class LisPmeComponent implements OnInit {
   }
 
   gotoDetails(id: any){
-    this.router.navigateByUrl('/ci-pme/accueil/' + id);
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>{
+      this.router.navigateByUrl('/ci-pme/accueil/' + id);
+    });
   }
 
   counter(i: any) {

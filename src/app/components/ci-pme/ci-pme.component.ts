@@ -32,6 +32,7 @@ export class CiPmeComponent implements OnInit {
   lastDemande: any;
   demandeAccompagnement: any;
   idDemandeScoring: number | null = null;
+  currentRoute: string = "";
 
   // routePathParam: Observable<string|null>;
   // navigationEnd: Observable<NavigationEnd>;
@@ -46,7 +47,9 @@ export class CiPmeComponent implements OnInit {
       private fb: FormBuilder,
       private accompagnementService: AccompagnementService
   ) {
-
+    this.currentRoute = this.router.url;
+    console.log('Url :: ', this.currentRoute);
+    
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() => this.activatedRoute),
@@ -66,13 +69,13 @@ export class CiPmeComponent implements OnInit {
         data => {
           console.log("Param :: ", data);
           
-          if(data.entreprise){
+          if(data.entreprise && data.id){
             this.idEntreprise = data?.id? +data?.id : 0;
             if(this.idEntreprise){
               this.getEntreprise(this.idEntreprise);
             }
           }
-          else{
+          else if(!data.entreprise && data.id){
             this.idDemandeScoring = data?.id? +data?.id : 0;
             this.getDemandeScoring(this.idDemandeScoring);
           }

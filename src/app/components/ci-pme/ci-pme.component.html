@@ -24,6 +24,7 @@
         <a
           class="nav-item nav-link"
           routerLinkActive="active"
+          [class.active]="currentRoute.includes('accueil')"
           (click)="goToAccueil()"
           >Accueil</a
         >
@@ -31,6 +32,7 @@
           *ngIf="user?.profil.code == 'ROLE_EXP_PME'"
           class="nav-item nav-link"
           routerLinkActive="active"
+          [class.active]="currentRoute.includes('liste-pme')"
           (click)="goTo('/ci-pme/liste-pme')"
           >Liste des entreprises</a
         >
@@ -38,6 +40,7 @@
           *ngIf="user?.profil.code == 'ROLE_ENTR'"
           class="nav-item nav-link"
           routerLinkActive="active"
+          [class.active]="currentRoute.includes('identification')"
           (click)="goTo('/ci-pme/identification')"
           >Identification de la PME</a
         >
@@ -45,6 +48,7 @@
           *ngIf="canActivateEligibility && user?.profil?.code == 'ROLE_ENTR'"
           class="nav-item nav-link"
           routerLinkActive="active"
+          [class.active]="currentRoute.includes('questionnaire-eligibilite')"
           (click)="goTo('/ci-pme/questionnaire-eligibilite')"
           >Questionnaire d'éligibilité</a
         >
@@ -56,6 +60,7 @@
           "
           class="nav-item nav-link"
           routerLinkActive="active"
+          [class.active]="currentRoute.includes('indicateurs-financiers')"
           (click)="goTo('/ci-pme/indicateurs-financiers/', entreprise?.id)"
           >Indicateurs financiers</a
         >
@@ -67,6 +72,7 @@
           "
           class="nav-item nav-link"
           routerLinkActive="active"
+          [class.active]="currentRoute.includes('questionnaire-qualitatif')"
           (click)="goTo('/ci-pme/questionnaire-qualitatif/', entreprise?.id)"
           >Questionnaire qualitatif</a
         >
@@ -79,6 +85,7 @@
           "
           class="nav-item nav-link"
           routerLinkActive="active"
+          [class.active]="currentRoute.includes('demandes-accompagnements')"
           (click)="goTo('/ci-pme/demandes-accompagnements/', lastDemande?.id)"
           >Demande accompagnement</a
         >
