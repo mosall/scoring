@@ -314,11 +314,11 @@ export class QualitatifComponent implements OnInit {
     const elt = $(
       'a[class="nav-link active"][role="tab"][data-toggle="pill"] > span[class*="badge"]'
     );
-    elt.parent().removeClass('active');
+    elt.parent().removeClass('active');    
     const i = parseInt(elt[0]?.innerText);
     $('#P' + i).removeClass('active');
     if (direction === 'next') {
-      const index = i + 1;
+      const index = i ? i + 1: this.tabIndex + 2;
       const next = $(
         'a[href*="#P' + index + '"] > span[class*="badge"]'
       ).parent();
