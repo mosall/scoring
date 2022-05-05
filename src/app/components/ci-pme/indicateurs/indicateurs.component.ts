@@ -237,7 +237,7 @@ export class IndicateursComponent implements OnInit {
 
           this.successMsgBox('Indicateurs enregistrés avec succès !');
 
-          if(year != 0 && this.fileList){
+          if(year != 0 && this.indicateurs[year].files.length != 0){
             $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
           }
           else {
