@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {AppSettings} from "../settings/app.settings";
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,35 +10,35 @@ export class IdentificationService {
   constructor(private http: HttpClient) { }
 
   saveEntreprise(paylaod: any){
-    return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises', paylaod, AppSettings.httpOptions);
+    return this.http.post(environment.CIPME_SCORING_API_URL + '/api/entreprises', paylaod, environment.httpOptions);
   }
 
   saveDirigeant(payload: any){
-    return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/dirigeants', payload, AppSettings.httpOptions);
+    return this.http.post(environment.CIPME_SCORING_API_URL + '/api/dirigeants', payload, environment.httpOptions);
   }
 
   uploadLogo(id: any, files: any){
-    return this.http.post(AppSettings.CIPME_SCORING_API_URL + `/api/entreprises/${id}/attachments`, files);
+    return this.http.post(environment.CIPME_SCORING_API_URL + `/api/entreprises/${id}/attachments`, files);
   }
 
   getEntreprises(id: any){
-    return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises', AppSettings.httpOptions);
+    return this.http.get(environment.CIPME_SCORING_API_URL + '/api/entreprises', environment.httpOptions);
   }
 
   getDirigeant(id: any){
-    return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/dirigeants/entreprise/' + id, AppSettings.httpOptions);
+    return this.http.get(environment.CIPME_SCORING_API_URL + '/api/dirigeants/entreprise/' + id, environment.httpOptions);
   }
 
   getEntreprise(id: any){
-    return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises/'+id, AppSettings.httpOptions);
+    return this.http.get(environment.CIPME_SCORING_API_URL + '/api/entreprises/'+id, environment.httpOptions);
   }
 
   getLogo(id: any){
-    return this.http.get(AppSettings.CIPME_SCORING_API_URL + `/api/entreprises/${id}/attachments`, AppSettings.httpOptions);
+    return this.http.get(environment.CIPME_SCORING_API_URL + `/api/entreprises/${id}/attachments`, environment.httpOptions);
   }
 
   generateReport(id: any, payload: any){
-    return this.http.post(AppSettings.CIPME_SCORING_API_URL + '/api/demandes/'+id+'/rapport', payload, AppSettings.httpOptions);
+    return this.http.post(environment.CIPME_SCORING_API_URL + '/api/demandes/'+id+'/rapport', payload, environment.httpOptions);
   }
 
   createDownloadPdfFileLink( filename: any, byte: any, extension: any){
@@ -61,6 +61,6 @@ export class IdentificationService {
   }
 
   getListPme(){
-    return this.http.get(AppSettings.CIPME_SCORING_API_URL + '/api/entreprises');
+    return this.http.get(environment.CIPME_SCORING_API_URL + '/api/entreprises');
   }
 }
