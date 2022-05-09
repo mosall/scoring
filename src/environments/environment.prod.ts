@@ -12,7 +12,7 @@ export const environment = {
   UM_TOKEN_URL: BACK_IP+":9000/administration/oauth/token",
 
 
-  UM_HOME: BACK_IP+"/administration-awi/login",
+  UM_HOME: BACK_IP+"/administration/login",
 
   httpOptions: {
     headers: new HttpHeaders({
