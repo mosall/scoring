@@ -4,7 +4,7 @@
 
 import { HttpHeaders } from "@angular/common/http";
 
-const BACK_IP: string = 'http://localhost';
+const BACK_IP: string = 'http://217.182.185.176';
 
 export const environment = {
   production: false,
@@ -16,7 +16,7 @@ export const environment = {
   UM_TOKEN_URL: BACK_IP+":3000/administration/oauth/token",
 
 
-  UM_HOME: BACK_IP+"/administration-awi/login",
+  UM_HOME: BACK_IP+"/administration/login",
 
   httpOptions: {
     headers: new HttpHeaders({
