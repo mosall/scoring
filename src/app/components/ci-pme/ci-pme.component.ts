@@ -3,7 +3,6 @@ import {AuthService} from "../../services/auth.service";
 import {NavigationEnd, Router} from "@angular/router";
 import {ActivatedRoute} from "@angular/router";
 import {IdentificationService} from "../../services/identification.service";
-import { AppSettings } from 'src/app/settings/app.settings';
 import {CiPmeService} from "../../services/ci-pme.service";
 import { DemandeService } from 'src/app/services/demande.service';
 import Swal from 'sweetalert2';
@@ -12,6 +11,7 @@ import { filter, map, switchMap } from 'rxjs/operators'
 import { FormBuilder, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AccompagnementService } from 'src/app/services/accompagnement.service';
+import { environment } from 'src/environments/environment';
 
 declare var $: any;
 @Component({
@@ -143,7 +143,7 @@ export class CiPmeComponent implements OnInit {
     if (token != null){
       sessionStorage.removeItem("connectedUser");
       // this.router.navigate(['/'])
-      window.location.href = AppSettings.UM_HOME;
+      window.location.href = environment.UM_HOME;
     }
   }
 
