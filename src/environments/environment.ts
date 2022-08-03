@@ -4,7 +4,7 @@
 
 import { HttpHeaders } from "@angular/common/http";
 
-const BACK_IP: string = 'http://217.182.185.176';
+const BACK_IP: string = 'http://localhost';
 
 export const environment = {
   production: false,
