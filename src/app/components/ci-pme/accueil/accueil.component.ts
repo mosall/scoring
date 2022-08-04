@@ -77,7 +77,7 @@ export class AccueilComponent implements OnInit {
     this.qualitatifService.getScoreQualitatif(id).subscribe(
       (data: any) => {
         this.scores = data;
-        this.displayScoreQualitatif = this.demande && this.demande?.repQuali && this.scores.length == this.parametres.length;
+        this.displayScoreQualitatif = this.demande && this.demande?.repQuali && this.scores.length != 0; // this.parametres.length;
         this.getRadarData();
       },
       err => console.log(err)
@@ -93,6 +93,7 @@ export class AccueilComponent implements OnInit {
         data.listValeurRatioDTO.sort((a: any, b: any) => a.idRatio > b.idRatio);
         this.listRatio = data;
         this.displayRatio = this.demande && this.demande?.indicateurAjoute && this.listRatio?.listValeurRatioDTO?.length > 0 && this.listRatio?.scoreDTO;
+        console.log("🚀 ~ file: accueil.component.ts ~ line 97 ~ AccueilComponent ~ getRatio ~ this.displayRatio", this.listRatio?.listValeurRatioDTO?.length, this.listRatio?.scoreDTO)
       }
     )
   }
@@ -110,7 +111,7 @@ export class AccueilComponent implements OnInit {
       label: 'Score qualitatif'
     }];
     this.chartLibelles = labels;
-    this.displayRadar = this.scoreFinal?.score_financier && this.scores.length == this.parametres.length && this.demande;
+    this.displayRadar = this.scoreFinal?.score_financier && this.scores.length > 0 && this.demande;
   }
 
   getEntreprise(){
@@ -185,7 +186,7 @@ export class AccueilComponent implements OnInit {
           if(this.demande?.repQuali){
             this.getScoreQualitatif(this.demande?.id);
           }
-          if([3, 5].includes(this.demande?.status)){
+          if([3, 5, 6].includes(this.demande?.status)){
             this.getRatio(this.demande?.id);
           }
         }
@@ -206,7 +207,7 @@ export class AccueilComponent implements OnInit {
           if(this.demande?.repQuali){
             this.getScoreQualitatif(this.demande?.id);
           }
-          if([3, 5].includes(this.demande?.status)){
+          if([3, 5, 6].includes(this.demande?.status)){
             this.getRatio(this.demande?.id);
           }
           console.log('Last ::', data);
