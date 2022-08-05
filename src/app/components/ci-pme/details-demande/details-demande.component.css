@@ -1,0 +1,61 @@
+*{
+	font-weight: 400;
+  }
+  
+  .parent {
+	padding-top: 55px;
+	padding-bottom: 50px;
+  }
+  
+  @media (min-width: 1000px) {
+	.parent {
+	  margin: 0 !important;
+	}
+  }
+  
+  .card-title {
+	background-color: #006a25;
+	color: #ffffff;
+	text-align: center;
+	border-radius: 5px
+  }
+  
+  .bloc-title {
+	color: #f78300;
+	text-align: center
+  }
+  
+  label {
+	font-weight: 800;
+	width: 11rem;
+  }
+  
+  .total{
+	background: #f78300;
+	font-weight: bold;
+  }
+  
+  .line{
+	display: flex;
+  }
+  .line span{
+	width: 80%;
+  }
+  
+  .error-status{
+	color: red !important;
+  }
+  .success-status{
+	color: #006a25 !important;
+}
+
+.btn-list{
+	display: flex;
+	justify-content: center;
+}
+
+a{
+	color: #fff;
+	text-decoration: none;
+}
+  
