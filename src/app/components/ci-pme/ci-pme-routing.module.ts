@@ -8,6 +8,8 @@ import {IndicateursComponent} from "./indicateurs/indicateurs.component";
 import {AccueilComponent} from "./accueil/accueil.component";
 import {LisPmeComponent} from "./list-pme/lis-pme.component";
 import { AccompagnementComponent } from './accompagnement/accompagnement.component';
+import { DemandeClotureeComponent } from './demande-cloturee/demande-cloturee.component';
+import { DetailsDemandeComponent } from './details-demande/details-demande.component';
 
 const routes: Routes = [
   {
@@ -46,6 +48,14 @@ const routes: Routes = [
       {
         path: 'demandes-accompagnements/:idDemandeScoring',
         component: AccompagnementComponent
+      },
+      {
+        path: 'accueil/:idEntreprise/demandes-cloturees',
+        component: DemandeClotureeComponent,
+      },
+      {
+        path: 'accueil/:idEntreprise/demandes-cloturees/:idDemande',
+        component: DetailsDemandeComponent,
       },
     ]
   }
