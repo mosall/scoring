@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DemandeService } from 'src/app/services/demande.service';
+import { IdentificationService } from 'src/app/services/identification.service';
 
 @Component({
   selector: 'app-demande-cloturee',
@@ -12,11 +13,13 @@ export class DemandeClotureeComponent implements OnInit {
 
   demandeCloturees: any;
   idEntreprise: any;
+  entrepriseLogo: String = "logo";
 
   constructor(
     private demandeScoringService: DemandeService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private identificationService: IdentificationService
   ) { 
     this.idEntreprise = this.activatedRoute.snapshot.paramMap.get('idEntreprise');
     
@@ -24,6 +27,7 @@ export class DemandeClotureeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListDemandeCloturee(this.idEntreprise);
+    this.getLogo(this.idEntreprise);
   }
 
   getListDemandeCloturee(idEntreprise: any){
@@ -34,6 +38,20 @@ export class DemandeClotureeComponent implements OnInit {
         },
         (err: HttpErrorResponse) => {console.log(err)}
       )
+  }
+
+  getLogo(idEntreprise: number){
+    this.identificationService.getLogo(idEntreprise).subscribe(
+      data1 => {
+        // @ts-ignore
+        if (data1[0]){
+          // @ts-ignore
+          this.entrepriseLogo = "data:image/png;base64,"+data1[0].contenu;
+        }
+      },
+      err => {console.log(err)}
+    );
+
   }
 
   gotoDetails(idDemande: number){

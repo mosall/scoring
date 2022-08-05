@@ -17,8 +17,8 @@
 							<div class="list-grid-item mt-4">
 							  	<div class="grid-item-content p-2">
 									<div class="employers-list-img mt-3">
-										<img *ngIf="!demande?.entrepriseDTO?.logo" src="/scoring/assets/img/office-building(1).png" alt="logo" class="img-fluid mx-auto d-block ">
-										<img *ngIf="demande?.entrepriseDTO?.logo" [src]="demande?.entrepriseDTO?.logo" alt="logo" class="img-fluid mx-auto d-block ">
+										<img *ngIf="entrepriseLogo == 'logo'" src="/scoring/assets/img/office-building(1).png" alt="logo" class="img-fluid mx-auto d-block ">
+										<img *ngIf="entrepriseLogo != 'logo'" [src]="entrepriseLogo" alt="logo" class="img-fluid mx-auto d-block ">
 									</div>
 									<div class="grid-list-desc text-center mt-4" style="cursor: pointer">
 										<h4 class="mb-1">{{demande?.entrepriseDTO?.raisonSociale}}</h4>
