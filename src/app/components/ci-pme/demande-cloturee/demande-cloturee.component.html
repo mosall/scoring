@@ -1,0 +1,63 @@
+<div class="mx-2 px-4 parent">
+	<div class="card p-4 animate__animated animate__backInUp" style="border-radius: 10px">
+	  	<div class="card-body">
+			<div class="card-title py-1 d-flex justify-content-between align-items-center">
+		  		<h3>Liste des Demandes Clôturées</h3>
+          <button class="btn btn-sm bgc-secondary">
+            <a [routerLink]="['/ci-pme/accueil', idEntreprise]"  >
+              Détails Entreprise
+            </a>
+          </button>
+			</div>
+			<div class="row">
+				<!-- <div class="col-lg-3"></div> -->
+				<div class="col-lg-12">
+					<div class="row">
+						<div class="col-lg-4 col-md-6" *ngFor="let demande of demandeCloturees">
+							<div class="list-grid-item mt-4">
+							  	<div class="grid-item-content p-2">
+									<div class="employers-list-img mt-3">
+										<img *ngIf="!demande?.entrepriseDTO?.logo" src="/assets/img/office-building(1).png" alt="logo" class="img-fluid mx-auto d-block ">
+										<img *ngIf="demande?.entrepriseDTO?.logo" [src]="demande?.entrepriseDTO?.logo" alt="logo" class="img-fluid mx-auto d-block ">
+									</div>
+									<div class="grid-list-desc text-center mt-4" style="cursor: pointer">
+										<h4 class="mb-1">{{demande?.entrepriseDTO?.raisonSociale}}</h4>
+										<h5 class="mb-1">Demande Scoring {{ demande?.id }}</h5>
+										<p class="text-muted f-10 mb-0 small" >Statut de la demande scoring : {{demande?.libelleStatut}}</p>
+										<p class="text-muted f-10 mb-0 small" >Score de la demande scoring : {{demande?.scoreFinal}}</p>
+										<p class="text-muted f-10 mb-0 small" *ngIf="demande?.dateCreation">Date de création : {{demande?.dateCreation | date: 'dd/MM/yyyy'}}</p>
+										<!-- <p class="text-muted f-10 mb-0 small" *ngIf="demande?.dateCloture">Date de clôture : {{demande?.dateCloture}}</p> -->
+										<p class="text-muted f-10 mb-0 small" *ngIf="demande?.entrepriseDTO?.demandeAccompagnement">Statut de la demande accompagnement : {{demande?.entrepriseDTO?.demandeAccompagnement?.libelleStatut}}</p>
+										<p class="text-muted f-14 mb-0"><span class="iconify" data-icon="el:map-marker"></span> {{demande?.entrepriseDTO?.adresse}}</p>
+										<ul class="employers-icons list-inline mb-1" *ngIf="demande?.scoreFinal == 0">
+											<li class="list-inline-item"><a href="#" class="text-black-50"><i class="fas fa-star f-19"></i></a></li>
+											<li class="list-inline-item"><a href="#" class="text-black-50"><i class="fas fa-star f-19"></i></a></li>
+											<li class="list-inline-item"><a href="#" class="text-black-50"><i class="fas fa-star f-19"></i></a></li>
+											<li class="list-inline-item"><a href="#" class="text-black-50"><i class="fas fa-star f-19"></i></a></li>
+											<li class="list-inline-item"><a href="#" class="text-black-50"><i class="fas fa-star f-19"></i></a></li>
+										</ul>
+				
+										<ul class="employers-icons list-inline mb-1" *ngIf="demande?.scoreFinal != 0">
+											<li *ngFor="let in of counter(demande?.scoreFinal ?? 0)" class="list-inline-item">
+											<a href="#" class="text-warning"><i class="fas fa-star f-19"></i></a>
+											</li>
+					
+											<li *ngFor="let in of counter(5 - parseToInt(demande?.scoreFinal ?? 0))" class="list-inline-item">
+											<a href="#" class="text-black-50"><i class="fas fa-star f-19"></i></a>
+											</li>
+										</ul>
+										<span class="badge badge-warning text-white">{{demande.annee}}</span>
+									</div>
+							  	</div>
+							  	<hr class="mt-0 mb-0">
+								<div class="apply-button text-center mt-2 mb-2">
+									<a (click)="gotoDetails(demande.id)" class="btn btn-custom btn-sm">Détails</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	  	</div>
+	</div>
+</div>
