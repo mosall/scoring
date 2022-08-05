@@ -18,6 +18,8 @@ import { RadarComponent } from './radar/radar.component';
 import {PdfViewerModule} from "ng2-pdf-viewer";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { AccompagnementComponent } from './accompagnement/accompagnement.component';
+import { DemandeClotureeComponent } from './demande-cloturee/demande-cloturee.component';
+import { DetailsDemandeComponent } from './details-demande/details-demande.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { AccompagnementComponent } from './accompagnement/accompagnement.compone
     AccueilComponent,
     LisPmeComponent,
     RadarComponent,
-    AccompagnementComponent
+    AccompagnementComponent,
+    DemandeClotureeComponent,
+    DetailsDemandeComponent
   ],
     imports: [
         CommonModule,
