@@ -2,7 +2,7 @@
   <div class="card p-4 animate__animated animate__backInUp" style="border-radius: 10px">
     <div class="card-body">
 
-      <div *ngIf="demande && demande?.status != 6 && connectedUser?.profil?.code == 'ROLE_EXP_PME'" class="mt-2 mb-4 ">
+      <div *ngIf="demande && demande?.status != 7 && connectedUser?.profil?.code == 'ROLE_EXP_PME'" class="mt-2 mb-4 ">
         <!-- <div class="card-body"> -->
           <div class="mt-2 d-flex justify-content-end">
             <button *ngIf="demande?.status == 2 && connectedUser?.profil.code == 'ROLE_EXP_PME'" 
@@ -15,6 +15,15 @@
               data-toggle="modal" data-toggle="modal" data-target="#ratioModal">
                 Rejeter demande 
             </button>
+            
+            <div *ngIf="demande?.status == 6">
+              <button class="btn btn-sm bgc-secondary">
+                <a [routerLink]="['/ci-pme/accueil', demande?.entrepriseDTO?.id, 'demandes-cloturees']"  >
+                  Voir toutes les demandes clôturées
+                </a>
+              </button>
+            </div>
+
           </div>
         <!-- </div> -->
       </div>
