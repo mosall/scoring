@@ -49,4 +49,12 @@ export class DemandeService {
 	relaunchDemande(id: number){
 		return this.http.get(this.baseUrl+'/'+id+'/relancer', environment.httpOptions);
 	}
+
+	getDemandeCloturee(idEntreprise: number){
+		return this.http.get(this.baseUrl+'/'+idEntreprise+'/demandes-cloturees/')
+	}
+
+	getDemande(id: number){
+		return this.http.get(this.baseUrl+'/'+id);
+	}
 }
